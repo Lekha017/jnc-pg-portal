@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+
 import { getProfile } from "../services/authService";
 
 const AuthContext = createContext();
@@ -7,9 +13,11 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Check if user is already logged in
+  // Check logged-in user
   const checkAuth = async () => {
     try {
+      setLoading(true);
+
       const res = await getProfile();
 
       setUser(res.user);
@@ -24,12 +32,12 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  // Login
+  // Refresh user after login
   const login = async () => {
     await checkAuth();
   };
 
-  // Logout
+  // Clear user after logout
   const logout = () => {
     setUser(null);
   };
@@ -38,9 +46,11 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
+        setUser,
         loading,
         login,
         logout,
+        checkAuth,
       }}
     >
       {children}

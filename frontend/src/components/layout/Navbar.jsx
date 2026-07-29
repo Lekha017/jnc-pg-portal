@@ -1,240 +1,321 @@
-import { Link, NavLink } from "react-router-dom";
-import {
-    Phone,
-    Mail,
-    User,
-    ChevronDown,
-    Menu,
-} from "lucide-react";
+import { useState } from "react";
+import { Menu, X, UserIcon, ArrowLeftCircle } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import LogoutButton from "./LogoutButton";
+import { useAuth } from "../../context/AuthContext";
+function Navbar() {
+   const { user } = useAuth();
+    
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+const isHomePage = location.pathname === "/home";
+  const isActive = (path) => location.pathname === path;
 
-import Logo from "../common/Logo";
+  const navItem = (label, path) => (
+    <Link
+      to={path}
+      className={`px-4 py-[6px] rounded-full text-[12px] font-bold transition
+        ${
+          isActive(path)
+            ? "bg-[#FF2D55] text-white"
+            : "text-[#2C2C2C] hover:text-[#FF2D55]"
+        }`}
+    >
+      {label}
+    </Link>
+  );
 
-const Navbar = () => {
-    return (
-        <>
-            {/* ================= TOP BAR ================= */}
+  return (
+    <nav  className="bg-[#f5f5f5] border-t border-gray-200 relative">
 
-            <div className="bg-[#4B4B7C] text-white">
+      {/* DESKTOP */}
+      <div className="hidden lg:flex items-center justify-between max-w-[1300px] mx-auto px-6 h-[55px]">
 
-                <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
+        {/* LEFT */}
+        <div className="flex items-center gap-7 text-[12px] font-semibold tracking-wide">
+{!isHomePage && (
+  <ArrowLeftCircle
+    size={32}
+    className="cursor-pointer text-[#2f2f6f] hover:scale-110 transition"
+    onClick={() => {
+  if (window.history.length > 1) {
+    navigate(-1);
+  } else {
+    navigate("/");
+  }
+}}
+  />
+)}
+          {navItem("HOME", "/home")}
 
-                    <div className="hidden lg:flex items-center gap-5 text-sm">
+          <Dropdown title="ABOUT US">
+            <Column title="Administration" items={[
+              "Organization Structure","Management","Governing Body","Governing Council",
+              "Principal’s Message","Academic Council","Examination Cell","Chief Coordinators",
+              "Deans","Administrative Staff","Staff Welfare Services"
+            ]}/>
+            <Column title="Introduction" items={[
+              "History & Milestones","Institutional Best Practices","Institutional Distinctiveness"
+            ]}/>
+            <Column title="JNC Timeline" items={[
+              "Campus Culture","Annual Reports","Glimpse of College Achievements & Activities"
+            ]}/>
+          </Dropdown>
 
-                        <span>IQAC</span>
+          <Dropdown title="ACADEMICS">
+            <Column items={[
+              "Centre for Media Studies","School of Humanities & Social Sciences",
+              "School of Life Sciences","School of Physical Sciences",
+              "School of Computer Science","School of Commerce",
+              "School of Management","Postgraduate Centre"
+            ]}/>
+            <Column title="Syllabus" items={[
+              "UG - SEP Syllabus","UG - NEP Syllabus","Value Added Courses",
+              "Internship","Credits","Research","Staff Competency",
+              "Conferences & Seminars","Webinar Video's"
+            ]}/>
+            <Column items={[
+              "Academic Calendar of Events","Newsletters","Achievements",
+              "Curriculum Analysis","Graduate Attributes","Examination",
+              "Clubs & Associations","Programme Outcomes"
+            ]}/>
+          </Dropdown>
 
-                        <span>|</span>
+          <Dropdown title="STUDENT SUPPORT">
+            <Column title="Student Support & Services" items={[
+              "Anti Ragging Squad","Internal Complaints Committee","Code Of Conduct",
+              "Support Services","Student Services Centre","Academic Support",
+              "Scholarships","Mentor System","Best Practices","Students Handbook"
+            ]}/>
+            <Column items={[
+              "Student Welfare Committee","Capability Enhancement Schemes",
+              "Centre for Competitive Examinations","Counselling",
+              "Student Grievance Redressal Committee","Value Education",
+              "Outreach","Go Green","Sports","Student Council"
+            ]}/>
+            <Column items={[
+              "Placement","Blog","Student Verification"
+            ]}/>
+          </Dropdown>
 
-                        <span>NIRF</span>
+          <Dropdown title="INFRASTRUCTURE">
+            <Column items={[
+              "Library & Info Centre","Auditorium","Food Court","Hostel",
+              "Medical Room","Board Room","Conference Hall","Meditation Room","Video Studio"
+            ]}/>
+            <Column items={[
+              "Chapel","Gymnasium","Indoor Games Room","Bank","Parking",
+              "Audio Studio","Media Lab","Innovation Lab","Media Incubation Centre"
+            ]}/>
+            <Column items={[
+              "Zoological Museum","Language Lab","Student Union Room",
+              "Performing Arts Studio","Maintenance Policy"
+            ]}/>
+          </Dropdown>
 
-                        <span>|</span>
+          <Dropdown title="ADMISSIONS" simple>
+            {[
+              "Online Payment","Undergraduate Programme","Prospectus",
+              "Dhwani 2024-25","PUC","Postgraduate Programme"
+            ]}
+          </Dropdown>
 
-                        <span>ARIIA</span>
+          {/* ✅ FIXED: LIBRARY LINK */}
+          <Link
+            to="/library"
+            className="cursor-pointer hover:text-[#FF2D55]"
+          >
+            LIBRARY AND INFO CENTRE
+          </Link>
 
-                        <span>|</span>
+        </div>
 
-                        <span>MOUS</span>
+        {/* RIGHT */}
+        <div className="flex items-center gap-6">
+          
+          <div className="relative z-10">
+            <button
+              onClick={() => setOpen(!open)}
+              className="p-2 rounded-full hover:bg-gray-100"
+            >
+              <UserIcon className="w-6 h-6 text-gray-700" />
+            </button>
 
-                        <span>|</span>
+            {open && (
+              <div className="absolute right-0 mt-3 w-60 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
 
-                        <span>IIC</span>
+{user ? (
+  <>
+    <p className="px-4 py-2 text-sm text-gray-500">
+      Welcome, {user.fullName || user.email}
+    </p>
 
-                        <span>|</span>
+    {user.role === "admin" && (
+      <Link to="/admin">
+        <button
+          onClick={() => setOpen(false)}
+          className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
+        >
+          Admin Dashboard
+        </button>
+      </Link>
+    )}
 
-                        <div className="flex items-center gap-2">
-                            <Phone size={16} />
-                            <span>080 25530137</span>
-                        </div>
+    {user.role === "faculty" && (
+      <>
+        <Link to="/faculty/profile">
+          <button
+            onClick={() => setOpen(false)}
+            className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
+          >
+            My Profile
+          </button>
+        </Link>
 
-                        <span>|</span>
+        <Link to="/faculty/dashboard">
+          <button
+            onClick={() => setOpen(false)}
+            className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
+          >
+            Faculty Dashboard
+          </button>
+        </Link>
+      </>
+    )}
 
-                        <div className="flex items-center gap-2">
-                            <Mail size={16} />
-                            <span>info@jyotinivas.org</span>
-                        </div>
+    <div className="px-2 py-2">
+      <LogoutButton onLogout={() => setOpen(false)} />
+    </div>
+  </>
+) : (
+  <button
+    onClick={() => {
+      navigate("/login");
+      setOpen(false);
+    }}
+    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+  >
+    Login
+  </button>
+)}
+              </div>
+            )}
+          </div>
+        </div>
 
-                    </div>
+      </div>
 
-                    <div className="flex items-center gap-4 ml-auto">
+      {/* MOBILE */}
+      <div className="lg:hidden flex justify-between px-4 py-3">
+        <span>Menu</span>
+        <button onClick={() => setOpen(!open)}>
+          {open ? <X /> : <Menu />}
+        </button>
+      </div>
 
-                        <button className="bg-red-500 hover:bg-red-600 px-5 py-2 rounded-lg font-semibold text-sm">
-                            ONLINE PAYMENT
-                        </button>
+      {open && (
+        <div className="lg:hidden px-4 pb-4 space-y-2 text-sm font-semibold">
+          <Link to="/home">Home</Link>
+          <p>About Us</p>
+          <p>Academics</p>
+          <p>Student Support</p>
+          <p>Infrastructure</p>
+          <p>Admissions</p>
+                       {user ? (
+  <>
+    <p className="px-4 py-2 text-sm text-gray-500">
+      Welcome, {user.fullName || user.email}
+    </p>
 
-                        <button className="bg-red-500 hover:bg-red-600 px-5 py-2 rounded-lg font-semibold text-sm">
-                            Admissions 2026-27
-                        </button>
+    {user.role === "admin" && (
+      <Link to="/admin">
+        <button
+          onClick={() => setOpen(false)}
+          className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
+        >
+          Admin Dashboard
+        </button>
+      </Link>
+    )}
 
-                    </div>
+    {user.role === "faculty" && (
+      <>
+        <Link to="/faculty/profile">
+          <button
+            onClick={() => setOpen(false)}
+            className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
+          >
+            My Profile
+          </button>
+        </Link>
 
-                </div>
+        <Link to="/faculty/dashboard">
+          <button
+            onClick={() => setOpen(false)}
+            className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
+          >
+            Faculty Dashboard
+          </button>
+        </Link>
+      </>
+    )}
 
-            </div>
+    <div className="px-2 py-2">
+      <LogoutButton onLogout={() => setOpen(false)} />
+    </div>
+  </>
+) : (
+  <button
+    onClick={() => {
+      navigate("/login");
+      setOpen(false);
+    }}
+    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+  >
+    Login
+  </button>
+)}
+        </div>
+      )}
+    </nav>
+  );
+}
 
-            {/* ================= LOGO ROW ================= */}
+/* DROPDOWN */
+const Dropdown = ({ title, children, simple }) => (
+  <div className="group">
+    <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
+      {title} <span className="text-[10px]">▾</span>
+    </span>
 
-            <div className="bg-white border-b">
+    {simple ? (
+      <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 bg-white shadow-md border hidden group-hover:block z-50 w-[220px]">
+        {children.map((item, i) => (
+          <div key={i} className="px-4 py-2 text-[12px] hover:bg-gray-100 cursor-pointer">
+            {item}
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[1000px] bg-white shadow-md border hidden group-hover:block z-50">
+        <div className="grid grid-cols-3 gap-16 px-10 py-8 text-[12px]">
+          {children}
+        </div>
+      </div>
+    )}
+  </div>
+);
 
-                <div className="max-w-7xl mx-auto px-6 py-2 flex items-center">
-
-                    {/* Logo */}
-
-                    <Link to="/" className="flex-shrink-0">
-                        <Logo className="w-[540px] h-auto" />
-                    </Link>
-
-                    {/* ================= STATISTICS ================= */}
-
-                    <div className="hidden lg:flex items-center ml-auto gap-9">
-
-                        <div className="text-center">
-                            <h2
-                                className="text-[22px] font-bold text-black leading-none"
-                                style={{ fontFamily: "Georgia, serif" }}
-                            >
-                                59
-                            </h2>
-                            <p
-                                className="mt-1 text-[11px] text-black leading-none"
-                                style={{ fontFamily: "Georgia, serif" }}
-                            >
-                                Years
-                            </p>
-                        </div>
-
-                        <div className="text-center">
-                            <h2
-                                className="text-[22px] font-bold text-black leading-none"
-                                style={{ fontFamily: "Georgia, serif" }}
-                            >
-                                6
-                            </h2>
-                            <p
-                                className="mt-1 text-[11px] text-black leading-none"
-                                style={{ fontFamily: "Georgia, serif" }}
-                            >
-                                Streams
-                            </p>
-                        </div>
-
-                        <div className="text-center">
-                            <h2
-                                className="text-[22px] font-bold text-black leading-none"
-                                style={{ fontFamily: "Georgia, serif" }}
-                            >
-                                43
-                            </h2>
-                            <p
-                                className="mt-1 text-[11px] text-black leading-none"
-                                style={{ fontFamily: "Georgia, serif" }}
-                            >
-                                Programmes
-                            </p>
-                        </div>
-
-                        <div className="text-center">
-                            <h2
-                                className="text-[22px] font-bold text-black leading-none"
-                                style={{ fontFamily: "Georgia, serif" }}
-                            >
-                                64th
-                            </h2>
-                            <p
-                                className="mt-1 text-[11px] text-black whitespace-nowrap"
-                                style={{ fontFamily: "Georgia, serif" }}
-                            >
-                                Best College in India
-                            </p>
-                        </div>
-
-                        <div className="text-center">
-                            <h2
-                                className="text-[22px] font-bold text-black leading-none"
-                                style={{ fontFamily: "Georgia, serif" }}
-                            >
-                                5th
-                            </h2>
-                            <p
-                                className="mt-1 text-[11px] text-black whitespace-nowrap"
-                                style={{ fontFamily: "Georgia, serif" }}
-                            >
-                                Best College in Karnataka
-                            </p>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            {/* ================= NAVBAR ================= */}
-
-            <nav className="bg-white shadow-sm sticky top-0 z-50">
-
-                <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
-
-                    <div className="hidden lg:flex items-center gap-9">
-
-                        <NavLink
-                            to="/"
-                            className="bg-red-500 text-white px-5 py-2 rounded-full text-[15px] font-semibold tracking-wide"
-                        >
-                            HOME
-                        </NavLink>
-
-                        <button className="flex items-center gap-1 text-[15px] font-medium text-black hover:text-[#4B4B7C] transition-colors">
-                            ABOUT US
-                            <ChevronDown size={16} />
-                        </button>
-
-                        <button className="flex items-center gap-1 text-[15px] font-medium text-black hover:text-[#4B4B7C] transition-colors">
-                            ACADEMICS
-                            <ChevronDown size={16} />
-                        </button>
-
-                        <button className="flex items-center gap-1 text-[15px] font-medium text-black hover:text-[#4B4B7C] transition-colors">
-                            DEPARTMENTS
-                            <ChevronDown size={16} />
-                        </button>
-
-                        <button className="flex items-center gap-1 text-[15px] font-medium text-black hover:text-[#4B4B7C] transition-colors">
-                            RESEARCH
-                            <ChevronDown size={16} />
-                        </button>
-
-                        <button className="flex items-center gap-1 text-[15px] font-medium text-black hover:text-[#4B4B7C] transition-colors">
-                            STUDENT SUPPORT
-                            <ChevronDown size={16} />
-                        </button>
-
-                        <button className="flex items-center gap-1 text-[15px] font-medium text-black hover:text-[#4B4B7C] transition-colors">
-                            ADMISSIONS
-                            <ChevronDown size={16} />
-                        </button>
-
-                        <button className="flex items-center gap-1 text-[15px] font-medium text-black hover:text-[#4B4B7C] transition-colors">
-                            CONTACT
-                        </button>
-
-                    </div>
-
-                    <div className="flex items-center gap-5 ml-auto">
-
-                        <NavLink to="/login">
-                            <User size={28} />
-                        </NavLink>
-
-                        <button className="lg:hidden">
-                            <Menu size={30} />
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </nav>
-        </>
-    );
-};
+const Column = ({ title, items }) => (
+  <div className="space-y-2">
+    {title && <p className="font-semibold">{title}</p>}
+    {items.map((item, i) => (
+      <p key={i} className="hover:text-[#FF2D55] cursor-pointer">
+        {item}
+      </p>
+    ))}
+  </div>
+);
 
 export default Navbar;

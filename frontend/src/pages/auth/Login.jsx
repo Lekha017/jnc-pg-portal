@@ -47,6 +47,7 @@ const Login = () => {
       // Refresh authenticated user from backend
       await login();
 
+      // Redirect everyone to Home
       navigate("/");
     } catch (error) {
       toast.error(

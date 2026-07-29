@@ -9,6 +9,17 @@ import RecruitingCompaniesPage from "../pages/RecruitingCompanies";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 
+import Faculty from "../pages/Faculty/Faculty";
+import FacultyDetails from "../pages/Faculty/FacultyDetails";
+import AddFaculty from "../pages/Faculty/AddFaculty";
+import EditFaculty from "../pages/Faculty/EditFaculty";
+import FacultyDashboard from "../pages/Faculty/FacultyDashboard";
+
+import AdminDashboard from "../pages/Admin/AdminDashboard";
+import DepartmentDetails from "../pages/Department/DepartmentDetails";
+
+import Library from "../pages/Library";
+
 import ManageEvents from "../pages/admin/ManageEvents";
 import ManageGallery from "../pages/admin/ManageGallery";
 import ManageRecruiters from "../pages/admin/ManageRecruiters";
@@ -19,76 +30,83 @@ import ProtectedRoute from "./ProtectedRoute";
 const AppRoutes = () => {
   return (
     <Routes>
-
-      {/* ================= Public Routes ================= */}
-
-      <Route path="/" element={<Home />} />
-
-      <Route path="/events" element={<Events />} />
-
-      <Route
-        path="/announcements"
-        element={<Announcements />}
-      />
-
-      <Route
-        path="/placements"
-        element={<Placement />}
-      />
-
-      <Route
-        path="/recruiting-companies"
-        element={<RecruitingCompaniesPage />}
-      />
-
-      <Route
-        path="/placement-training"
-        element={<PlacementTraining />}
-      />
-
-      <Route
-        path="/admin/placement-contact"
-        element={<ManagePlacementContact />}
-      />
-
-      <Route path="/login" element={<Login />} />
-
-      <Route path="/register" element={<Register />} />
-
-
-
-      {/* ================= Admin Routes ================= */}
-
       <Route
         path="/admin/events"
         element={<ManageEvents />}
       />
 
-      <Route
-        path="/admin/gallery"
-        element={<ManageGallery />}
-      />
+      {/* ================= LIBRARY ================= */}
 
       <Route
-        path="/admin/recruiters"
-        element={<ManageRecruiters />}
-      />
-
-
-
-      {/* ================= Future Protected Routes ================= */}
-
-      {/*
-      <Route
-        path="/admin/events"
+        path="/library"
         element={
-          <ProtectedRoute roles={["admin"]}>
-            <ManageEvents />
+          <ProtectedRoute>
+            <Library />
           </ProtectedRoute>
         }
       />
-      */}
 
+      {/* ================= FACULTY PUBLIC ================= */}
+
+      <Route
+        path="/faculty"
+        element={<Faculty />}
+      />
+
+      <Route
+        path="/faculty/:id"
+        element={<FacultyDetails />}
+      />
+
+      {/* ================= ADMIN ================= */}
+
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/faculty/add"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <AddFaculty />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/faculty/edit/:id"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <EditFaculty />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* ================= FACULTY ================= */}
+
+      <Route
+        path="/faculty/profile"
+        element={
+          <ProtectedRoute roles={["faculty"]}>
+            <EditFaculty />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/login"
+        element={<Login />}
+      />
+
+      <Route
+        path="/register"
+        element={<Register />}
+      />
     </Routes>
   );
 };

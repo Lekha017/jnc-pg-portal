@@ -9,6 +9,14 @@ const departmentSchema = new mongoose.Schema(
       trim: true,
     },
 
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+
     code: {
       type: String,
       required: true,
@@ -26,42 +34,61 @@ const departmentSchema = new mongoose.Schema(
     vision: {
       type: String,
       default: "",
+      trim: true,
     },
 
     mission: {
       type: String,
       default: "",
+      trim: true,
     },
 
     hod: {
       type: String,
       default: "",
+      trim: true,
     },
+
+    hodMessage: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    programmes: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
 
     email: {
       type: String,
       default: "",
       lowercase: true,
+      trim: true,
     },
 
     phone: {
       type: String,
       default: "",
+      trim: true,
     },
 
     location: {
       type: String,
       default: "",
+      trim: true,
     },
 
     image: {
       type: String,
-      default: "", // Cloudinary URL
+      default: "", // Department Image (Cloudinary)
     },
 
-    brochure: {
+    bannerImage: {
       type: String,
-      default: "", // Cloudinary PDF URL
+      default: "", // Banner Image (Cloudinary)
     },
 
     isActive: {
