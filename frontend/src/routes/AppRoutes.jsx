@@ -5,6 +5,7 @@ import Events from "../pages/Events";
 import Announcements from "../pages/Announcements";
 import Placement from "../pages/Placement";
 import RecruitingCompaniesPage from "../pages/RecruitingCompanies";
+import PlacementTraining from "../pages/PlacementTraining";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -23,16 +24,29 @@ import Library from "../pages/Library";
 import ManageEvents from "../pages/admin/ManageEvents";
 import ManageGallery from "../pages/admin/ManageGallery";
 import ManageRecruiters from "../pages/admin/ManageRecruiters";
-import PlacementTraining from "../pages/PlacementTraining";
 import ManagePlacementContact from "../pages/admin/ManagePlacementContact";
+
 import ProtectedRoute from "./ProtectedRoute";
 
 const AppRoutes = () => {
   return (
     <Routes>
+      {/* ================= PUBLIC ================= */}
+
+      <Route path="/" element={<Home />} />
+      <Route path="/home" element={<Home />} />
+
+      <Route path="/events" element={<Events />} />
+      <Route path="/announcements" element={<Announcements />} />
+      <Route path="/placement" element={<Placement />} />
+      <Route path="/recruiters" element={<RecruitingCompaniesPage />} />
       <Route
-        path="/admin/events"
-        element={<ManageEvents />}
+        path="/placement-training"
+        element={<PlacementTraining />}
+      />
+      <Route
+        path="/department/:slug"
+        element={<DepartmentDetails />}
       />
 
       {/* ================= LIBRARY ================= */}
@@ -48,11 +62,7 @@ const AppRoutes = () => {
 
       {/* ================= FACULTY PUBLIC ================= */}
 
-      <Route
-        path="/faculty"
-        element={<Faculty />}
-      />
-
+      <Route path="/faculty" element={<Faculty />} />
       <Route
         path="/faculty/:id"
         element={<FacultyDetails />}
@@ -65,6 +75,42 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute roles={["admin"]}>
             <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/events"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <ManageEvents />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/gallery"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <ManageGallery />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/recruiters"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <ManageRecruiters />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/placement-contact"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <ManagePlacementContact />
           </ProtectedRoute>
         }
       />
@@ -90,6 +136,15 @@ const AppRoutes = () => {
       {/* ================= FACULTY ================= */}
 
       <Route
+        path="/faculty/dashboard"
+        element={
+          <ProtectedRoute roles={["faculty"]}>
+            <FacultyDashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
         path="/faculty/profile"
         element={
           <ProtectedRoute roles={["faculty"]}>
@@ -98,15 +153,10 @@ const AppRoutes = () => {
         }
       />
 
-      <Route
-        path="/login"
-        element={<Login />}
-      />
+      {/* ================= AUTH ================= */}
 
-      <Route
-        path="/register"
-        element={<Register />}
-      />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
     </Routes>
   );
 };
