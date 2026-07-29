@@ -36,8 +36,7 @@ const announcementSchema = new mongoose.Schema(
     attachment: {
       url: {
         type: String,
-        default:
-          "https://placehold.co/800x600?text=Announcement+Attachment",
+        default:"",
       },
       public_id: {
         type: String,

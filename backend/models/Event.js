@@ -48,6 +48,17 @@ const eventSchema = new mongoose.Schema(
       trim: true,
     },
 
+    registrationQRCode: {
+      url: {
+        type: String,
+        default: "",
+      },
+      public_id: {
+        type: String,
+        default: "",
+      },
+    },
+
     poster: {
       url: {
         type: String,
@@ -57,25 +68,6 @@ const eventSchema = new mongoose.Schema(
         type: String,
         default: "",
       },
-    },
-
-    gallery: [
-      {
-        url: {
-          type: String,
-          default: "",
-        },
-        public_id: {
-          type: String,
-          default: "",
-        },
-      },
-    ],
-
-    status: {
-      type: String,
-      enum: ["Upcoming", "Ongoing", "Completed"],
-      default: "Upcoming",
     },
 
     isPublished: {

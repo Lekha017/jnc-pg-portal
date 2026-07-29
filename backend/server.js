@@ -13,7 +13,10 @@ import departmentRoutes from "./routes/departmentRoutes.js";
 import announcementRoutes from "./routes/announcementRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import researchRoutes from "./routes/researchRoutes.js";
-import galleryRoutes from "./routes/galleryRoutes.js";
+import eventGalleryRoutes from "./routes/eventGalleryRoutes.js";
+import placementRoutes from "./routes/placementRoutes.js"; 
+import recruiterRoutes from "./routes/recruiterRoutes.js";
+import placementContactRoutes from "./routes/placementContactRoutes.js";
 
 dotenv.config();
 
@@ -27,7 +30,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // React Vite
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
@@ -48,7 +51,10 @@ app.use("/api/departments", departmentRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/research", researchRoutes);
-app.use("/api/gallery", galleryRoutes);
+app.use("/api/gallery", eventGalleryRoutes);
+app.use("/api/placements", placementRoutes); 
+app.use("/api/recruiters", recruiterRoutes);
+app.use("/api/placement-contact", placementContactRoutes);
 
 app.get("/", (req, res) => {
   res.send("🚀 JNC PG Portal Backend Running...");

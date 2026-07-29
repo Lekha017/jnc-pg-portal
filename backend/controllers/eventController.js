@@ -1,10 +1,54 @@
 import Event from "../models/Event.js";
 
+const getTodayRange = () => {
+  const today = new Date();
+
+  const startOfDay = new Date(today);
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const endOfDay = new Date(today);
+  endOfDay.setHours(23, 59, 59, 999);
+
+  return { startOfDay, endOfDay };
+};
+
 // Create Event
 export const createEvent = async (req, res) => {
   try {
+    let poster = {
+      url: "https://placehold.co/800x1000?text=Event+Poster",
+      public_id: "",
+    };
+
+    if (req.file) {
+      poster = {
+        url: req.file.path,
+        public_id: req.file.filename,
+      };
+    }
+    console.log("BODY:", req.body);
+
+    if (req.file) {
+      console.log("FILE PATH:", req.file.path);
+      console.log("FILE:", req.file);
+    } else {
+      console.log("NO FILE RECEIVED");
+    }
     const event = await Event.create({
-      ...req.body,
+      title: req.body.title,
+      description: req.body.description,
+      department: req.body.department,
+      venue: req.body.venue,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      chiefGuest: req.body.chiefGuest,
+      registrationLink: req.body.registrationLink,
+
+      isPublished:
+        req.body.isPublished === "true" ||
+        req.body.isPublished === true,
+
+      poster,
       createdBy: req.user.id,
     });
 
@@ -42,7 +86,7 @@ export const getEvents = async (req, res) => {
   }
 };
 
-// Get Event By ID
+// Get Single Event
 export const getEventById = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id)
@@ -68,12 +112,14 @@ export const getEventById = async (req, res) => {
   }
 };
 
-// Get Upcoming Events
+// Upcoming Events
 export const getUpcomingEvents = async (req, res) => {
   try {
+    const { endOfDay } = getTodayRange();
+
     const events = await Event.find({
-      status: "Upcoming",
       isPublished: true,
+      startDate: { $gt: endOfDay },
     })
       .populate("department", "name code")
       .sort({ startDate: 1 });
@@ -91,12 +137,15 @@ export const getUpcomingEvents = async (req, res) => {
   }
 };
 
-// Get Ongoing Events
+// Ongoing Events
 export const getOngoingEvents = async (req, res) => {
   try {
+    const { startOfDay, endOfDay } = getTodayRange();
+
     const events = await Event.find({
-      status: "Ongoing",
       isPublished: true,
+      startDate: { $lte: endOfDay },
+      endDate: { $gte: startOfDay },
     })
       .populate("department", "name code")
       .sort({ startDate: 1 });
@@ -114,15 +163,17 @@ export const getOngoingEvents = async (req, res) => {
   }
 };
 
-// Get Completed Events
+// Completed Events
 export const getCompletedEvents = async (req, res) => {
   try {
+    const { startOfDay } = getTodayRange();
+
     const events = await Event.find({
-      status: "Completed",
       isPublished: true,
+      endDate: { $lt: startOfDay },
     })
       .populate("department", "name code")
-      .sort({ startDate: -1 });
+      .sort({ endDate: -1 });
 
     res.status(200).json({
       success: true,
@@ -137,7 +188,7 @@ export const getCompletedEvents = async (req, res) => {
   }
 };
 
-// Get Events By Department
+// Events by Department
 export const getEventsByDepartment = async (req, res) => {
   try {
     const events = await Event.find({
@@ -145,7 +196,7 @@ export const getEventsByDepartment = async (req, res) => {
       isPublished: true,
     })
       .populate("department", "name code")
-      .sort({ startDate: -1 });
+      .sort({ startDate: 1 });
 
     res.status(200).json({
       success: true,
@@ -163,9 +214,31 @@ export const getEventsByDepartment = async (req, res) => {
 // Update Event
 export const updateEvent = async (req, res) => {
   try {
+    const updateData = {
+      title: req.body.title,
+      description: req.body.description,
+      department: req.body.department,
+      venue: req.body.venue,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      chiefGuest: req.body.chiefGuest,
+      registrationLink: req.body.registrationLink,
+
+      isPublished:
+        req.body.isPublished === "true" ||
+        req.body.isPublished === true,
+    };
+
+    if (req.file) {
+      updateData.poster = {
+        url: req.file.path,
+        public_id: req.file.filename,
+      };
+    }
+
     const event = await Event.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      updateData,
       {
         new: true,
         runValidators: true,
@@ -218,7 +291,7 @@ export const deleteEvent = async (req, res) => {
   }
 };
 
-// Publish / Unpublish Event
+// Publish / Unpublish
 export const togglePublishStatus = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id);
@@ -236,10 +309,29 @@ export const togglePublishStatus = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: `Event ${
-        event.isPublished ? "Published" : "Unpublished"
-      } successfully`,
+      message: `Event ${event.isPublished ? "Published" : "Unpublished"
+        } successfully`,
       data: event,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+// Get All Events (Admin)
+export const getAllEvents = async (req, res) => {
+  try {
+    const events = await Event.find({})
+      .populate("department", "name code")
+      .populate("createdBy", "fullName")
+      .sort({ startDate: 1 });
+
+    res.status(200).json({
+      success: true,
+      count: events.length,
+      data: events,
     });
   } catch (error) {
     res.status(500).json({

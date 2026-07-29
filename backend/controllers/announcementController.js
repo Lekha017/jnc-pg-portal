@@ -5,6 +5,11 @@ export const createAnnouncement = async (req, res) => {
   try {
     const announcement = await Announcement.create({
       ...req.body,
+
+      isPublished:
+        req.body.isPublished === "true" ||
+        req.body.isPublished === true,
+
       createdBy: req.user.id,
     });
 
@@ -131,9 +136,17 @@ export const getAnnouncementsByDepartment = async (req, res) => {
 // Update Announcement
 export const updateAnnouncement = async (req, res) => {
   try {
+    const updateData = {
+      ...req.body,
+
+      isPublished:
+        req.body.isPublished === "true" ||
+        req.body.isPublished === true,
+    };
+
     const announcement = await Announcement.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      updateData,
       {
         new: true,
         runValidators: true,
@@ -204,10 +217,29 @@ export const togglePublishStatus = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: `Announcement ${
-        announcement.isPublished ? "Published" : "Unpublished"
-      } successfully`,
+      message: `Announcement ${announcement.isPublished ? "Published" : "Unpublished"
+        } successfully`,
       data: announcement,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+// Get All Announcements (Admin)
+export const getAllAnnouncements = async (req, res) => {
+  try {
+    const announcements = await Announcement.find({})
+      .populate("department", "name code")
+      .populate("createdBy", "fullName")
+      .sort({ important: -1, publishDate: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: announcements.length,
+      data: announcements,
     });
   } catch (error) {
     res.status(500).json({
