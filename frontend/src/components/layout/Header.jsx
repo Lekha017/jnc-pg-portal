@@ -1,56 +1,172 @@
+import { Link } from "react-router-dom";
+import { Phone, Mail } from "lucide-react";
+import Logo from "../common/Logo";
+
 const Header = () => {
   return (
-    <div className="bg-white shadow-sm">
+    <header className="w-full bg-white">
 
-      <div className="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+      {/* ================= TOP BAR ================= */}
 
-        {/* Logo */}
+      <div className="bg-[#4B4B7C] text-white">
+        <div className="max-w-[1300px] mx-auto px-6 h-[50px] flex items-center justify-between">
 
-        <div className="flex items-center gap-5">
+          {/* Left */}
+          <div className="hidden lg:flex items-center gap-4 text-[16px]">
 
-          <img
-            src="/logo.png"
-            alt="JNC Logo"
-            className="w-20 h-20 object-contain"
-          />
+            <span className="cursor-pointer hover:underline">IQAC</span>
 
-          <div>
+            <span>|</span>
 
-            <h1 className="text-5xl font-bold text-[#1d1d54]">
-              Jyoti Nivas College Autonomous
-            </h1>
+            <span className="cursor-pointer hover:underline">NIRF</span>
 
-            <p className="text-gray-600 mt-2">
-              A Premier Institute for Women | Estd. 1966 |
-              Reaccredited by NAAC with 'A+' Grade in the 4th Cycle
-            </p>
+            <span>|</span>
+
+            <span className="cursor-pointer hover:underline">ARIIA</span>
+
+            <span>|</span>
+
+            <span className="cursor-pointer hover:underline">MOUS</span>
+
+            <span>|</span>
+
+            <span className="cursor-pointer hover:underline">IIC</span>
+
+            <span>|</span>
+
+            <div className="flex items-center gap-2">
+              <Phone size={15} />
+              <span>Tel: 080 25530137</span>
+            </div>
+
+            <span>|</span>
+
+            <div className="flex items-center gap-2">
+              <Mail size={15} />
+              <span>info@jyotinivas.org</span>
+            </div>
+
+          </div>
+
+          {/* Right */}
+          <div className="flex items-center gap-3 ml-auto">
+
+            <button className="bg-[#FF2D55] hover:bg-[#e6264c] text-white text-[13px] font-medium px-7 py-[11px] rounded">
+              ONLINE PAYMENT
+            </button>
+
+            <button className="bg-[#FF2D55] hover:bg-[#e6264c] text-white text-[13px] font-medium px-7 py-[11px] rounded">
+              Admissions 2026-27
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+
+      {/* ================= LOGO + STATS ================= */}
+
+      <div className="border-b border-gray-200">
+
+        <div className="max-w-[1300px] mx-auto px-6 py-3 flex items-center justify-between">
+
+          {/* Logo */}
+
+        <Link to="/" className="flex-1 flex items-center">
+           <Logo className="w-[650px] h-auto" />
+          </Link>
+
+          {/* Statistics */}
+
+          <div className="hidden lg:flex items-center gap-[58px] text-center">
+
+            <div>
+              <h2
+                className="text-[20px] font-bold leading-none"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                59
+              </h2>
+
+              <p
+                className="text-[13px] mt-1"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                Years
+              </p>
+            </div>
+
+            <div>
+              <h2
+                className="text-[20px] font-bold leading-none"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                6
+              </h2>
+
+              <p
+                className="text-[11px] mt-1"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                Streams
+              </p>
+            </div>
+
+            <div>
+              <h2
+                className="text-[20px] font-bold leading-none"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                43
+              </h2>
+
+              <p
+                className="text-[11px] mt-1"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                Programmes
+              </p>
+            </div>
+
+            <div>
+              <h2
+                className="text-[20px] font-bold leading-none"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                64th
+              </h2>
+
+              <p
+                className="text-[11px] mt-1 whitespace-nowrap"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                Best College in India
+              </p>
+            </div>
+
+            <div>
+              <h2
+                className="text-[20px] font-bold leading-none"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                5th
+              </h2>
+
+              <p
+                className="text-[11px] mt-1 whitespace-nowrap"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                Best College in Karnataka
+              </p>
+            </div>
 
           </div>
 
         </div>
 
-        {/* Statistics */}
-
-        <div className="hidden xl:flex gap-12">
-
-          {[
-            ["59", "Years"],
-            ["6", "Streams"],
-            ["43", "Programmes"],
-            ["64th", "Best College in India"],
-            ["5th", "Best College in Karnataka"],
-          ].map(([number, text]) => (
-            <div key={number} className="text-center">
-              <h2 className="text-4xl font-bold">{number}</h2>
-              <p className="mt-2 text-sm">{text}</p>
-            </div>
-          ))}
-
-        </div>
-
       </div>
 
-    </div>
+    </header>
   );
 };
 

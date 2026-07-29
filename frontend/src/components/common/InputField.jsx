@@ -6,13 +6,22 @@ const InputField = ({
   name,
   value,
   onChange,
-  placeholder,
+  placeholder = "",
+  required = false,
+  disabled = false,
+  readOnly = false,
+  className = "",
 }) => {
   return (
     <div className="mb-5">
-      <label className="block text-gray-800 font-semibold mb-2">
-        {label}
-      </label>
+      {label && (
+        <label className="block text-gray-800 font-semibold mb-2">
+          {label}
+          {required && (
+            <span className="text-red-500 ml-1">*</span>
+          )}
+        </label>
+      )}
 
       <input
         type={type}
@@ -20,7 +29,10 @@ const InputField = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full px-4 py-3 rounded-xl border border-gray-300 outline-none focus:border-[#4B4B7C] focus:ring-2 focus:ring-[#4B4B7C]/20 transition"
+        required={required}
+        disabled={disabled}
+        readOnly={readOnly}
+        className={`w-full px-4 py-3 rounded-xl border border-gray-300 outline-none focus:border-[#4B4B7C] focus:ring-2 focus:ring-[#4B4B7C]/20 transition disabled:bg-gray-100 disabled:cursor-not-allowed ${className}`}
       />
     </div>
   );

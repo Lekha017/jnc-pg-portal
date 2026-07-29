@@ -1,9 +1,58 @@
 import Department from "../models/Department.js";
-
-// CREATE
+import Faculty from "../models/Faculty.js";
+// =======================
+// CREATE DEPARTMENT
+// =======================
 export const createDepartment = async (req, res) => {
   try {
-    const department = await Department.create(req.body);
+    const {
+      name,
+      slug,
+      code,
+      about,
+      vision,
+      mission,
+      hod,
+      hodMessage,
+      programmes,
+      email,
+      phone,
+      location,
+      image,
+      bannerImage,
+    } = req.body;
+
+    const existingDepartment = await Department.findOne({
+      $or: [
+        { name },
+        { slug },
+        { code: code?.toUpperCase() },
+      ],
+    });
+
+    if (existingDepartment) {
+      return res.status(400).json({
+        success: false,
+        message: "Department already exists.",
+      });
+    }
+
+    const department = await Department.create({
+      name,
+      slug,
+      code: code?.toUpperCase(),
+      about,
+      vision,
+      mission,
+      hod,
+      hodMessage,
+      programmes,
+      email,
+      phone,
+      location,
+      image,
+      bannerImage,
+    });
 
     res.status(201).json({
       success: true,
@@ -18,10 +67,14 @@ export const createDepartment = async (req, res) => {
   }
 };
 
-// GET ALL
+// =======================
+// GET ALL DEPARTMENTS
+// =======================
 export const getDepartments = async (req, res) => {
   try {
-    const departments = await Department.find({ isActive: true });
+    const departments = await Department.find({
+      isActive: true,
+    }).sort({ name: 1 });
 
     res.status(200).json({
       success: true,
@@ -36,10 +89,18 @@ export const getDepartments = async (req, res) => {
   }
 };
 
-// GET BY ID
+// =======================
+// GET DEPARTMENT BY SLUG
+// =======================
+// =======================
+// GET DEPARTMENT BY SLUG
+// =======================
 export const getDepartmentById = async (req, res) => {
   try {
-    const department = await Department.findById(req.params.id);
+    const department = await Department.findOne({
+      slug: req.params.slug,
+      isActive: true,
+    }).populate("hod");
 
     if (!department) {
       return res.status(404).json({
@@ -48,9 +109,16 @@ export const getDepartmentById = async (req, res) => {
       });
     }
 
+    const faculty = await Faculty.find({
+      departments: department._id,
+    }).populate("departments", "name");
+
     res.status(200).json({
       success: true,
-      data: department,
+      data: {
+        ...department.toObject(),
+        faculty,
+      },
     });
   } catch (error) {
     res.status(500).json({
@@ -60,7 +128,9 @@ export const getDepartmentById = async (req, res) => {
   }
 };
 
-// UPDATE
+// =======================
+// UPDATE DEPARTMENT
+// =======================
 export const updateDepartment = async (req, res) => {
   try {
     const department = await Department.findByIdAndUpdate(
@@ -92,7 +162,10 @@ export const updateDepartment = async (req, res) => {
   }
 };
 
-// DELETE (Soft Delete)
+// =======================
+// DELETE DEPARTMENT
+// (SOFT DELETE)
+// =======================
 export const deleteDepartment = async (req, res) => {
   try {
     const department = await Department.findByIdAndUpdate(

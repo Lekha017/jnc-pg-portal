@@ -14,6 +14,7 @@ import announcementRoutes from "./routes/announcementRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import researchRoutes from "./routes/researchRoutes.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
+import facultyRoutes from "./routes/facultyRoutes.js";
 
 dotenv.config();
 
@@ -49,6 +50,7 @@ app.use("/api/announcements", announcementRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/research", researchRoutes);
 app.use("/api/gallery", galleryRoutes);
+app.use("/api/faculty", facultyRoutes);
 
 app.get("/", (req, res) => {
   res.send("🚀 JNC PG Portal Backend Running...");
