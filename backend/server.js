@@ -13,15 +13,11 @@ import departmentRoutes from "./routes/departmentRoutes.js";
 import announcementRoutes from "./routes/announcementRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import researchRoutes from "./routes/researchRoutes.js";
-<<<<<<< HEAD
 import eventGalleryRoutes from "./routes/eventGalleryRoutes.js";
-import placementRoutes from "./routes/placementRoutes.js"; 
+import placementRoutes from "./routes/placementRoutes.js";
 import recruiterRoutes from "./routes/recruiterRoutes.js";
 import placementContactRoutes from "./routes/placementContactRoutes.js";
-=======
-import galleryRoutes from "./routes/galleryRoutes.js";
 import facultyRoutes from "./routes/facultyRoutes.js";
->>>>>>> faculty-module
 
 dotenv.config();
 
@@ -56,15 +52,11 @@ app.use("/api/departments", departmentRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/research", researchRoutes);
-<<<<<<< HEAD
 app.use("/api/gallery", eventGalleryRoutes);
-app.use("/api/placements", placementRoutes); 
+app.use("/api/placements", placementRoutes);
 app.use("/api/recruiters", recruiterRoutes);
 app.use("/api/placement-contact", placementContactRoutes);
-=======
-app.use("/api/gallery", galleryRoutes);
 app.use("/api/faculty", facultyRoutes);
->>>>>>> faculty-module
 
 app.get("/", (req, res) => {
   res.send("🚀 JNC PG Portal Backend Running...");
