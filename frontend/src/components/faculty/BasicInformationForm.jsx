@@ -8,7 +8,7 @@ const BasicInformationForm = ({
   departments = [],
 }) => {
   return (
-    <div className="bg-white rounded-xl shadow-sm border p-8">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
       <h2 className="text-2xl font-semibold text-[#4B4B7C] mb-8">
         Basic Information
       </h2>
@@ -48,8 +48,12 @@ const BasicInformationForm = ({
             name="password"
             value={formData.password}
             onChange={handleChange}
-            placeholder="Enter password"
-            required
+            placeholder={
+              formData._id
+                ? "Leave blank to keep current password"
+                : "Enter password"
+            }
+            required={!formData._id}
           />
         )}
 
@@ -63,7 +67,7 @@ const BasicInformationForm = ({
         />
 
         <div>
-          <label className="block text-gray-800 font-semibold mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             Department <span className="text-red-500">*</span>
           </label>
 
@@ -72,7 +76,7 @@ const BasicInformationForm = ({
             value={formData.departments}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 outline-none focus:border-[#4B4B7C] focus:ring-2 focus:ring-[#4B4B7C]/20 transition"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
           >
             <option value="">Select Department</option>
 

@@ -1,33 +1,26 @@
 import { Link } from "react-router-dom";
+import AdminLayout from "../../components/layout/AdminLayout";
 
 export default function AdminDashboard() {
   const modules = [
     {
-      title: "View Faculty",
-      path: "/faculty",
+      title: "Manage Faculty",
+      path: "/admin/faculty",
     },
     {
       title: "Add Faculty",
       path: "/admin/faculty/add",
     },
     {
-      title: "Departments",
-      disabled: true,
+      title: "Manage Departments",
+      path: "/admin/departments",
     },
     {
-      title: "Research",
-      disabled: true,
-    },
-    {
-      title: "Library",
-      disabled: true,
+      title: "Add Department",
+      path: "/admin/departments/add",
     },
     {
       title: "Events",
-      disabled: true,
-    },
-    {
-      title: "Announcements",
       disabled: true,
     },
     {
@@ -35,38 +28,42 @@ export default function AdminDashboard() {
       disabled: true,
     },
     {
-      title: "Admissions",
+      title: "Recruiters",
       disabled: true,
     },
     {
-      title: "Users",
+      title: "Placements",
+      disabled: true,
+    },
+    {
+      title: "Announcements",
       disabled: true,
     },
   ];
 
   return (
-    <div className="min-h-[calc(100vh-180px)] bg-[#f5f7ff] py-12 px-6">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-center text-[#1f1f1f] mb-2">
+    <AdminLayout>
+      <div>
+        <h1 className="text-3xl font-bold text-gray-800">
           Admin Dashboard
         </h1>
 
-        <p className="text-center text-gray-600 mb-10">
-          Manage the college portal modules from one place.
+        <p className="text-gray-600 mt-2 mb-8">
+          Welcome! Manage all college modules from one place.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {modules.map((module, index) =>
             module.disabled ? (
               <div
                 key={index}
-                className="bg-[#3d3a82] rounded-lg py-7 px-6 text-center opacity-60 cursor-not-allowed"
+                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 opacity-60 cursor-not-allowed"
               >
-                <h2 className="text-white text-lg font-medium">
+                <h2 className="text-lg font-semibold text-gray-800">
                   {module.title}
                 </h2>
 
-                <p className="text-gray-200 text-sm mt-2">
+                <p className="text-sm text-gray-500 mt-2">
                   Coming Soon
                 </p>
               </div>
@@ -74,16 +71,20 @@ export default function AdminDashboard() {
               <Link
                 key={index}
                 to={module.path}
-                className="bg-[#3d3a82] hover:bg-[#34316f] transition rounded-lg py-7 px-6 text-center"
+                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg hover:-translate-y-1 transition"
               >
-                <h2 className="text-white text-lg font-medium">
+                <h2 className="text-lg font-semibold text-gray-800">
                   {module.title}
                 </h2>
+
+                <p className="text-sm text-gray-500 mt-2">
+                  Open Module →
+                </p>
               </Link>
             )
           )}
         </div>
       </div>
-    </div>
+    </AdminLayout>
   );
 }

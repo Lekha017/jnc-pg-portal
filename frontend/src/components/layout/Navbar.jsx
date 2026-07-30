@@ -3,6 +3,8 @@ import { Menu, X, UserIcon, ArrowLeftCircle } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
 import { useAuth } from "../../context/AuthContext";
+import DepartmentDropdown from "./DepartmentDropdown";
+
 function Navbar() {
    const { user } = useAuth();
     
@@ -64,39 +66,7 @@ const isHomePage = location.pathname === "/home";
           </Dropdown>
 
           <Dropdown title="ACADEMICS">
-            <Column items={[
-              "Centre for Media Studies","School of Humanities & Social Sciences",
-              "School of Life Sciences","School of Physical Sciences",
-              "School of Computer Science","School of Commerce",
-              "School of Management","Postgraduate Centre"
-            ]}/>
-            <Column title="Syllabus" items={[
-              "UG - SEP Syllabus","UG - NEP Syllabus","Value Added Courses",
-              "Internship","Credits","Research","Staff Competency",
-              "Conferences & Seminars","Webinar Video's"
-            ]}/>
-            <Column items={[
-              "Academic Calendar of Events","Newsletters","Achievements",
-              "Curriculum Analysis","Graduate Attributes","Examination",
-              "Clubs & Associations","Programme Outcomes"
-            ]}/>
-          </Dropdown>
-
-          <Dropdown title="STUDENT SUPPORT">
-            <Column title="Student Support & Services" items={[
-              "Anti Ragging Squad","Internal Complaints Committee","Code Of Conduct",
-              "Support Services","Student Services Centre","Academic Support",
-              "Scholarships","Mentor System","Best Practices","Students Handbook"
-            ]}/>
-            <Column items={[
-              "Student Welfare Committee","Capability Enhancement Schemes",
-              "Centre for Competitive Examinations","Counselling",
-              "Student Grievance Redressal Committee","Value Education",
-              "Outreach","Go Green","Sports","Student Council"
-            ]}/>
-            <Column items={[
-              "Placement","Blog","Student Verification"
-            ]}/>
+           <DepartmentDropdown />
           </Dropdown>
 
           <Dropdown title="INFRASTRUCTURE">
@@ -298,7 +268,7 @@ const Dropdown = ({ title, children, simple }) => (
         ))}
       </div>
     ) : (
-      <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[1000px] bg-white shadow-md border hidden group-hover:block z-50">
+      <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[1000px] bg-white shadow-md hidden group-hover:block z-50">
         <div className="grid grid-cols-3 gap-16 px-10 py-8 text-[12px]">
           {children}
         </div>

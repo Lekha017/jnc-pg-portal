@@ -5,11 +5,14 @@ const FacultyFilters = ({
   onSearch,
   department,
   onDepartment,
+  designation,
+  onDesignation,
   departments = [],
 }) => {
   const handleClear = () => {
     onSearch("");
     onDepartment("");
+    onDesignation("");
   };
 
   return (
@@ -50,6 +53,24 @@ const FacultyFilters = ({
               {dept.name}
             </option>
           ))}
+        </select>
+
+        {/* Designation */}
+
+        <select
+          value={designation}
+          onChange={(e) => onDesignation(e.target.value)}
+          className="border border-gray-300 rounded px-4 py-2.5 min-w-[220px] focus:outline-none focus:ring-1 focus:ring-[#E91E63]"
+        >
+          <option value="">All Designations</option>
+          <option value="Professor">Professor</option>
+          <option value="Associate Professor">
+            Associate Professor
+          </option>
+          <option value="Assistant Professor">
+            Assistant Professor
+          </option>
+          <option value="HOD">HOD</option>
         </select>
 
         {/* Button */}

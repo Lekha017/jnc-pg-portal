@@ -30,7 +30,8 @@ const DepartmentDetails = () => {
 
       const response = await getDepartmentBySlug(slug);
 
-      setDepartment(response.data.data);
+      // departmentService already returns response.data.data
+      setDepartment(response);
     } catch (error) {
       console.error(error);
 
@@ -53,21 +54,16 @@ const DepartmentDetails = () => {
       ) : (
         <section className="bg-[#f8f9fc] min-h-screen">
 
-          {/* Banner */}
-          <div className="relative h-[320px]">
-            <img
-              src={
-  department?.bannerImage ||
-  "https://via.placeholder.com/1600x500?text=Department+Banner"
-}
-              alt={department?.name}
-              className="w-full h-full object-cover"
-            />
-
-            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-              <h1 className="text-white text-3xl md:text-5xl font-bold text-center px-4">
+          {/* Department Header */}
+          <div className="bg-[#2F2F6F] text-white">
+            <div className="max-w-7xl mx-auto px-6 py-16 text-center">
+              <h1 className="text-4xl md:text-5xl font-bold">
                 {department?.name}
               </h1>
+
+              <p className="mt-4 text-lg text-gray-200 max-w-3xl mx-auto">
+                Welcome to the Department of {department?.name}
+              </p>
             </div>
           </div>
 
@@ -105,95 +101,93 @@ const DepartmentDetails = () => {
                 {department?.mission}
               </p>
             </section>
+                        {/* HOD Message */}
+            <section className="py-10 border-b border-gray-200">
+              <h2 className="text-3xl font-bold text-[#2F2F6F] mb-8">
+                HOD's Message
+              </h2>
 
-{/* HOD Message */}
-<section className="py-10 border-b border-gray-200">
-  <h2 className="text-3xl font-bold text-[#2F2F6F] mb-8">
-    HOD's Message
-  </h2>
+              <div className="grid md:grid-cols-[220px_1fr] gap-8 items-start">
+                <img
+                  src={
+                    department?.hod?.image ||
+                    "https://via.placeholder.com/220x260?text=HOD"
+                  }
+                  alt={department?.hod?.fullName}
+                  className="w-[220px] h-[260px] object-cover rounded-xl shadow-md"
+                />
 
-  <div className="grid md:grid-cols-[220px_1fr] gap-8 items-start">
-    <img
-      src={
-        department?.hod?.image ||
-        "https://via.placeholder.com/220x260?text=HOD"
-      }
-      alt={department?.hod?.name}
-      className="w-[220px] h-[260px] object-cover rounded-xl shadow-md"
-    />
+                <div>
+                  <h3 className="text-2xl font-semibold text-[#2F2F6F]">
+                    {department?.hod?.fullName}
+                  </h3>
 
-    <div>
-      <h3 className="text-2xl font-semibold text-[#2F2F6F]">
-        {department?.hod?.name}
-      </h3>
+                  <p className="text-[#E91E63] font-medium mt-1">
+                    Head of Department
+                  </p>
 
-      <p className="text-[#E91E63] font-medium mt-1">
-        Head of Department
-      </p>
+                  <p className="mt-6 text-gray-700 leading-8 whitespace-pre-line">
+                    {department?.hodMessage}
+                  </p>
+                </div>
+              </div>
+            </section>
 
-      <p className="mt-6 text-gray-700 leading-8 whitespace-pre-line">
-        {department?.hodMessage}
-      </p>
-    </div>
-  </div>
-</section>
+            {/* Programmes Offered */}
+            <section className="py-10 border-b border-gray-200">
+              <h2 className="text-3xl font-bold text-[#2F2F6F] mb-8">
+                Programmes Offered
+              </h2>
 
-{/* Programmes Offered */}
-<section className="py-10 border-b border-gray-200">
-  <h2 className="text-3xl font-bold text-[#2F2F6F] mb-8">
-    Programmes Offered
-  </h2>
+              {department?.programmes?.length > 0 ? (
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {department.programmes.map((programme) => (
+                    <div
+                      key={programme}
+                      className="bg-white rounded-lg shadow-sm border border-gray-100 px-6 py-5"
+                    >
+                      <p className="font-medium text-gray-700">
+                        {programme}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500">
+                  No programmes available.
+                </p>
+              )}
+            </section>
 
-{department?.programmes?.length > 0 ? (
-  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-    {department.programmes.map((programme) => (
-      <div
-        key={programme}
-        className="bg-white rounded-lg shadow-sm border border-gray-100 px-6 py-5"
-      >
-        <p className="font-medium text-gray-700">
-          {programme}
-        </p>
-      </div>
-    ))}
-  </div>
-) : (
-  <p className="text-gray-500">
-    No programmes available.
-  </p>
-)}
+            {/* Faculty Members */}
+            <section className="py-12">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-3xl font-bold text-[#2F2F6F]">
+                  Our Faculty
+                </h2>
 
-</section>
+                <span className="text-gray-500">
+                  {department?.faculty?.length || 0} Faculty Members
+                </span>
+              </div>
 
-{/* Faculty Members */}
-<section className="py-12">
-  <div className="flex items-center justify-between mb-8">
-    <h2 className="text-3xl font-bold text-[#2F2F6F]">
-      Our Faculty
-    </h2>
+              {department?.faculty?.length > 0 ? (
+                <div className="grid gap-8 justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                  {department.faculty.map((member) => (
+                    <FacultyCard
+                      key={member._id}
+                      faculty={member}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-white rounded-lg border border-gray-200 py-12 text-center text-gray-500">
+                  No faculty members found.
+                </div>
+              )}
+            </section>
 
-    <span className="text-gray-500">
-      {department?.faculty?.length || 0} Faculty Members
-    </span>
-  </div>
-
-  {department?.faculty?.length > 0 ? (
-    <div className="grid gap-8 justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {department.faculty.map((member) => (
-        <FacultyCard
-          key={member._id}
-          faculty={member}
-        />
-      ))}
-    </div>
-  ) : (
-    <div className="bg-white rounded-lg border border-gray-200 py-12 text-center text-gray-500">
-      No faculty members found.
-    </div>
-  )}
-</section>
           </div>
-
         </section>
       )}
 

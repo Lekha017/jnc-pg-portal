@@ -4,6 +4,7 @@ import {
   createDepartment,
   getDepartments,
   getDepartmentById,
+  getDepartmentBySlug,
   updateDepartment,
   deleteDepartment,
 } from "../controllers/departmentController.js";
@@ -19,7 +20,11 @@ const router = express.Router();
 
 router.get("/", getDepartments);
 
-router.get("/:slug", getDepartmentById);
+// Get by MongoDB ID (Admin Edit)
+router.get("/id/:id", getDepartmentById);
+
+// Get by slug (Public Details)
+router.get("/:slug", getDepartmentBySlug);
 
 // =======================
 // ADMIN ROUTES

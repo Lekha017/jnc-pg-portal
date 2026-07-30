@@ -17,14 +17,6 @@ const departmentSchema = new mongoose.Schema(
       trim: true,
     },
 
-    code: {
-      type: String,
-      required: true,
-      unique: true,
-      uppercase: true,
-      trim: true,
-    },
-
     about: {
       type: String,
       required: true,
@@ -44,9 +36,9 @@ const departmentSchema = new mongoose.Schema(
     },
 
     hod: {
-      type: String,
-      default: "",
-      trim: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Faculty",
+      default: null,
     },
 
     hodMessage: {
@@ -62,35 +54,6 @@ const departmentSchema = new mongoose.Schema(
       },
     ],
 
-    email: {
-      type: String,
-      default: "",
-      lowercase: true,
-      trim: true,
-    },
-
-    phone: {
-      type: String,
-      default: "",
-      trim: true,
-    },
-
-    location: {
-      type: String,
-      default: "",
-      trim: true,
-    },
-
-    image: {
-      type: String,
-      default: "", // Department Image (Cloudinary)
-    },
-
-    bannerImage: {
-      type: String,
-      default: "", // Banner Image (Cloudinary)
-    },
-
     isActive: {
       type: Boolean,
       default: true,
@@ -101,4 +64,7 @@ const departmentSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Department", departmentSchema);
+export default mongoose.model(
+  "Department",
+  departmentSchema
+);

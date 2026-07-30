@@ -11,45 +11,64 @@ const api = axios.create({
 // Public APIs
 // ==============================
 
-export const getAllFaculty = (params) =>
-  api.get("/", { params });
+export const getAllFaculty = async (params) => {
+  const { data } = await api.get("/", { params });
+  return data;
+};
 
-export const getFacultyById = (id) =>
-  api.get(`/${id}`);
+export const getFacultyDropdown = async () => {
+  const { data } = await api.get("/dropdown");
+  return data;
+};
+
+export const getFacultyById = async (id) => {
+  const { data } = await api.get(`/${id}`);
+  return data;
+};
 
 // ==============================
 // Admin APIs
 // ==============================
 
-export const createFaculty = (data) =>
-  api.post("/", data, {
+export const createFaculty = async (formData) => {
+  const { data } = await api.post("/", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
+  return data;
+};
 
-export const updateFaculty = (id, data) =>
-  api.put(`/${id}`, data, {
+export const updateFaculty = async (id, formData) => {
+  const { data } = await api.put(`/${id}`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
+  return data;
+};
 
-export const deleteFaculty = (id) =>
-  api.delete(`/${id}`);
+export const deleteFaculty = async (id) => {
+  const { data } = await api.delete(`/${id}`);
+  return data;
+};
 
 // ==============================
 // Faculty APIs
 // ==============================
 
-export const getMyFacultyProfile = () =>
-  api.get("/me/profile");
+export const getMyFacultyProfile = async () => {
+  const { data } = await api.get("/me/profile");
+  return data;
+};
 
-export const updateMyFacultyProfile = (data) =>
-  api.put("/me/profile", data, {
+export const updateMyFacultyProfile = async (formData) => {
+  const { data } = await api.put("/me/profile", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
+  return data;
+};
 
 export default api;

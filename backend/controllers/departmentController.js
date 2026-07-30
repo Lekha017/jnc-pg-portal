@@ -8,25 +8,18 @@ export const createDepartment = async (req, res) => {
     const {
       name,
       slug,
-      code,
       about,
       vision,
       mission,
       hod,
       hodMessage,
       programmes,
-      email,
-      phone,
-      location,
-      image,
-      bannerImage,
     } = req.body;
 
     const existingDepartment = await Department.findOne({
       $or: [
         { name },
         { slug },
-        { code: code?.toUpperCase() },
       ],
     });
 
@@ -40,18 +33,12 @@ export const createDepartment = async (req, res) => {
     const department = await Department.create({
       name,
       slug,
-      code: code?.toUpperCase(),
       about,
       vision,
       mission,
       hod,
       hodMessage,
       programmes,
-      email,
-      phone,
-      location,
-      image,
-      bannerImage,
     });
 
     res.status(201).json({
@@ -72,9 +59,11 @@ export const createDepartment = async (req, res) => {
 // =======================
 export const getDepartments = async (req, res) => {
   try {
-    const departments = await Department.find({
-      isActive: true,
-    }).sort({ name: 1 });
+   const departments = await Department.find({
+  isActive: true,
+})
+  .populate("hod", "fullName")
+  .sort({ name: 1 });
 
     res.status(200).json({
       success: true,
@@ -90,12 +79,38 @@ export const getDepartments = async (req, res) => {
 };
 
 // =======================
-// GET DEPARTMENT BY SLUG
+// GET DEPARTMENT BY ID
 // =======================
-// =======================
-// GET DEPARTMENT BY SLUG
-// =======================
+
 export const getDepartmentById = async (req, res) => {
+  try {
+    const department = await Department.findById(req.params.id)
+      .populate("hod");
+
+    if (!department) {
+      return res.status(404).json({
+        success: false,
+        message: "Department not found.",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: department,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// =======================
+// GET DEPARTMENT BY SLUG
+// =======================
+
+export const getDepartmentBySlug = async (req, res) => {
   try {
     const department = await Department.findOne({
       slug: req.params.slug,

@@ -18,6 +18,11 @@ export const getDepartmentBySlug = async (slug) => {
 // ADMIN
 // =======================
 
+export const getDepartmentById = async (id) => {
+  const response = await api.get(`/departments/id/${id}`);
+  return response.data.data;
+};
+
 export const createDepartment = async (departmentData) => {
   const response = await api.post("/departments", departmentData);
   return response.data;
