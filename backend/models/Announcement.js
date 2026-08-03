@@ -33,17 +33,6 @@ const announcementSchema = new mongoose.Schema(
       default: null,
     },
 
-    attachment: {
-      url: {
-        type: String,
-        default:"",
-      },
-      public_id: {
-        type: String,
-        default: "",
-      },
-    },
-
     important: {
       type: Boolean,
       default: false,
@@ -75,4 +64,7 @@ const announcementSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Announcement", announcementSchema);
+export default mongoose.model(
+  "Announcement",
+  announcementSchema
+);

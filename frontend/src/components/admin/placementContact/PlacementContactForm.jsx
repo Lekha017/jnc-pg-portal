@@ -69,7 +69,7 @@ const PlacementContactForm = ({
     );
 
   }, [selectedContact]);
-    // ==========================
+  // ==========================
   // Handle Input Change
   // ==========================
 
@@ -213,13 +213,13 @@ const PlacementContactForm = ({
 
       toast.error(
         error.response?.data?.message ||
-          "Operation Failed"
+        "Operation Failed"
       );
 
     }
 
   };
-    return (
+  return (
     <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 sticky top-6">
 
       {/* Heading */}
@@ -283,6 +283,7 @@ const PlacementContactForm = ({
 
           <label className="block font-semibold text-gray-700 mb-2">
             Designation
+            <span className="text-red-500">*</span>
           </label>
 
           <input
@@ -302,6 +303,7 @@ const PlacementContactForm = ({
 
           <label className="block font-semibold text-gray-700 mb-2">
             Department
+            <span className="text-red-500">*</span>
           </label>
 
           <input
@@ -321,6 +323,7 @@ const PlacementContactForm = ({
 
           <label className="block font-semibold text-gray-700 mb-2">
             Email
+            <span className="text-red-500">*</span>
           </label>
 
           <input
@@ -340,6 +343,7 @@ const PlacementContactForm = ({
 
           <label className="block font-semibold text-gray-700 mb-2">
             Phone
+            <span className="text-red-500">*</span>
           </label>
 
           <input
@@ -359,6 +363,7 @@ const PlacementContactForm = ({
 
           <label className="block font-semibold text-gray-700 mb-2">
             Description
+            <span className="text-red-500">*</span>
           </label>
 
           <textarea
@@ -371,7 +376,7 @@ const PlacementContactForm = ({
           />
 
         </div>
-                {/* Profile Image */}
+        {/* Profile Image */}
 
         <div>
 

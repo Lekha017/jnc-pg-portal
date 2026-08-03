@@ -18,6 +18,7 @@ import placementRoutes from "./routes/placementRoutes.js";
 import recruiterRoutes from "./routes/recruiterRoutes.js";
 import placementContactRoutes from "./routes/placementContactRoutes.js";
 import facultyRoutes from "./routes/facultyRoutes.js";
+import placementGalleryRoutes from "./routes/placementGalleryRoutes.js";
 
 dotenv.config();
 
@@ -57,6 +58,7 @@ app.use("/api/placements", placementRoutes);
 app.use("/api/recruiters", recruiterRoutes);
 app.use("/api/placement-contact", placementContactRoutes);
 app.use("/api/faculty", facultyRoutes);
+app.use("/api/placement-gallery",placementGalleryRoutes);
 
 app.get("/", (req, res) => {
   res.send("🚀 JNC PG Portal Backend Running...");

@@ -1,39 +1,53 @@
-import api from "../api/axios";
+import api from "./api";
 
-// ==========================
-// Public Announcements
-// ==========================
+/* ===========================
+   PUBLIC
+=========================== */
+
 export const getAnnouncements = async () => {
-  const response = await api.get("/announcements");
-  return response.data;
+  const { data } = await api.get("/announcements");
+  return data;
 };
 
-// ==========================
-// Get Single Announcement
-// ==========================
 export const getAnnouncementById = async (id) => {
-  const response = await api.get(`/announcements/${id}`);
-  return response.data;
+  const { data } = await api.get(`/announcements/${id}`);
+  return data;
 };
 
-// ==========================
-// Get By Category
-// ==========================
-export const getAnnouncementsByCategory = async (category) => {
-  const response = await api.get(
-    `/announcements/category/${category}`
+/* ===========================
+   ADMIN
+=========================== */
+
+export const getAllAnnouncements = async () => {
+  const { data } = await api.get("/announcements/admin/all");
+  return data;
+};
+
+export const createAnnouncement = async (announcement) => {
+  const { data } = await api.post(
+    "/announcements",
+    announcement
   );
-  return response.data;
+
+  return data;
 };
 
-// ==========================
-// Get By Department
-// ==========================
-export const getAnnouncementsByDepartment = async (
-  departmentId
+export const updateAnnouncement = async (
+  id,
+  announcement
 ) => {
-  const response = await api.get(
-    `/announcements/department/${departmentId}`
+  const { data } = await api.put(
+    `/announcements/${id}`,
+    announcement
   );
-  return response.data;
+
+  return data;
+};
+
+export const deleteAnnouncement = async (id) => {
+  const { data } = await api.delete(
+    `/announcements/${id}`
+  );
+
+  return data;
 };

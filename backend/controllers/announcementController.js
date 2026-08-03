@@ -3,15 +3,25 @@ import Announcement from "../models/Announcement.js";
 // Create Announcement
 export const createAnnouncement = async (req, res) => {
   try {
-    const announcement = await Announcement.create({
-      ...req.body,
+   const announcement = await Announcement.create({
+  ...req.body,
 
-      isPublished:
-        req.body.isPublished === "true" ||
-        req.body.isPublished === true,
+  department:
+    req.body.department === ""
+      ? null
+      : req.body.department,
 
-      createdBy: req.user.id,
-    });
+  important:
+    req.body.important === "true" ||
+    req.body.important === true,
+
+  isPublished:
+    req.body.isPublished === "true" ||
+    req.body.isPublished === true,
+
+
+  createdBy: req.user.id,
+});
 
     res.status(201).json({
       success: true,
@@ -52,6 +62,7 @@ export const getAnnouncements = async (req, res) => {
     });
   }
 };
+
 
 // Get Announcement By ID
 export const getAnnouncementById = async (req, res) => {
@@ -136,13 +147,22 @@ export const getAnnouncementsByDepartment = async (req, res) => {
 // Update Announcement
 export const updateAnnouncement = async (req, res) => {
   try {
-    const updateData = {
-      ...req.body,
+   const updateData = {
+  ...req.body,
 
-      isPublished:
-        req.body.isPublished === "true" ||
-        req.body.isPublished === true,
-    };
+  department:
+    req.body.department === ""
+      ? null
+      : req.body.department,
+
+  important:
+    req.body.important === "true" ||
+    req.body.important === true,
+
+  isPublished:
+    req.body.isPublished === "true" ||
+    req.body.isPublished === true,
+};
 
     const announcement = await Announcement.findByIdAndUpdate(
       req.params.id,
@@ -166,11 +186,16 @@ export const updateAnnouncement = async (req, res) => {
       data: announcement,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
+console.error("UPDATE ERROR FULL:");
+console.error(error);
+console.error(error.message);
+console.error(error.stack);
+
+  res.status(500).json({
+    success: false,
+    message: error.message,
+  });
+}
 };
 
 // Delete Announcement

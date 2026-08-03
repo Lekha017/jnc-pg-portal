@@ -40,7 +40,9 @@ const GalleryList = ({
     try {
       await deleteGallery(id);
 
-      toast.success("Gallery Deleted Successfully");
+      toast.success(
+        "Gallery Deleted Successfully"
+      );
 
       fetchGalleries();
     } catch (error) {
@@ -53,15 +55,18 @@ const GalleryList = ({
     }
   };
 
-  const filteredGalleries = galleries.filter((gallery) =>
-    gallery.title.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredGalleries =
+    galleries.filter((gallery) =>
+      gallery.title
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    );
 
   return (
     <div className="bg-white rounded-2xl shadow-md border border-gray-200">
 
       {/* Header */}
-      <div className="flex items-center justify-between px-7 py-5 border-b">
+      <div className="flex items-center justify-between px-7 py-5 border-b border-gray-200">
 
         <h2 className="text-3xl font-bold text-[#2D2A70]">
           Existing Galleries
@@ -78,8 +83,22 @@ const GalleryList = ({
             type="text"
             placeholder="Search galleries..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full border rounded-xl pl-11 pr-4 py-3 outline-none focus:ring-2 focus:ring-[#2D2A70]"
+            onChange={(e) =>
+              setSearch(e.target.value)
+            }
+            className="
+              w-full
+              border
+              border-gray-300
+              rounded-xl
+              pl-11
+              pr-4
+              py-3
+              outline-none
+              focus:ring-2
+              focus:ring-[#2D2A70]/20
+              focus:border-[#2D2A70]
+            "
           />
 
         </div>
@@ -103,14 +122,18 @@ const GalleryList = ({
 
         ) : (
 
-          filteredGalleries.map((gallery) => (
-            <GalleryCard
-              key={gallery._id}
-              gallery={gallery}
-              onEdit={onEdit}
-              onDelete={handleDelete}
-            />
-          ))
+          filteredGalleries.map(
+            (gallery) => (
+              <GalleryCard
+                key={gallery._id}
+                gallery={gallery}
+                onEdit={onEdit}
+                onDelete={
+                  handleDelete
+                }
+              />
+            )
+          )
 
         )}
 

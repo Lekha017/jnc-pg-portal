@@ -51,10 +51,18 @@ export const getPlacementsByYear = async (year) => {
 // ==========================
 // Create Placement
 // ==========================
-export const createPlacement = async (placementData) => {
+export const createPlacement = async (
+  placementData
+) => {
   const response = await api.post(
     "/placements",
-    placementData
+    placementData,
+    {
+      headers: {
+        "Content-Type":
+          "multipart/form-data",
+      },
+    }
   );
 
   return response.data;
@@ -69,7 +77,13 @@ export const updatePlacement = async (
 ) => {
   const response = await api.put(
     `/placements/${id}`,
-    placementData
+    placementData,
+    {
+      headers: {
+        "Content-Type":
+          "multipart/form-data",
+      },
+    }
   );
 
   return response.data;
@@ -78,7 +92,9 @@ export const updatePlacement = async (
 // ==========================
 // Delete Placement
 // ==========================
-export const deletePlacement = async (id) => {
+export const deletePlacement = async (
+  id
+) => {
   const response = await api.delete(
     `/placements/${id}`
   );
@@ -89,10 +105,12 @@ export const deletePlacement = async (id) => {
 // ==========================
 // Publish / Unpublish
 // ==========================
-export const togglePublishStatus = async (id) => {
-  const response = await api.patch(
-    `/placements/${id}/publish`
-  );
+export const togglePlacementPublish =
+  async (id) => {
+    const response =
+      await api.patch(
+        `/placements/${id}/publish`
+      );
 
-  return response.data;
-};
+    return response.data;
+  };

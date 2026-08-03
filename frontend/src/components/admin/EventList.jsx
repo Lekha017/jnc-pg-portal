@@ -51,19 +51,23 @@ const EventList = ({ onEdit, refresh }) => {
   };
 
   const filteredEvents = events.filter((event) =>
-    event.title.toLowerCase().includes(search.toLowerCase())
+    event.title
+      .toLowerCase()
+      .includes(search.toLowerCase())
   );
 
   return (
     <div className="bg-white rounded-2xl shadow-md border border-gray-200">
 
       {/* Header */}
-      <div className="flex items-center justify-between px-7 py-5 border-b">
+      <div className="flex items-center justify-between px-7 py-5 border-b border-gray-200">
+
         <h2 className="text-3xl font-bold text-[#2D2A70]">
           Existing Events
         </h2>
 
         <div className="relative w-80">
+
           <Search
             size={18}
             className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
@@ -73,23 +77,45 @@ const EventList = ({ onEdit, refresh }) => {
             type="text"
             placeholder="Search events..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full border rounded-xl pl-11 pr-4 py-3 outline-none focus:ring-2 focus:ring-[#2D2A70]"
+            onChange={(e) =>
+              setSearch(e.target.value)
+            }
+            className="
+              w-full
+              border
+              border-gray-300
+              rounded-xl
+              pl-11
+              pr-4
+              py-3
+              outline-none
+              focus:ring-2
+              focus:ring-[#2D2A70]/20
+              focus:border-[#2D2A70]
+            "
           />
+
         </div>
+
       </div>
 
       {/* Event List */}
       <div className="max-h-[760px] overflow-y-auto">
+
         {loading ? (
+
           <div className="py-12 text-center text-gray-500">
             Loading events...
           </div>
+
         ) : filteredEvents.length === 0 ? (
+
           <div className="py-12 text-center text-gray-500">
             No events found.
           </div>
+
         ) : (
+
           filteredEvents.map((event) => (
             <EventCard
               key={event._id}
@@ -98,7 +124,9 @@ const EventList = ({ onEdit, refresh }) => {
               onDelete={handleDelete}
             />
           ))
+
         )}
+
       </div>
 
     </div>

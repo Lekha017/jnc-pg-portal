@@ -30,14 +30,11 @@ router.get("/category/:category", getAnnouncementsByCategory);
 // Get Announcements By Department
 router.get("/department/:departmentId", getAnnouncementsByDepartment);
 
-// Get Single Announcement
-router.get("/:id", getAnnouncementById);
-
 /* ===========================
    Admin Routes
 =========================== */
 
-// Get All Announcements (Published + Draft)
+// Get All Announcements
 router.get(
   "/admin/all",
   protect,
@@ -65,16 +62,22 @@ router.put(
 router.delete(
   "/:id",
   protect,
- authorize("admin"),
+  authorize("admin"),
   deleteAnnouncement
 );
 
-// Publish / Unpublish Announcement
+// Publish / Unpublish
 router.patch(
   "/:id/publish",
   protect,
   authorize("admin"),
   togglePublishStatus
 );
+
+/* ===========================
+   Public Single Route
+=========================== */
+
+router.get("/:id", getAnnouncementById);
 
 export default router;

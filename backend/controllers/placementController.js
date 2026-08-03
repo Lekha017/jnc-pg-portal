@@ -6,7 +6,36 @@ import Placement from "../models/Placement.js";
 export const createPlacement = async (req, res) => {
   try {
     const placement = await Placement.create({
-      ...req.body,
+      studentName: req.body.studentName,
+      usn: req.body.usn,
+      department: req.body.department,
+      company: req.body.company,
+      role: req.body.role,
+      package: req.body.package,
+      placementDate: req.body.placementDate,
+      year: req.body.year,
+      testimonial: req.body.testimonial,
+
+      isPublished:
+        req.body.isPublished === "true" ||
+        req.body.isPublished === true,
+
+      studentPhoto: req.files?.studentPhoto?.[0]
+        ? {
+            url: req.files.studentPhoto[0].path,
+            public_id:
+              req.files.studentPhoto[0].filename,
+          }
+        : undefined,
+
+      companyLogo: req.files?.companyLogo?.[0]
+        ? {
+            url: req.files.companyLogo[0].path,
+            public_id:
+              req.files.companyLogo[0].filename,
+          }
+        : undefined,
+
       createdBy: req.user.id,
     });
 
@@ -16,6 +45,8 @@ export const createPlacement = async (req, res) => {
       data: placement,
     });
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
       success: false,
       message: error.message,
@@ -154,14 +185,39 @@ export const getPlacementsByYear = async (req, res) => {
 // ============================
 export const updatePlacement = async (req, res) => {
   try {
-    const placement = await Placement.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const updateData = {
+      ...req.body,
+
+      isPublished:
+        req.body.isPublished === "true" ||
+        req.body.isPublished === true,
+    };
+
+    if (req.files?.studentPhoto?.[0]) {
+      updateData.studentPhoto = {
+        url: req.files.studentPhoto[0].path,
+        public_id:
+          req.files.studentPhoto[0].filename,
+      };
+    }
+
+    if (req.files?.companyLogo?.[0]) {
+      updateData.companyLogo = {
+        url: req.files.companyLogo[0].path,
+        public_id:
+          req.files.companyLogo[0].filename,
+      };
+    }
+
+    const placement =
+      await Placement.findByIdAndUpdate(
+        req.params.id,
+        updateData,
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
 
     if (!placement) {
       return res.status(404).json({
@@ -172,10 +228,13 @@ export const updatePlacement = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Placement updated successfully",
+      message:
+        "Placement updated successfully",
       data: placement,
     });
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
       success: false,
       message: error.message,
