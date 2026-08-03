@@ -15,6 +15,7 @@ import Faculty from "../pages/Faculty/Faculty";
 import FacultyDetails from "../pages/Faculty/FacultyDetails";
 import EditFaculty from "../pages/Faculty/EditFaculty";
 import FacultyDashboard from "../pages/Faculty/FacultyDashboard";
+import AdmissionsPage from "../pages/Admissions/AdmissionsPage";
 
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import ManageFaculty from "../pages/admin/ManageFaculty";
@@ -90,6 +91,11 @@ const AppRoutes = () => {
         element={<DepartmentDetails />}
       />
 
+      <Route
+        path="/admissions"
+        element={<AdmissionsPage />}
+      />
+
       {/* ================= LIBRARY ================= */}
 
       <Route
@@ -145,7 +151,7 @@ const AppRoutes = () => {
         }
       />
 
-     
+
       <Route
         path="/admin/placements"
         element={

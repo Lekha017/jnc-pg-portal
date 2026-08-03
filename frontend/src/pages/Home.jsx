@@ -7,6 +7,7 @@ import EventsAnnouncements from "../components/home/EventsAnnouncements";
 import PlacementPreview from "../components/home/PlacementPreview";
 import LocationMap from "../components/home/LocationMap";
 import Footer from "../components/layout/Footer";
+import DepartmentSlider from "../components/home/DepartmentSlider";
 
 function Home() {
   return (
@@ -35,6 +36,8 @@ function Home() {
 
         </div>
       </section>
+
+      <DepartmentSlider />
 
       {/* Location */}
       <LocationMap />
