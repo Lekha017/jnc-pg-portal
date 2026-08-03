@@ -51,13 +51,41 @@ const Header = () => {
           {/* Right */}
           <div className="flex items-center gap-3 ml-auto">
 
-            <button className="bg-[#FF2D55] hover:bg-[#e6264c] text-white text-[13px] font-medium px-7 py-[11px] rounded">
+            <button
+              className="
+      bg-[#FF2D55]
+      hover:bg-[#e6264c]
+      text-white
+      text-[13px]
+      font-medium
+      px-7
+      py-[11px]
+      rounded
+      transition-all
+      duration-200
+    "
+            >
               ONLINE PAYMENT
             </button>
 
-            <button className="bg-[#FF2D55] hover:bg-[#e6264c] text-white text-[13px] font-medium px-7 py-[11px] rounded">
-              Admissions 2026-27
-            </button>
+            <Link to="/admissions">
+              <button
+                className="
+        bg-[#FF2D55]
+        hover:bg-[#e6264c]
+        text-white
+        text-[13px]
+        font-medium
+        px-7
+        py-[11px]
+        rounded
+        transition-all
+        duration-200
+      "
+              >
+                ADMISSIONS 2026-2027
+              </button>
+            </Link>
 
           </div>
 
@@ -72,8 +100,8 @@ const Header = () => {
 
           {/* Logo */}
 
-        <Link to="/" className="flex-1 flex items-center">
-           <Logo className="w-[650px] h-auto" />
+          <Link to="/" className="flex-1 flex items-center">
+            <Logo className="w-[650px] h-auto" />
           </Link>
 
           {/* Statistics */}
