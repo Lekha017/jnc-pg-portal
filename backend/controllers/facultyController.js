@@ -9,15 +9,15 @@ import bcrypt from "bcryptjs";
 ===================================================== */
 export const createFaculty = async (req, res) => {
   try {
-    const {
-      fullName,
-      email,
-      password,
-      phone,
-      designation,
-      departments,
-      bio,
-    } = req.body;
+   const {
+  fullName,
+  email,
+  password,
+  phone,
+  designation,
+  departments,
+  bio,
+} = req.body;
 
     // Required field validation
     if (
@@ -153,6 +153,25 @@ export const getAllFaculty = async (req, res) => {
   }
 };
 
+export const getFacultyDropdown = async (req, res) => {
+  try {
+    const faculty = await Faculty.find(
+      {},
+      "fullName designation"
+    ).sort({ fullName: 1 });
+
+    res.status(200).json({
+      success: true,
+      data: faculty,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 /* =====================================================
    GET FACULTY BY ID
 ===================================================== */
@@ -206,13 +225,22 @@ export const updateFaculty = async (req, res) => {
     }
 
     // Update linked user
-    if (faculty.user) {
-      await User.findByIdAndUpdate(faculty.user, {
-        fullName,
-        email,
-        phone,
-      });
-    }
+   if (faculty.user) {
+  const updateData = {
+    fullName,
+    email,
+    phone,
+  };
+
+  if (password && password.trim() !== "") {
+    updateData.password = await bcrypt.hash(password, 10);
+  }
+
+  await User.findByIdAndUpdate(
+    faculty.user,
+    updateData
+  );
+}
 
     faculty.fullName = fullName;
     faculty.email = email;

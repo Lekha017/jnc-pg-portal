@@ -10,6 +10,7 @@ const FacultyForm = ({
   loading,
 }) => {
   const [formData, setFormData] = useState({
+    _id: "",
     fullName: "",
     email: "",
     password: "",
@@ -22,13 +23,13 @@ const FacultyForm = ({
 
   useEffect(() => {
     setFormData({
+      _id: initialData._id || "",
       fullName: initialData.fullName || "",
       email: initialData.email || "",
       password: "",
       phone: initialData.phone || "",
       designation: initialData.designation || "",
-      departments:
-        initialData.departments?.[0]?._id || "",
+      departments: initialData.departments?.[0]?._id || "",
       bio: initialData.bio || "",
       image: initialData.image || null,
     });
@@ -56,6 +57,8 @@ const FacultyForm = ({
     const data = new FormData();
 
     Object.entries(formData).forEach(([key, value]) => {
+      if (key === "_id") return;
+
       if (key === "image") {
         if (value instanceof File) {
           data.append("image", value);
@@ -87,7 +90,7 @@ const FacultyForm = ({
         <Button
           type="submit"
           loading={loading}
-          text="Save Faculty"
+          text={initialData?._id ? "Update Faculty" : "Save Faculty"}
           className="w-auto px-8"
         />
       </div>

@@ -13,22 +13,28 @@ import Register from "../pages/auth/Register";
 
 import Faculty from "../pages/Faculty/Faculty";
 import FacultyDetails from "../pages/Faculty/FacultyDetails";
-import AddFaculty from "../pages/Faculty/AddFaculty";
 import EditFaculty from "../pages/Faculty/EditFaculty";
 import FacultyDashboard from "../pages/Faculty/FacultyDashboard";
 
-import AdminDashboard from "../pages/Admin/AdminDashboard";
-import DepartmentDetails from "../pages/Department/DepartmentDetails";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import ManageFaculty from "../pages/admin/ManageFaculty";
+import AddFaculty from "../pages/admin/AddFaculty";
+import AdminEditFaculty from "../pages/admin/AdminEditFaculty";
 
 import Library from "../pages/Library";
 import PlacementGallery from "../pages/PlacementGallery";
 
+import AddDepartment from "../pages/admin/AddDepartment";
+import EditDepartment from "../pages/admin/EditDepartment";
+import ManageDepartments from "../pages/admin/ManageDepartments";
+
 import ManageEvents from "../pages/Admin/ManageEvents";
-// import ManageRecruiters from "../pages/admin/ManageRecruiters";
-// import ManagePlacementContact from "../pages/admin/ManagePlacementContact";
+
 import ManageAnnouncements from "../pages/admin/ManageAnnouncements";
-// import ManagePlacementGallery from "../pages/admin/ManagePlacementGallery";
+
 import ManagePlacements from "../pages/Admin/ManagePlacements";
+
+import DepartmentDetails from "../pages/Department/DepartmentDetails";
 
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -40,6 +46,7 @@ const AppRoutes = () => {
 
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
+
 
       <Route
         path="/events"
@@ -66,6 +73,7 @@ const AppRoutes = () => {
         element={<PlacementTraining />}
       />
 
+
       <Route
         path="/placement-contact"
         element={<PlacementContact />}
@@ -75,6 +83,7 @@ const AppRoutes = () => {
         path="/placement-gallery"
         element={<PlacementGallery />}
       />
+
 
       <Route
         path="/department/:slug"
@@ -94,10 +103,12 @@ const AppRoutes = () => {
 
       {/* ================= FACULTY PUBLIC ================= */}
 
+
       <Route
         path="/faculty"
         element={<Faculty />}
       />
+
 
       <Route
         path="/faculty/:id"
@@ -134,38 +145,50 @@ const AppRoutes = () => {
         }
       />
 
-      {/* <Route
-        path="/admin/recruiters"
-        element={
-          <ProtectedRoute roles={["admin"]}>
-            <ManageRecruiters />
-          </ProtectedRoute>
-        }
-      /> */}
-
-      {/* <Route
-        path="/admin/placement-contact"
-        element={
-          <ProtectedRoute roles={["admin"]}>
-            <ManagePlacementContact />
-          </ProtectedRoute>
-        }
-      /> */}
-
-      {/* <Route
-        path="/admin/placement-gallery"
-        element={
-          <ProtectedRoute roles={["admin"]}>
-            <ManagePlacementGallery />
-          </ProtectedRoute>
-        }
-      /> */}
-
+     
       <Route
         path="/admin/placements"
         element={
           <ProtectedRoute roles={["admin"]}>
             <ManagePlacements />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/departments"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <ManageDepartments />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/departments/add"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <AddDepartment />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/departments/edit/:id"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <EditDepartment />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* ================= FACULTY ADMIN ================= */}
+
+      <Route
+        path="/admin/faculty"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <ManageFaculty />
           </ProtectedRoute>
         }
       />
@@ -183,7 +206,7 @@ const AppRoutes = () => {
         path="/admin/faculty/edit/:id"
         element={
           <ProtectedRoute roles={["admin"]}>
-            <EditFaculty />
+            <AdminEditFaculty />
           </ProtectedRoute>
         }
       />

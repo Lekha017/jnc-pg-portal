@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Navbar from "../../components/layout/Navbar";
 import FacultyForm from "../../components/faculty/FacultyForm";
 
 import Loader from "../../components/common/Loader";
@@ -57,7 +56,7 @@ const AddFaculty = () => {
       });
 
       setTimeout(() => {
-        navigate("/faculty");
+        navigate("/admin/faculty");
       }, 1200);
     } catch (error) {
       console.error("Error adding faculty:", error);
@@ -74,19 +73,12 @@ const AddFaculty = () => {
     }
   };
 
-  if (pageLoading) {
-    return (
-      <>
-        <Navbar />
-        <Loader text="Loading departments..." />
-      </>
-    );
-  }
+if (pageLoading) {
+  return <Loader text="Loading departments..." />;
+}
 
   return (
     <>
-      <Navbar />
-
       <section className="min-h-screen bg-gray-50 py-10">
         <div className="max-w-5xl mx-auto px-6">
           <div className="mb-8">

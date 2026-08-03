@@ -8,6 +8,7 @@ import {
   deleteFaculty,
   getMyProfile,
   updateMyProfile,
+  getFacultyDropdown,
 } from "../controllers/facultyController.js";
 
 import { protect } from "../middleware/authMiddleware.js";
@@ -22,6 +23,9 @@ const router = express.Router();
 
 // Get all faculty
 router.get("/", getAllFaculty);
+
+// Faculty dropdown
+router.get("/dropdown", getFacultyDropdown);
 
 // Get faculty by ID
 router.get("/:id", getFacultyById);
