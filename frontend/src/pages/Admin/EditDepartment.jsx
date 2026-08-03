@@ -122,31 +122,36 @@ setFacultyList(res.data || []);
         });
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+   const handleSubmit = async (e) => {
+  e.preventDefault();
 
-        try {
-            await updateDepartment(id, formData);
-
-            setToast({
-                show: true,
-                message: "Department updated successfully.",
-                type: "success",
-            });
-
-            setTimeout(() => {
-                navigate("/admin/departments");
-            }, 1000);
-        } catch (err) {
-            console.error(err);
-
-            setToast({
-                show: true,
-                message: "Failed to update department.",
-                type: "error",
-            });
-        }
+  try {
+    const data = {
+      ...formData,
+      hod: formData.hod === "" ? null : formData.hod,
     };
+
+    await updateDepartment(id, data);
+
+    setToast({
+      show: true,
+      message: "Department updated successfully.",
+      type: "success",
+    });
+
+    setTimeout(() => {
+      navigate("/admin/departments");
+    }, 1000);
+  } catch (err) {
+    console.error(err);
+
+    setToast({
+      show: true,
+      message: "Failed to update department.",
+      type: "error",
+    });
+  }
+};
 
     if (loading) {
         return (
@@ -215,16 +220,16 @@ setFacultyList(res.data || []);
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
                     />
 
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Head of Department *
-                    </label>
-                    <select
-                        name="hod"
-                        value={formData.hod}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
-                    >
+                 <label className="block text-sm font-medium text-gray-700 mb-2">
+  Head of Department
+</label>
+
+<select
+  name="hod"
+  value={formData.hod}
+  onChange={handleChange}
+  className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
+>
                         <option value="">Select HOD</option>
 
                         {facultyList.map((faculty) => (

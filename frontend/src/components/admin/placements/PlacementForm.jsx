@@ -8,7 +8,7 @@ import {
 import {
     UploadCloud,
 } from "lucide-react";
-import { getDepartments } from "../../../services/departmentService";
+import { getAllDepartments } from "../../../services/departmentService";
 
 function PlacementForm({
     selectedPlacement,
@@ -68,18 +68,17 @@ function PlacementForm({
         }
     }, [selectedPlacement]);
 
-    const fetchDepartments = async () => {
-        try {
-            const res = await getDepartments();
+  const fetchDepartments = async () => {
+  try {
+   const departments = await getAllDepartments();
+setDepartments(departments);
+  } catch (error) {
+    console.error(error);
+    setDepartments([]);
+  }
+};
 
-            console.log("FULL RESPONSE:", res);
-
-            setDepartments(res || []);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-    const handleChange = (e) => {
+const handleChange = (e) => {
         const {
             name,
             value,

@@ -12,7 +12,7 @@ import {
   updateAnnouncement,
 } from "../../../services/announcementService";
 
-import { getDepartments } from "../../../services/departmentService";
+import { getAllDepartments } from "../../../services/departmentService";
 
 function AnnouncementForm({
   selectedAnnouncement,
@@ -78,17 +78,15 @@ function AnnouncementForm({
 
   }, [selectedAnnouncement]);
 
-  const loadDepartments =
-    async () => {
-      try {
-        const data =
-          await getDepartments();
-
-        setDepartments(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+const loadDepartments = async () => {
+  try {
+   const departments = await getAllDepartments();
+setDepartments(departments);
+  } catch (error) {
+    console.error(error);
+    setDepartments([]);
+  }
+};
   const handleChange = (e) => {
     const {
       name,

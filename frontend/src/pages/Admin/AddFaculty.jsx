@@ -7,7 +7,7 @@ import Loader from "../../components/common/Loader";
 import Toast from "../../components/common/Toast";
 import AdminLayout from "../../components/layout/AdminLayout";
 
-import { getDepartments } from "../../services/departmentService";
+import { getAllDepartments } from "../../services/departmentService";
 import { createFaculty } from "../../services/facultyService";
 
 const AddFaculty = () => {
@@ -27,13 +27,12 @@ const AddFaculty = () => {
     fetchDepartments();
   }, []);
 
- const fetchDepartments = async () => {
+const fetchDepartments = async () => {
   try {
-    const response = await getDepartments();
-
-    setDepartments(response.data || []);
+    const data = await getAllDepartments();
+    setDepartments(data);
   } catch (error) {
-    console.error("Error loading departments:", error);
+    console.error(error);
 
     setToast({
       show: true,

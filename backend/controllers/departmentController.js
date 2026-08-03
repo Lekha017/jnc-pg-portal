@@ -31,16 +31,16 @@ export const createDepartment = async (req, res) => {
       });
     }
 
-    const department = await Department.create({
-      name,
-      slug,
-      about,
-      vision,
-      mission,
-      hod,
-      hodMessage,
-      programmes,
-    });
+   const department = await Department.create({
+  name,
+  slug,
+  about,
+  vision,
+  mission,
+  hod: hod || null,
+  hodMessage,
+  programmes,
+});
 
     res.status(201).json({
       success: true,
@@ -164,14 +164,19 @@ export const getDepartmentBySlug = async (req, res) => {
 // =======================
 export const updateDepartment = async (req, res) => {
   try {
-    const department = await Department.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const updateData = {
+  ...req.body,
+  hod: req.body.hod || null,
+};
+
+const department = await Department.findByIdAndUpdate(
+  req.params.id,
+  updateData,
+  {
+    new: true,
+    runValidators: true,
+  }
+);
 
     if (!department) {
       return res.status(404).json({

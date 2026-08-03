@@ -12,7 +12,7 @@ import { getPlacementContacts } from "../../services/placementContactService";
 
 import PlacementGalleryForm from "../../components/admin/placementGallery/PlacementGalleryForm";
 import PlacementGalleryList from "../../components/admin/placementGallery/PlacementGalleryList";
-
+import AdminLayout from "../../components/layout/AdminLayout";
 import { getPlacementGalleries } from "../../services/placementGalleryService";
 
 function ManagePlacements() {
@@ -140,6 +140,7 @@ function ManagePlacements() {
 
     }, [contactRefresh]);
     return (
+         <AdminLayout>
         <div className="min-h-screen bg-gray-100 py-8 px-6">
 
             <div className="max-w-7xl mx-auto">
@@ -380,6 +381,7 @@ function ManagePlacements() {
             </div>
 
         </div>
+        </AdminLayout>
     );
 }
 

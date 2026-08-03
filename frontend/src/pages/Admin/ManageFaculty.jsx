@@ -13,7 +13,7 @@ import {
   getAllFaculty,
   deleteFaculty,
 } from "../../services/facultyService";
-import { getDepartments } from "../../services/departmentService";
+import { getAllDepartments } from "../../services/departmentService";
 
 const ManageFaculty = () => {
   const navigate = useNavigate();
@@ -50,8 +50,8 @@ const ManageFaculty = () => {
 
   const fetchDepartments = async () => {
   try {
-    const response = await getDepartments();
-    setDepartments(response.data || []);
+    const data = await getAllDepartments();
+    setDepartments(data);
   } catch (error) {
     console.error(error);
 

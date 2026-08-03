@@ -12,6 +12,18 @@ export const getDepartments = async (params = {}) => {
   return response.data;
 };
 
+// Used for dropdowns (loads all departments)
+export const getAllDepartments = async () => {
+  const response = await api.get("/departments", {
+    params: {
+      page: 1,
+      limit: 1000,
+    },
+  });
+
+  return response.data.data || [];
+};
+
 export const getDepartmentBySlug = async (slug) => {
   const response = await api.get(`/departments/${slug}`);
   return response.data.data;

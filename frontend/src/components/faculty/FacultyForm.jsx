@@ -16,7 +16,7 @@ const FacultyForm = ({
     password: "",
     phone: "",
     designation: "",
-    departments: "",
+    departments: [],
     bio: "",
     image: null,
   });
@@ -29,7 +29,10 @@ const FacultyForm = ({
       password: "",
       phone: initialData.phone || "",
       designation: initialData.designation || "",
-      departments: initialData.departments?.[0]?._id || "",
+      departments:
+        initialData.departments?.map(
+          (dept) => dept._id
+        ) || [],
       bio: initialData.bio || "",
       image: initialData.image || null,
     });
@@ -63,12 +66,24 @@ const FacultyForm = ({
         if (value instanceof File) {
           data.append("image", value);
         }
-      } else if (
-        key !== "password" ||
-        value.trim() !== ""
-      ) {
-        data.append(key, value);
+        return;
       }
+
+      if (key === "departments") {
+        value.forEach((id) =>
+          data.append("departments", id)
+        );
+        return;
+      }
+
+      if (key === "password") {
+        if (value.trim() !== "") {
+          data.append("password", value);
+        }
+        return;
+      }
+
+      data.append(key, value);
     });
 
     onSubmit(data);
@@ -90,7 +105,11 @@ const FacultyForm = ({
         <Button
           type="submit"
           loading={loading}
-          text={initialData?._id ? "Update Faculty" : "Save Faculty"}
+          text={
+            initialData?._id
+              ? "Update Faculty"
+              : "Save Faculty"
+          }
           className="w-auto px-8"
         />
       </div>

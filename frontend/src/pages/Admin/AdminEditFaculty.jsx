@@ -5,7 +5,7 @@ import FacultyForm from "../../components/faculty/FacultyForm";
 import Loader from "../../components/common/Loader";
 import Toast from "../../components/common/Toast";
 
-import { getDepartments } from "../../services/departmentService";
+import { getAllDepartments } from "../../services/departmentService";
 import {
   getFacultyById,
   updateFaculty,
@@ -31,16 +31,16 @@ const AdminEditFaculty = () => {
     fetchData();
   }, []);
 
- const fetchData = async () => {
+const fetchData = async () => {
   try {
-    const [facultyResponse, departmentResponse] =
+    const [facultyResponse, departments] =
       await Promise.all([
         getFacultyById(id),
-        getDepartments(),
+        getAllDepartments(),
       ]);
 
     setFaculty(facultyResponse.faculty || {});
-    setDepartments(departmentResponse.data || []);
+    setDepartments(departments);
   } catch (error) {
     console.error(error);
 

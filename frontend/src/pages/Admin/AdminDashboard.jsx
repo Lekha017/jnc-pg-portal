@@ -16,16 +16,8 @@ export default function AdminDashboard() {
     path: "/admin/events",
   },
   {
-    title: "Gallery",
-    path: "/admin/gallery",
-  },
-  {
-    title: "Recruiters",
-    path: "/admin/recruiters",
-  },
-  {
     title: "Placements",
-    path: "/admin/placements",
+    path: "/admin/placement-contact",
   },
   {
     title: "Announcements",

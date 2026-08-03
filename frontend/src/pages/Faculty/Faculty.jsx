@@ -10,7 +10,7 @@ import Loader from "../../components/common/Loader";
 import Toast from "../../components/common/Toast";
 
 import { getAllFaculty } from "../../services/facultyService";
-import { getDepartments } from "../../services/departmentService";
+import { getAllDepartments } from "../../services/departmentService";
 
 const Faculty = () => {
   const [faculty, setFaculty] = useState([]);
@@ -41,20 +41,20 @@ const Faculty = () => {
     fetchFaculty();
   }, [currentPage, search, department, designation]);
 
-  const fetchDepartments = async () => {
-    try {
-      const response = await getDepartments();
-      setDepartments(response.data || []);
-    } catch (error) {
-      console.error(error);
+ const fetchDepartments = async () => {
+  try {
+    const data = await getAllDepartments();
+    setDepartments(data);
+  } catch (error) {
+    console.error(error);
 
-      setToast({
-        show: true,
-        message: "Failed to load departments.",
-        type: "error",
-      });
-    }
-  };
+    setToast({
+      show: true,
+      message: "Failed to load departments.",
+      type: "error",
+    });
+  }
+};
 
   const fetchFaculty = async () => {
     try {

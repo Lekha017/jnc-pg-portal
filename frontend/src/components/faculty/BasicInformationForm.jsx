@@ -68,18 +68,29 @@ const BasicInformationForm = ({
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Department <span className="text-red-500">*</span>
+            Departments <span className="text-red-500">*</span>
           </label>
 
           <select
             name="departments"
+            multiple
             value={formData.departments}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
-          >
-            <option value="">Select Department</option>
+            onChange={(e) => {
+              const selectedDepartments = Array.from(
+                e.target.selectedOptions,
+                (option) => option.value
+              );
 
+              handleChange({
+                target: {
+                  name: "departments",
+                  value: selectedDepartments,
+                },
+              });
+            }}
+            required
+            className="w-full h-48 px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
+          >
             {departments.map((department) => (
               <option
                 key={department._id}
@@ -89,6 +100,11 @@ const BasicInformationForm = ({
               </option>
             ))}
           </select>
+
+          <p className="text-xs text-gray-500 mt-2">
+            Hold <strong>Ctrl</strong> (Windows) or{" "}
+            <strong>Cmd</strong> (Mac) to select multiple departments.
+          </p>
         </div>
       </div>
 

@@ -17,24 +17,23 @@ const departmentSchema = new mongoose.Schema(
       trim: true,
     },
 
-    about: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+  about: {
+  type: String,
+  default: "",
+  trim: true,
+},
 
-    vision: {
-      type: String,
-      default: "",
-      trim: true,
-    },
+vision: {
+  type: String,
+  default: "",
+  trim: true,
+},
 
-    mission: {
-      type: String,
-      default: "",
-      trim: true,
-    },
-
+mission: {
+  type: String,
+  default: "",
+  trim: true,
+},
     hod: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Faculty",

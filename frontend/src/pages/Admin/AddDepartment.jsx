@@ -206,14 +206,13 @@ console.log(JSON.stringify(error.response?.data, null, 2));
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Head of Department *
+                Head of Department 
               </label>
 
               <select
                 name="hod"
                 value={formData.hod}
                 onChange={handleChange}
-                required
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
               >
                 <option value="">Select HOD</option>
