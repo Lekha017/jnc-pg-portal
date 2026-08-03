@@ -54,7 +54,7 @@ const GalleryCard = ({
   };
 
   return (
-    <div className="flex items-center justify-between gap-6 px-6 py-5 border-b last:border-b-0 hover:bg-gray-50 transition">
+    <div className="flex items-center justify-between gap-6 px-6 py-5 border-b border-gray-200 last:border-b-0 hover:bg-gray-50 transition">
 
       {/* Left */}
       <div className="flex items-center gap-5 flex-1">
@@ -65,7 +65,7 @@ const GalleryCard = ({
             "https://placehold.co/300x200?text=Gallery"
           }
           alt={gallery.title}
-          className="w-28 h-20 rounded-xl object-cover border shadow-sm"
+          className="w-28 h-20 rounded-xl object-cover border border-gray-200 shadow-sm"
         />
 
         <div className="flex-1">
@@ -102,7 +102,9 @@ const GalleryCard = ({
               : "bg-yellow-100 text-yellow-700"
           }`}
         >
-          {gallery.isPublished ? "Published" : "Draft"}
+          {gallery.isPublished
+            ? "Published"
+            : "Draft"}
         </span>
 
         <button

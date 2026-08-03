@@ -19,28 +19,20 @@ function EventsAnnouncements() {
 
   const fetchEvents = async () => {
     try {
-      const [upcomingRes, ongoingRes] =
-        await Promise.all([
-          getUpcomingEvents(),
-          getOngoingEvents(),
-        ]);
+      const [upcomingRes, ongoingRes] = await Promise.all([
+        getUpcomingEvents(),
+        getOngoingEvents(),
+      ]);
 
-      const upcoming =
-        upcomingRes?.success
-          ? upcomingRes.data
-          : [];
+      const upcoming = upcomingRes?.success
+        ? upcomingRes.data
+        : [];
 
-      const ongoing =
-        ongoingRes?.success
-          ? ongoingRes.data
-          : [];
+      const ongoing = ongoingRes?.success
+        ? ongoingRes.data
+        : [];
 
-      const allEvents = [
-        ...ongoing,
-        ...upcoming,
-      ];
-
-      setEvents(allEvents.slice(0, 2));
+      setEvents([...ongoing, ...upcoming].slice(0, 2));
     } catch (error) {
       console.error(error);
       setEvents([]);
@@ -55,8 +47,6 @@ function EventsAnnouncements() {
 
       if (response.success) {
         setAnnouncements(response.data.slice(0, 2));
-      } else {
-        setAnnouncements([]);
       }
     } catch (error) {
       console.error(error);
@@ -66,7 +56,6 @@ function EventsAnnouncements() {
 
   const formatDate = (date) =>
     new Date(date).toLocaleDateString("en-US", {
-      weekday: "short",
       month: "short",
       day: "numeric",
       year: "numeric",
@@ -76,54 +65,51 @@ function EventsAnnouncements() {
     <div className="w-full">
 
       {/* Tabs */}
-      <div className="flex gap-2 mb-5">
+      <div className="flex gap-2 mb-3">
 
         <button
           onClick={() => setActiveTab("events")}
-          className={`w-40 py-2.5 rounded-md text-sm font-semibold transition ${activeTab === "events"
-            ? "bg-[#37347C] text-white"
-            : "bg-gray-200 text-gray-800"
-            }`}
+          className={`w-32 py-2 rounded-md text-sm font-medium transition ${
+            activeTab === "events"
+              ? "bg-[#37347C] text-white"
+              : "bg-gray-200 text-gray-800"
+          }`}
         >
           Events
         </button>
 
         <button
           onClick={() => setActiveTab("announcements")}
-          className={`w-40 py-2.5 rounded-md text-sm font-semibold transition ${activeTab === "announcements"
-            ? "bg-[#37347C] text-white"
-            : "bg-gray-200 text-gray-800"
-            }`}
+          className={`w-32 py-2 rounded-md text-sm font-medium transition ${
+            activeTab === "announcements"
+              ? "bg-[#37347C] text-white"
+              : "bg-gray-200 text-gray-800"
+          }`}
         >
           Announcements
         </button>
 
       </div>
 
-      {/* ================= EVENTS ================= */}
-
+      {/* EVENTS */}
       {activeTab === "events" && (
         <>
           {loading ? (
-            <div className="bg-white rounded-xl border shadow-sm p-6">
+            <div className="bg-white rounded-xl border shadow-sm p-4">
               Loading...
-            </div>
-          ) : events.length === 0 ? (
-            <div className="bg-white rounded-xl border shadow-sm p-6">
-              No events available.
             </div>
           ) : (
             <>
               {events.map((event) => (
                 <div
                   key={event._id}
-                  className="bg-white rounded-xl px-5 py-3 mb-3 shadow-sm hover:bg-gray-50 transition"
+                  className="bg-white rounded-xl px-4 py-3 mb-2 shadow-sm border border-gray-100"
                 >
-                  <h3 className="text-base font-semibold text-[#37347C] line-clamp-1">
+                  <h3 className="text-lg font-semibold text-[#37347C] line-clamp-1">
                     {event.title}
                   </h3>
 
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 mt-1">
                     {formatDate(event.startDate)}
                   </p>
 
@@ -135,7 +121,7 @@ function EventsAnnouncements() {
 
               <Link
                 to="/events"
-                className="inline-flex items-center mt-2 bg-[#37347C] text-white px-7 py-3 rounded-full text-sm hover:bg-[#2d2968] transition"
+                className="inline-flex items-center mt-2 bg-[#37347C] text-white px-6 py-2 rounded-full text-sm hover:bg-[#2d2968] transition"
               >
                 View More →
               </Link>
@@ -144,31 +130,25 @@ function EventsAnnouncements() {
         </>
       )}
 
-      {/* ================= ANNOUNCEMENTS ================= */}
-
+      {/* ANNOUNCEMENTS */}
       {activeTab === "announcements" && (
         <>
           {loading ? (
-            <div className="bg-white rounded-xl shadow-sm p-6">
+            <div className="bg-white rounded-xl border shadow-sm p-4">
               Loading...
-            </div>
-          ) : announcements.length === 0 ? (
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              No announcements available.
             </div>
           ) : (
             <>
               {announcements.map((announcement) => (
                 <div
                   key={announcement._id}
-                  className="bg-white rounded-xl px-5 py-3 mb-3 shadow-sm hover:bg-gray-50 transition"
+                  className="bg-white rounded-xl px-4 py-3 mb-2 shadow-sm border border-gray-100"
                 >
-
-                  <h3 className="text-base font-semibold text-[#37347C] line-clamp-1">
+                  <h3 className="text-lg font-semibold text-[#37347C] line-clamp-1">
                     {announcement.title}
                   </h3>
 
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 mt-1">
                     {formatDate(announcement.publishDate)}
                   </p>
 
@@ -180,7 +160,7 @@ function EventsAnnouncements() {
 
               <Link
                 to="/announcements"
-                className="inline-flex items-center mt-2 bg-[#37347C] text-white px-7 py-3 rounded-full text-sm hover:bg-[#2d2968] transition"
+                className="inline-flex items-center mt-2 bg-[#37347C] text-white px-6 py-2 rounded-full text-sm hover:bg-[#2d2968] transition"
               >
                 View More →
               </Link>
@@ -188,6 +168,7 @@ function EventsAnnouncements() {
           )}
         </>
       )}
+
     </div>
   );
 }

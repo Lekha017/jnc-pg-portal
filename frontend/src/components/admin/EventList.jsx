@@ -68,7 +68,7 @@ const EventList = ({ onEdit, refresh }) => {
   return (
     <div className="bg-white rounded-2xl shadow-md border border-gray-200">
       {/* Header */}
-      <div className="flex items-center justify-between px-7 py-5 border-b">
+      <div className="flex items-center justify-between px-7 py-5 border-b border-gray-200">
         <h2 className="text-3xl font-bold text-[#2D2A70]">
           Existing Events
         </h2>

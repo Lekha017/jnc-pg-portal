@@ -55,7 +55,7 @@ const EventCard = ({
   };
 
   return (
-    <div className="flex items-center justify-between gap-6 px-6 py-5 border-b last:border-b-0 hover:bg-gray-50 transition">
+    <div className="flex items-center justify-between gap-6 px-6 py-5 border-b border-gray-200 last:border-b-0 hover:bg-gray-50 transition">
 
       {/* Left Side */}
       <div className="flex items-center gap-5 flex-1">
@@ -67,7 +67,7 @@ const EventCard = ({
             "https://placehold.co/300x400?text=No+Poster"
           }
           alt={event.title}
-          className="w-24 h-28 rounded-xl object-cover border shadow-sm"
+          className="w-24 h-28 rounded-xl object-cover border border-gray-200 shadow-sm"
         />
 
         {/* Details */}
@@ -97,6 +97,7 @@ const EventCard = ({
           </div>
 
         </div>
+
       </div>
 
       {/* Right Side */}
@@ -109,10 +110,11 @@ const EventCard = ({
               : "bg-yellow-100 text-yellow-700"
           }`}
         >
-          {event.isPublished ? "Published" : "Draft"}
+          {event.isPublished
+            ? "Published"
+            : "Draft"}
         </span>
 
-        {/* Edit */}
         <button
           onClick={() => onEdit(event)}
           className="text-blue-600 hover:text-blue-800 transition"
@@ -121,7 +123,6 @@ const EventCard = ({
           <Pencil size={20} />
         </button>
 
-        {/* Delete */}
         <button
           onClick={handleDeleteClick}
           className="text-red-600 hover:text-red-700 transition"
@@ -131,6 +132,7 @@ const EventCard = ({
         </button>
 
       </div>
+
     </div>
   );
 };

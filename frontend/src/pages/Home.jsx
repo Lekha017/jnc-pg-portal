@@ -4,6 +4,8 @@ import HeroSlider from "../components/home/HeroSlider";
 import AboutPGCentre from "../components/home/AboutPGCentre";
 import PrincipalMessage from "../components/home/PrincipalMessage";
 import EventsAnnouncements from "../components/home/EventsAnnouncements";
+import PlacementPreview from "../components/home/PlacementPreview";
+import LocationMap from "../components/home/LocationMap";
 import Footer from "../components/layout/Footer";
 
 function Home() {
@@ -11,20 +13,31 @@ function Home() {
     <>
       <Header />
       <Navbar />
+
       <HeroSlider />
+
       <AboutPGCentre />
 
+      {/* Principal Message + Events + Placements */}
       <section className="bg-white py-12">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col lg:flex-row items-start gap-10">
+
+          {/* Left Side */}
           <div className="w-full lg:w-[500px] flex-shrink-0">
             <PrincipalMessage />
           </div>
 
-          <div className="flex-1">
+          {/* Right Side */}
+          <div className="flex-1 flex flex-col gap-6">
             <EventsAnnouncements />
+            <PlacementPreview />
           </div>
+
         </div>
       </section>
+
+      {/* Location */}
+      <LocationMap />
 
       <Footer />
     </>

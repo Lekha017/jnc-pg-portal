@@ -14,6 +14,7 @@ import {
 
 import { protect } from "../middleware/authMiddleware.js";
 import { authorize } from "../middleware/roleMiddleware.js";
+import upload from "../middleware/upload.js";
 
 const router = express.Router();
 
@@ -21,23 +22,22 @@ const router = express.Router();
    Public Routes
 =========================== */
 
-// Published Placements Only
 router.get("/", getPlacements);
 
-// Filter By Department
 router.get(
   "/department/:departmentId",
   getPlacementsByDepartment
 );
 
-// Filter By Year
-router.get("/year/:year", getPlacementsByYear);
+router.get(
+  "/year/:year",
+  getPlacementsByYear
+);
 
 /* ===========================
    Admin Routes
 =========================== */
 
-// Get All Placements (Published + Draft)
 router.get(
   "/admin/all",
   protect,
@@ -45,23 +45,40 @@ router.get(
   getAllPlacements
 );
 
-// Create Placement
 router.post(
   "/",
   protect,
   authorize("admin"),
+  upload.fields([
+    {
+      name: "studentPhoto",
+      maxCount: 1,
+    },
+    {
+      name: "companyLogo",
+      maxCount: 1,
+    },
+  ]),
   createPlacement
 );
 
-// Update Placement
 router.put(
   "/:id",
   protect,
   authorize("admin"),
+  upload.fields([
+    {
+      name: "studentPhoto",
+      maxCount: 1,
+    },
+    {
+      name: "companyLogo",
+      maxCount: 1,
+    },
+  ]),
   updatePlacement
 );
 
-// Delete Placement
 router.delete(
   "/:id",
   protect,
@@ -69,7 +86,6 @@ router.delete(
   deletePlacement
 );
 
-// Publish / Unpublish Placement
 router.patch(
   "/:id/publish",
   protect,
@@ -81,7 +97,6 @@ router.patch(
    Single Placement
 =========================== */
 
-// Keep this LAST
 router.get("/:id", getPlacementById);
 
 export default router;

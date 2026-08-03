@@ -1,5 +1,5 @@
 import { ChevronRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const PlacementSidebar = () => {
   const links = [
@@ -26,63 +26,31 @@ const PlacementSidebar = () => {
   ];
 
   return (
-    <div
-      className="
-        bg-white
-        border
-        border-gray-300
-        rounded-xl
-        overflow-hidden
-        sticky
-        top-24
-        shadow-sm
-      "
-    >
+    <div className="bg-white border border-gray-300 rounded-xl overflow-hidden shadow-sm sticky top-24">
       {/* Header */}
-      <div
-        className="
-          bg-[#EAF4FF]
-          text-[#2D2A70]
-          px-6
-          py-4
-          border-b
-          border-gray-200
-        "
-      >
-        <h2 className="text-xl font-bold tracking-wide">
+      <div className="bg-[#EAF4FF] border-b border-gray-200 px-6 py-4">
+        <h2 className="text-xl font-bold text-[#2D2A70]">
           PLACEMENTS
         </h2>
       </div>
 
-      {/* Links */}
-      <div className="p-4">
-        {links.map((item, index) => (
-          <Link
-            key={index}
+      {/* Menu */}
+      <div className="p-4 space-y-2">
+        {links.map((item) => (
+          <NavLink
+            key={item.path}
             to={item.path}
-            className="
-              w-full
-              flex
-              items-center
-              justify-between
-              px-4
-              py-4
-              rounded-lg
-              text-gray-700
-              font-medium
-              hover:bg-[#EAF4FF]
-              hover:text-[#2D2A70]
-              transition-all
-              duration-200
-            "
+            end
+            className={({ isActive }) =>
+              `flex items-center justify-between px-4 py-4 rounded-lg transition-all duration-200 ${isActive
+                ? "bg-[#EAF4FF] text-[#2D2A70] font-semibold"
+                : "text-gray-700 hover:bg-[#EAF4FF] hover:text-[#2D2A70]"
+              }`
+            }
           >
             <span>{item.title}</span>
-
-            <ChevronRight
-              size={18}
-              className="text-gray-500"
-            />
-          </Link>
+            <ChevronRight size={18} />
+          </NavLink>
         ))}
       </div>
     </div>

@@ -16,6 +16,7 @@ function AnnouncementCard({ announcement }) {
 
   return (
     <div className="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition duration-300 overflow-hidden">
+
       <div className="p-6">
 
         {/* Header */}
@@ -65,20 +66,33 @@ function AnnouncementCard({ announcement }) {
         </div>
 
         {/* Attachment */}
-        {announcement.attachment?.url &&
-          !announcement.attachment.url.includes("placehold") && (
-            <a
-              href={announcement.attachment.url}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 mt-6 text-[#2D2A70] font-semibold hover:underline"
-            >
-              <Paperclip size={18} />
-              View Attachment
-            </a>
-          )}
+        {announcement?.attachment?.url && (
+          <a
+            href={announcement.attachment.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              inline-flex
+              items-center
+              gap-2
+              mt-6
+              px-4
+              py-2
+              rounded-lg
+              bg-[#2D2A70]
+              text-white
+              font-medium
+              hover:bg-[#221f59]
+              transition
+            "
+          >
+            <Paperclip size={18} />
+            {announcement.attachment.fileName || "View Attachment"}
+          </a>
+        )}
 
       </div>
+
     </div>
   );
 }

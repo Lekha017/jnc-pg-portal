@@ -6,6 +6,7 @@ import Announcements from "../pages/Announcements";
 import Placement from "../pages/Placement";
 import RecruitingCompaniesPage from "../pages/RecruitingCompanies";
 import PlacementTraining from "../pages/PlacementTraining";
+import PlacementContact from "../pages/PlacementContact";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -20,40 +21,69 @@ import ManageFaculty from "../pages/admin/ManageFaculty";
 import AddFaculty from "../pages/admin/AddFaculty";
 import AdminEditFaculty from "../pages/admin/AdminEditFaculty";
 
+import Library from "../pages/Library";
+import PlacementGallery from "../pages/PlacementGallery";
+
 import AddDepartment from "../pages/admin/AddDepartment";
 import EditDepartment from "../pages/admin/EditDepartment";
 import ManageDepartments from "../pages/admin/ManageDepartments";
 
-import ManageEvents from "../pages/admin/ManageEvents";
-import ManageGallery from "../pages/admin/ManageGallery";
-import ManageRecruiters from "../pages/admin/ManageRecruiters";
-import ManagePlacementContact from "../pages/admin/ManagePlacementContact";
+import ManageEvents from "../pages/Admin/ManageEvents";
+
+import ManageAnnouncements from "../pages/admin/ManageAnnouncements";
+
+import ManagePlacements from "../pages/Admin/ManagePlacements";
 
 import DepartmentDetails from "../pages/Department/DepartmentDetails";
-
-import Library from "../pages/Library";
 
 import ProtectedRoute from "./ProtectedRoute";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      {/* ================= PUBLIC ================= */}
+
+      {/* ================= PUBLIC ROUTES ================= */}
 
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
 
-      <Route path="/events" element={<Events />} />
-      <Route path="/announcements" element={<Announcements />} />
-      <Route path="/placement" element={<Placement />} />
+
       <Route
-        path="/recruiters"
+        path="/events"
+        element={<Events />}
+      />
+
+      <Route
+        path="/announcements"
+        element={<Announcements />}
+      />
+
+      <Route
+        path="/placements"
+        element={<Placement />}
+      />
+
+      <Route
+        path="/recruiting-companies"
         element={<RecruitingCompaniesPage />}
       />
+
       <Route
         path="/placement-training"
         element={<PlacementTraining />}
       />
+
+
+      <Route
+        path="/placement-contact"
+        element={<PlacementContact />}
+      />
+
+      <Route
+        path="/placement-gallery"
+        element={<PlacementGallery />}
+      />
+
 
       <Route
         path="/department/:slug"
@@ -73,7 +103,12 @@ const AppRoutes = () => {
 
       {/* ================= FACULTY PUBLIC ================= */}
 
-      <Route path="/faculty" element={<Faculty />} />
+
+      <Route
+        path="/faculty"
+        element={<Faculty />}
+      />
+
 
       <Route
         path="/faculty/:id"
@@ -100,29 +135,22 @@ const AppRoutes = () => {
         }
       />
 
+
       <Route
-        path="/admin/gallery"
+        path="/admin/announcements"
         element={
           <ProtectedRoute roles={["admin"]}>
-            <ManageGallery />
+            <ManageAnnouncements />
           </ProtectedRoute>
         }
       />
 
+     
       <Route
-        path="/admin/recruiters"
+        path="/admin/placements"
         element={
           <ProtectedRoute roles={["admin"]}>
-            <ManageRecruiters />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/admin/placement-contact"
-        element={
-          <ProtectedRoute roles={["admin"]}>
-            <ManagePlacementContact />
+            <ManagePlacements />
           </ProtectedRoute>
         }
       />
@@ -205,8 +233,27 @@ const AppRoutes = () => {
 
       {/* ================= AUTH ================= */}
 
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route
+        path="/login"
+        element={<Login />}
+      />
+
+      <Route
+        path="/register"
+        element={<Register />}
+      />
+
+      {/* ================= 404 ================= */}
+
+      <Route
+        path="*"
+        element={
+          <div className="min-h-screen flex items-center justify-center text-2xl font-semibold">
+            404 - Page Not Found
+          </div>
+        }
+      />
+
     </Routes>
   );
 };
