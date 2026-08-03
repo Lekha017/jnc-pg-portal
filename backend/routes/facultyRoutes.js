@@ -27,9 +27,6 @@ router.get("/", getAllFaculty);
 // Faculty dropdown
 router.get("/dropdown", getFacultyDropdown);
 
-// Get faculty by ID
-router.get("/:id", getFacultyById);
-
 /* =====================================================
    FACULTY ROUTES
 ===================================================== */
@@ -50,6 +47,13 @@ router.put(
   upload.single("image"),
   updateMyProfile
 );
+
+/* =====================================================
+   PUBLIC ROUTES
+===================================================== */
+
+// Get faculty by ID
+router.get("/:id", getFacultyById);
 
 /* =====================================================
    ADMIN ROUTES

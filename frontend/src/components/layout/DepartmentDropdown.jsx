@@ -12,28 +12,32 @@ const DepartmentDropdown = () => {
 
   const fetchDepartments = async () => {
     try {
-      const data = await getDepartments();
-      setDepartments(data || []);
+      const response = await getDepartments({
+        page: 1,
+        limit: 100,
+      });
+
+      setDepartments(response.data || []);
     } catch (error) {
       console.error("Failed to load departments:", error);
     }
   };
 
   return (
-    <div className="space-y-2">
+    <div className="w-72 py-2 bg-white rounded-lg shadow-lg">
       {departments.length > 0 ? (
         departments.map((department) => (
           <Link
             key={department._id}
-            to={`/departments/${department.slug}`}
-            className="block hover:text-[#FF2D55] transition"
+            to={`/department/${department.slug}`}
+            className="block px-5 py-3 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition-colors duration-200"
           >
             {department.name}
           </Link>
         ))
       ) : (
-        <p className="text-gray-400">
-          No departments
+        <p className="px-5 py-3 text-gray-400 text-sm">
+          No departments found
         </p>
       )}
     </div>

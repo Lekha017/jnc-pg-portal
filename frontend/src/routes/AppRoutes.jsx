@@ -10,6 +10,7 @@ import PlacementContact from "../pages/PlacementContact";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
+import ForgotPassword from "../pages/auth/ForgotPassword";
 
 import Faculty from "../pages/Faculty/Faculty";
 import FacultyDetails from "../pages/Faculty/FacultyDetails";
@@ -228,14 +229,14 @@ const AppRoutes = () => {
         }
       />
 
-      <Route
-        path="/faculty/profile"
-        element={
-          <ProtectedRoute roles={["faculty"]}>
-            <EditFaculty />
-          </ProtectedRoute>
-        }
-      />
+     <Route
+  path="/faculty/edit-profile"
+  element={
+    <ProtectedRoute roles={["faculty"]}>
+      <EditFaculty />
+    </ProtectedRoute>
+  }
+/>
 
       {/* ================= AUTH ================= */}
 
@@ -249,6 +250,10 @@ const AppRoutes = () => {
         element={<Register />}
       />
 
+      <Route
+        path="/forgot-password"
+        element={<ForgotPassword />}
+      />
       {/* ================= 404 ================= */}
 
       <Route

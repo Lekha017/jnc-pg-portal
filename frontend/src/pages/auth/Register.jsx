@@ -29,8 +29,12 @@ const Register = () => {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const data = await getDepartments();
-        setDepartments(data);
+       const response = await getDepartments({
+  page: 1,
+  limit: 1000,
+});
+
+setDepartments(response.data || []);
       } catch (error) {
         console.error(error);
         toast.error("Failed to load departments");

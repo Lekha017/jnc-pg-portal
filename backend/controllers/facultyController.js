@@ -137,20 +137,38 @@ if (designation) {
 
     const totalFaculty = await Faculty.countDocuments(query);
 
-    const faculty = await Faculty.find(query)
-      .populate("departments", "name")
-      .populate("user", "fullName email")
-      .sort({ createdAt: -1 })
-      .skip((currentPage - 1) * pageSize)
-      .limit(pageSize);
+ const faculty = await Faculty.find(query)
+  .populate("departments", "name")
+  .populate("user", "fullName email")
+  .skip((currentPage - 1) * pageSize)
+  .limit(pageSize);
 
-    return res.status(200).json({
-      success: true,
-      data: faculty,
-      currentPage,
-      totalPages: Math.ceil(totalFaculty / pageSize),
-      totalFaculty,
-    });
+faculty.sort((a, b) => {
+  const deptA = a.departments?.[0]?.name || "";
+  const deptB = b.departments?.[0]?.name || "";
+
+  // Group by department
+  if (deptA !== deptB) {
+    return deptA.localeCompare(deptB);
+  }
+
+  // HOD first
+  const aIsHOD = a.designation?.toLowerCase().includes("hod");
+  const bIsHOD = b.designation?.toLowerCase().includes("hod");
+
+  if (aIsHOD && !bIsHOD) return -1;
+  if (!aIsHOD && bIsHOD) return 1;
+
+  // Then alphabetical
+  return a.fullName.localeCompare(b.fullName);
+});
+return res.status(200).json({
+  success: true,
+  data: faculty,
+  currentPage,
+  totalPages: Math.ceil(totalFaculty / pageSize),
+  totalFaculty,
+});
   } catch (error) {
     console.error("Get Faculty Error:", error);
 

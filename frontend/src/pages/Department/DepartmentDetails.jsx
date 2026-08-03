@@ -5,7 +5,8 @@ import Navbar from "../../components/layout/Navbar";
 import Loader from "../../components/common/Loader";
 import Toast from "../../components/common/Toast";
 import FacultyCard from "../../components/faculty/FacultyCard";
-
+import Header from "../../components/layout/Header";
+import Footer from "../../components/layout/Footer";
 import { getDepartmentBySlug } from "../../services/departmentService";
 
 const DepartmentDetails = () => {
@@ -47,6 +48,7 @@ const DepartmentDetails = () => {
 
   return (
     <>
+      <Header />
       <Navbar />
 
       {loading ? (
@@ -56,7 +58,7 @@ const DepartmentDetails = () => {
 
           {/* Department Header */}
           <div className="bg-[#2F2F6F] text-white">
-            <div className="max-w-7xl mx-auto px-6 py-16 text-center">
+            <div className="max-w-7xl mx-auto px-5 py-10 text-center">
               <h1 className="text-4xl md:text-5xl font-bold">
                 {department?.name}
               </h1>
@@ -70,68 +72,92 @@ const DepartmentDetails = () => {
           <div className="max-w-7xl mx-auto px-6 py-14">
 
             {/* About */}
-            <section className="pb-10 border-b border-gray-200">
-              <h2 className="text-3xl font-bold text-[#2F2F6F] mb-5">
-                About the Department
-              </h2>
+            {department?.about?.trim() && (
+              <section className="pb-10 border-b border-gray-200">
+                <h2 className="text-3xl font-bold text-[#2F2F6F] mb-5">
+                  About the Department
+                </h2>
 
-              <p className="text-gray-700 leading-8">
-                {department?.about}
-              </p>
-            </section>
+                <p className="text-gray-700 leading-8">
+                  {department.about}
+                </p>
+              </section>
+            )}
 
             {/* Vision */}
-            <section className="py-10 border-b border-gray-200">
-              <h2 className="text-3xl font-bold text-[#2F2F6F] mb-5">
-                Vision
-              </h2>
+            {department?.vision?.trim() && (
+              <section className="py-10 border-b border-gray-200">
+                <h2 className="text-3xl font-bold text-[#2F2F6F] mb-5">
+                  Vision
+                </h2>
 
-              <p className="text-gray-700 leading-8">
-                {department?.vision}
-              </p>
-            </section>
+                <p className="text-gray-700 leading-8">
+                  {department.vision}
+                </p>
+              </section>
+            )}
 
             {/* Mission */}
-            <section className="py-10 border-b border-gray-200">
-              <h2 className="text-3xl font-bold text-[#2F2F6F] mb-5">
-                Mission
-              </h2>
+            {department?.mission?.trim() && (
+              <section className="py-10 border-b border-gray-200">
+                <h2 className="text-3xl font-bold text-[#2F2F6F] mb-5">
+                  Mission
+                </h2>
 
-              <p className="text-gray-700 leading-8">
-                {department?.mission}
-              </p>
-            </section>
-                        {/* HOD Message */}
-            <section className="py-10 border-b border-gray-200">
-              <h2 className="text-3xl font-bold text-[#2F2F6F] mb-8">
-                HOD's Message
-              </h2>
+                <p className="text-gray-700 leading-8">
+                  {department.mission}
+                </p>
+              </section>
+            )}
 
-              <div className="grid md:grid-cols-[220px_1fr] gap-8 items-start">
-                <img
-                  src={
-                    department?.hod?.image ||
-                    "https://via.placeholder.com/220x260?text=HOD"
-                  }
-                  alt={department?.hod?.fullName}
-                  className="w-[220px] h-[260px] object-cover rounded-xl shadow-md"
-                />
+            {/* HOD Message */}
+            {department?.hod && (
+              <section className="py-12 border-b border-gray-200">
+                <h2 className="text-3xl font-bold text-[#2F2F6F] mb-10">
+                  HOD's Message
+                </h2>
 
-                <div>
-                  <h3 className="text-2xl font-semibold text-[#2F2F6F]">
-                    {department?.hod?.fullName}
-                  </h3>
+                <div className="grid lg:grid-cols-[240px_1fr] gap-12 items-start">
 
-                  <p className="text-[#E91E63] font-medium mt-1">
-                    Head of Department
-                  </p>
+                  {/* HOD Card */}
+                  <div className="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100">
+                    <img
+                      src={
+                        department.hod.image ||
+                        "https://via.placeholder.com/240x300?text=HOD"
+                      }
+                      alt={department.hod.fullName}
+                      className="w-full h-[300px] object-cover"
+                    />
 
-                  <p className="mt-6 text-gray-700 leading-8 whitespace-pre-line">
-                    {department?.hodMessage}
-                  </p>
+                    <div className="p-5 text-center">
+                      <h3 className="text-xl font-bold text-[#2F2F6F]">
+                        {department.hod.fullName}
+                      </h3>
+
+                      <p className="mt-1 text-[#E91E63] font-medium">
+                        Head of Department
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Message */}
+                  <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+
+                    {department.hodMessage?.trim() ? (
+                      <p className="text-gray-700 leading-9 whitespace-pre-line text-[17px]">
+                        {department.hodMessage}
+                      </p>
+                    ) : (
+                      <p className="text-gray-500 italic">
+                        No message available from the Head of Department.
+                      </p>
+                    )}
+
+                  </div>
                 </div>
-              </div>
-            </section>
+              </section>
+            )}
 
             {/* Programmes Offered */}
             <section className="py-10 border-b border-gray-200">
@@ -190,7 +216,7 @@ const DepartmentDetails = () => {
           </div>
         </section>
       )}
-
+      <Footer />
       <Toast
         show={toast.show}
         message={toast.message}

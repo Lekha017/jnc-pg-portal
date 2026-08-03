@@ -1,6 +1,8 @@
 import { ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function DepartmentCard({ department }) {
+  const navigate = useNavigate();
   const Icon = department.icon;
 
   return (
@@ -20,12 +22,11 @@ function DepartmentCard({ department }) {
         flex
         items-center
         justify-between
+        cursor-pointer
       "
+      onClick={() => navigate(`/department/${department.slug}`)}
     >
-      {/* Left Section */}
       <div className="flex items-center gap-4">
-
-        {/* Icon */}
         <div
           className="
             w-14
@@ -44,9 +45,7 @@ function DepartmentCard({ department }) {
           />
         </div>
 
-        {/* Text */}
         <div>
-
           <h3
             className="
               text-[17px]
@@ -61,12 +60,9 @@ function DepartmentCard({ department }) {
           <p className="text-sm text-gray-500 mt-1">
             {department.course}
           </p>
-
         </div>
-
       </div>
 
-      {/* Right Button */}
       <button
         className="
           w-9
@@ -84,7 +80,6 @@ function DepartmentCard({ department }) {
       >
         <ArrowRight size={16} />
       </button>
-
     </div>
   );
 }

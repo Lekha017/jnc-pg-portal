@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import generateToken from "../utils/generateToken.js";
-
+import PasswordResetOTP from "../models/PasswordResetOTP.js";
+import sendEmail from "../utils/sendEmail.js";
 /* ===========================
    Cookie Options
 =========================== */
@@ -131,6 +132,160 @@ export const loginUser = async (req, res) => {
       },
     });
 
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+};
+
+/* ===========================
+   SEND FORGOT PASSWORD OTP
+=========================== */
+
+export const sendForgotPasswordOTP = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "No account found with this email.",
+      });
+    }
+
+    const otp = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString();
+
+    await PasswordResetOTP.deleteMany({ email });
+
+    await PasswordResetOTP.create({
+      email,
+      otp,
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
+    });
+
+    await sendEmail(
+      email,
+      "JNC PG Portal - Password Reset OTP",
+      `
+        <h2>Password Reset</h2>
+        <p>Your OTP is:</p>
+        <h1>${otp}</h1>
+        <p>This OTP is valid for 10 minutes.</p>
+      `
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "OTP sent successfully.",
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to send OTP.",
+    });
+  }
+};
+
+/* ===========================
+   VERIFY OTP
+=========================== */
+
+export const verifyForgotPasswordOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    const record = await PasswordResetOTP.findOne({
+      email,
+      otp,
+    });
+
+    if (!record) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid OTP.",
+      });
+    }
+
+    if (record.expiresAt < new Date()) {
+      await record.deleteOne();
+
+      return res.status(400).json({
+        success: false,
+        message: "OTP has expired.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "OTP verified successfully.",
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+};
+
+/* ===========================
+   RESET PASSWORD
+=========================== */
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { email, otp, password } = req.body;
+
+    const record = await PasswordResetOTP.findOne({
+      email,
+      otp,
+    });
+
+    if (!record) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid OTP.",
+      });
+    }
+
+    if (record.expiresAt < new Date()) {
+      await record.deleteOne();
+
+      return res.status(400).json({
+        success: false,
+        message: "OTP has expired.",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(
+      password,
+      10
+    );
+
+    await User.findOneAndUpdate(
+      { email },
+      {
+        password: hashedPassword,
+      }
+    );
+
+    await record.deleteOne();
+
+    return res.status(200).json({
+      success: true,
+      message: "Password reset successfully.",
+    });
   } catch (error) {
     console.error(error);
 
