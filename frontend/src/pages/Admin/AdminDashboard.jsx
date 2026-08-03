@@ -17,7 +17,7 @@ export default function AdminDashboard() {
   },
   {
     title: "Placements",
-    path: "/admin/placement-contact",
+    path: "/admin/placements",
   },
   {
     title: "Announcements",
