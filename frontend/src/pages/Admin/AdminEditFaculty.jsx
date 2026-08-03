@@ -31,28 +31,28 @@ const AdminEditFaculty = () => {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const [facultyResponse, departmentResponse] =
-        await Promise.all([
-          getFacultyById(id),
-          getDepartments(),
-        ]);
+ const fetchData = async () => {
+  try {
+    const [facultyResponse, departmentResponse] =
+      await Promise.all([
+        getFacultyById(id),
+        getDepartments(),
+      ]);
 
-      setFaculty(facultyResponse.faculty || {});
-      setDepartments(departmentResponse || []);
-    } catch (error) {
-      console.error(error);
+    setFaculty(facultyResponse.faculty || {});
+    setDepartments(departmentResponse.data || []);
+  } catch (error) {
+    console.error(error);
 
-      setToast({
-        show: true,
-        message: "Failed to load faculty details.",
-        type: "error",
-      });
-    } finally {
-      setPageLoading(false);
-    }
-  };
+    setToast({
+      show: true,
+      message: "Failed to load faculty details.",
+      type: "error",
+    });
+  } finally {
+    setPageLoading(false);
+  }
+};
 
   const handleSubmit = async (formData) => {
     try {

@@ -13,7 +13,7 @@ const AdminFacultyCard = ({ faculty, onDelete }) => {
   return (
     <div className="bg-white rounded-xl shadow border border-gray-200 overflow-hidden hover:shadow-lg transition">
       {/* Image */}
-      <div className="relative h-64 flex items-center justify-center bg-gray-50">
+       <div className="relative h-64 flex items-center justify-center bg-gray-50">
 
         {isHOD && (
           <span className="absolute top-3 left-3 bg-pink-600 text-white text-xs px-2 py-1 rounded">

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 
-import FacultyHeader from "../../components/faculty/FacultyHeader";
 import FacultyFilters from "../../components/faculty/FacultyFilters";
 import FacultyGrid from "../../components/faculty/FacultyGrid";
+import Header from "../../components/layout/Header";
+import Navbar from "../../components/layout/Navbar";
+import Footer from "../../components/layout/Footer";
 
 import Loader from "../../components/common/Loader";
 import Toast from "../../components/common/Toast";
@@ -18,6 +20,7 @@ const Faculty = () => {
 
   const [search, setSearch] = useState("");
   const [department, setDepartment] = useState("");
+  const [designation, setDesignation] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -36,14 +39,14 @@ const Faculty = () => {
 
   useEffect(() => {
     fetchFaculty();
-  }, [currentPage, search, department]);
+  }, [currentPage, search, department, designation]);
 
   const fetchDepartments = async () => {
     try {
-      const data = await getDepartments();
-      setDepartments(data);
+      const response = await getDepartments();
+      setDepartments(response.data || []);
     } catch (error) {
-      console.error("Error loading departments:", error);
+      console.error(error);
 
       setToast({
         show: true,
@@ -62,12 +65,13 @@ const Faculty = () => {
         limit,
         search,
         department,
+        designation,
       });
 
-      setFaculty(response.data.data || []);
-      setTotalPages(response.data.totalPages || 1);
+      setFaculty(response.data || []);
+      setTotalPages(response.totalPages || 1);
     } catch (error) {
-      console.error("Error loading faculty:", error);
+      console.error(error);
 
       setToast({
         show: true,
@@ -89,17 +93,25 @@ const Faculty = () => {
     setCurrentPage(1);
   };
 
+  const handleDesignation = (value) => {
+    setDesignation(value);
+    setCurrentPage(1);
+  };
+
   return (
     <>
-      <FacultyHeader />
+     <Header />
+      <Navbar />
 
-      <section className="bg-white py-10 min-h-screen">
+      <section className="bg-white min-h-screen py-10">
         <div className="max-w-7xl mx-auto px-6">
           <FacultyFilters
             search={search}
             onSearch={handleSearch}
             department={department}
             onDepartment={handleDepartment}
+            designation={designation}
+            onDesignation={handleDesignation}
             departments={departments}
           />
 
@@ -127,22 +139,19 @@ const Faculty = () => {
                     Previous
                   </button>
 
-                  {Array.from(
-                    { length: totalPages },
-                    (_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentPage(index + 1)}
-                        className={`px-4 py-2 rounded-md transition ${
-                          currentPage === index + 1
-                            ? "bg-[#4B4B7C] text-white"
-                            : "border hover:bg-gray-100"
-                        }`}
-                      >
-                        {index + 1}
-                      </button>
-                    )
-                  )}
+                  {Array.from({ length: totalPages }, (_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentPage(index + 1)}
+                      className={`px-4 py-2 rounded-md transition ${
+                        currentPage === index + 1
+                          ? "bg-[#4B4B7C] text-white"
+                          : "border hover:bg-gray-100"
+                      }`}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
 
                   <button
                     onClick={() =>
@@ -161,6 +170,8 @@ const Faculty = () => {
           )}
         </div>
       </section>
+
+      <Footer />
 
       <Toast
         show={toast.show}

@@ -11,8 +11,11 @@ export const getEvents = async () => {
 // ==========================
 // Admin - All Events
 // ==========================
-export const getAllEvents = async () => {
-  const response = await api.get("/events/admin/all");
+export const getAllEvents = async (params = {}) => {
+  const response = await api.get("/events/admin/all", {
+    params,
+  });
+
   return response.data;
 };
 

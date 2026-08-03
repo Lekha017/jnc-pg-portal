@@ -2,44 +2,36 @@ import { Link } from "react-router-dom";
 import AdminLayout from "../../components/layout/AdminLayout";
 
 export default function AdminDashboard() {
-  const modules = [
-    {
-      title: "Manage Faculty",
-      path: "/admin/faculty",
-    },
-    {
-      title: "Add Faculty",
-      path: "/admin/faculty/add",
-    },
-    {
-      title: "Manage Departments",
-      path: "/admin/departments",
-    },
-    {
-      title: "Add Department",
-      path: "/admin/departments/add",
-    },
-    {
-      title: "Events",
-      disabled: true,
-    },
-    {
-      title: "Gallery",
-      disabled: true,
-    },
-    {
-      title: "Recruiters",
-      disabled: true,
-    },
-    {
-      title: "Placements",
-      disabled: true,
-    },
-    {
-      title: "Announcements",
-      disabled: true,
-    },
-  ];
+ const modules = [
+  {
+    title: "Faculty",
+    path: "/admin/faculty",
+  },
+  {
+    title: "Department",
+    path: "/admin/departments",
+  },
+  {
+    title: "Events",
+    path: "/admin/events",
+  },
+  {
+    title: "Gallery",
+    path: "/admin/gallery",
+  },
+  {
+    title: "Recruiters",
+    path: "/admin/recruiters",
+  },
+  {
+    title: "Placements",
+    path: "/admin/placements",
+  },
+  {
+    title: "Announcements",
+    path: "/admin/announcements",
+  },
+];
 
   return (
     <AdminLayout>
@@ -53,36 +45,21 @@ export default function AdminDashboard() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {modules.map((module, index) =>
-            module.disabled ? (
-              <div
-                key={index}
-                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 opacity-60 cursor-not-allowed"
-              >
-                <h2 className="text-lg font-semibold text-gray-800">
-                  {module.title}
-                </h2>
+         {modules.map((module, index) => (
+  <Link
+    key={index}
+    to={module.path}
+    className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg hover:-translate-y-1 transition"
+  >
+    <h2 className="text-lg font-semibold text-gray-800">
+      {module.title}
+    </h2>
 
-                <p className="text-sm text-gray-500 mt-2">
-                  Coming Soon
-                </p>
-              </div>
-            ) : (
-              <Link
-                key={index}
-                to={module.path}
-                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg hover:-translate-y-1 transition"
-              >
-                <h2 className="text-lg font-semibold text-gray-800">
-                  {module.title}
-                </h2>
-
-                <p className="text-sm text-gray-500 mt-2">
-                  Open Module →
-                </p>
-              </Link>
-            )
-          )}
+    <p className="text-sm text-gray-500 mt-2">
+      Open Module →
+    </p>
+  </Link>
+))}
         </div>
       </div>
     </AdminLayout>

@@ -39,7 +39,7 @@ export default function EditDepartment() {
     const fetchFaculty = async () => {
         try {
             const res = await getFacultyDropdown();
-            setFacultyList(res.data.data || []);
+setFacultyList(res.data || []);
         } catch (err) {
             console.error(err);
         }

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AdminLayout from "../../components/layout/AdminLayout";
+import ConfirmModal from "../../components/common/ConfirmModal";
+import Toast from "../../components/common/Toast";
+import Pagination from "../../components/common/Pagination";
 import {
   getDepartments,
   deleteDepartment,
@@ -10,14 +13,35 @@ export default function ManageDepartments() {
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const limit = 5;
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
+
+  const [toast, setToast] = useState({
+    show: false,
+    message: "",
+    type: "success",
+  });
+
   useEffect(() => {
     fetchDepartments();
-  }, []);
+  }, [currentPage]);
 
   const fetchDepartments = async () => {
     try {
-      const data = await getDepartments();
-      setDepartments(data || []);
+      setLoading(true);
+
+      const response = await getDepartments({
+        page: currentPage,
+        limit,
+      });
+
+      setDepartments(response.data || []);
+      setTotalPages(response.totalPages || 1);
     } catch (error) {
       console.error(error);
     } finally {
@@ -25,19 +49,39 @@ export default function ManageDepartments() {
     }
   };
 
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this department?"
-    );
+  const handleDeleteClick = (department) => {
+    setSelectedDepartment(department);
+    setShowDeleteModal(true);
+  };
 
-    if (!confirmDelete) return;
-
+  const handleDelete = async () => {
     try {
-      await deleteDepartment(id);
-      fetchDepartments();
+      await deleteDepartment(selectedDepartment._id);
+
+      setToast({
+        show: true,
+        message: "Department deleted successfully.",
+        type: "success",
+      });
+
+      setShowDeleteModal(false);
+      setSelectedDepartment(null);
+
+      if (departments.length === 1 && currentPage > 1) {
+        setCurrentPage((prev) => prev - 1);
+      } else {
+        fetchDepartments();
+      }
     } catch (error) {
       console.error(error);
-      alert("Failed to delete department.");
+
+      setToast({
+        show: true,
+        message: "Failed to delete department.",
+        type: "error",
+      });
+
+      setShowDeleteModal(false);
     }
   };
 
@@ -50,6 +94,7 @@ export default function ManageDepartments() {
               <h1 className="text-3xl font-bold text-[#2f2f6f]">
                 Manage Departments
               </h1>
+
               <p className="text-gray-500 mt-1">
                 View, add, edit and manage departments.
               </p>
@@ -121,7 +166,7 @@ export default function ManageDepartments() {
                           </Link>
 
                           <button
-                            onClick={() => handleDelete(department._id)}
+                            onClick={() => handleDeleteClick(department)}
                             className="px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700"
                           >
                             Delete
@@ -134,8 +179,40 @@ export default function ManageDepartments() {
               </tbody>
             </table>
           </div>
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </div>
       </div>
+
+      <ConfirmModal
+        isOpen={showDeleteModal}
+        title="Delete Department"
+        message={`Are you sure you want to delete "${
+          selectedDepartment?.name || ""
+        }"?`}
+        onConfirm={handleDelete}
+        onCancel={() => {
+          setShowDeleteModal(false);
+          setSelectedDepartment(null);
+        }}
+      />
+
+      {toast.show && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() =>
+            setToast((prev) => ({
+              ...prev,
+              show: false,
+            }))
+          }
+        />
+      )}
     </AdminLayout>
   );
 }

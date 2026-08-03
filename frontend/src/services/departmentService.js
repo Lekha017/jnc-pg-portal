@@ -4,9 +4,12 @@ import api from "../api/axios";
 // PUBLIC
 // =======================
 
-export const getDepartments = async () => {
-  const response = await api.get("/departments");
-  return response.data.data;
+export const getDepartments = async (params = {}) => {
+  const response = await api.get("/departments", {
+    params,
+  });
+
+  return response.data;
 };
 
 export const getDepartmentBySlug = async (slug) => {

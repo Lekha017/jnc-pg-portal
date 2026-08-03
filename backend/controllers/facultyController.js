@@ -9,15 +9,15 @@ import bcrypt from "bcryptjs";
 ===================================================== */
 export const createFaculty = async (req, res) => {
   try {
-   const {
-  fullName,
-  email,
-  password,
-  phone,
-  designation,
-  departments,
-  bio,
-} = req.body;
+    const {
+      fullName,
+      email,
+      password,
+      phone,
+      designation,
+      departments,
+      bio,
+    } = req.body;
 
     // Required field validation
     if (
@@ -103,11 +103,12 @@ export const createFaculty = async (req, res) => {
 export const getAllFaculty = async (req, res) => {
   try {
     const {
-      page = 1,
-      limit = 8,
-      search = "",
-      department = "",
-    } = req.query;
+  page = 1,
+  limit = 8,
+  search = "",
+  department = "",
+  designation = "",
+} = req.query;
 
     const query = {};
 
@@ -124,6 +125,13 @@ export const getAllFaculty = async (req, res) => {
       query.departments = department;
     }
 
+    // Filter by designation
+if (designation) {
+  query.designation = {
+    $regex: designation,
+    $options: "i",
+  };
+}
     const currentPage = Number(page);
     const pageSize = Number(limit);
 
@@ -231,10 +239,6 @@ export const updateFaculty = async (req, res) => {
     email,
     phone,
   };
-
-  if (password && password.trim() !== "") {
-    updateData.password = await bcrypt.hash(password, 10);
-  }
 
   await User.findByIdAndUpdate(
     faculty.user,

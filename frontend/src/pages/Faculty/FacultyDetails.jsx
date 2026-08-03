@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
+import Header from "../../components/layout/Header";
+import Footer from "../../components/layout/Footer";
 import Navbar from "../../components/layout/Navbar";
 
 import { getFacultyById } from "../../services/facultyService";
@@ -38,9 +40,7 @@ const FacultyDetails = () => {
 
       const response = await getFacultyById(id);
 
-      setFaculty(
-        response.data.data || response.data.faculty
-      );
+setFaculty(response.data || response.faculty);
     } catch (error) {
       console.error(error);
     } finally {
@@ -59,23 +59,31 @@ const FacultyDetails = () => {
 
   if (loading) {
     return (
-      <>
-        <Navbar />
-        <div className="max-w-7xl mx-auto py-20 text-center">
-          Loading Faculty...
-        </div>
-      </>
+     <>
+  <Header />
+  <Navbar />
+
+  <div className="max-w-7xl mx-auto py-20 text-center">
+    Loading Faculty...
+  </div>
+
+  <Footer />
+</>
     );
   }
 
   if (!faculty) {
     return (
-      <>
-        <Navbar />
-        <div className="max-w-7xl mx-auto py-20 text-center">
-          Faculty not found.
-        </div>
-      </>
+     <>
+  <Header />
+  <Navbar />
+
+  <div className="max-w-7xl mx-auto py-20 text-center">
+    Faculty not found.
+  </div>
+
+  <Footer />
+</>
     );
   }
 
@@ -85,6 +93,7 @@ const FacultyDetails = () => {
 
   return (
     <>
+      <Header />
       <Navbar />
 
       <section className="bg-[#f3f6fd] py-10">
@@ -176,6 +185,7 @@ const FacultyDetails = () => {
 
         </div>
       </section>
+       <Footer />
     </>
   );
 };

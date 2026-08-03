@@ -66,18 +66,19 @@ const EventForm = ({
     }, [selectedEvent]);
 
     const loadDepartments = async () => {
-        try {
-            const data = await getDepartments();
-            setDepartments(data);
-        } catch (error) {
-            console.log(error.response?.data);
+  try {
+    const response = await getDepartments();
 
-            toast.error(
-                error.response?.data?.message ||
-                "Failed to create event"
-            );
-        }
-    };
+    setDepartments(response.data || []);
+  } catch (error) {
+    console.log(error.response?.data);
+
+    toast.error(
+      error.response?.data?.message ||
+      "Failed to load departments"
+    );
+  }
+};
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;

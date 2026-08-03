@@ -5,6 +5,7 @@ import FacultyForm from "../../components/faculty/FacultyForm";
 
 import Loader from "../../components/common/Loader";
 import Toast from "../../components/common/Toast";
+import AdminLayout from "../../components/layout/AdminLayout";
 
 import { getDepartments } from "../../services/departmentService";
 import { createFaculty } from "../../services/facultyService";
@@ -26,22 +27,23 @@ const AddFaculty = () => {
     fetchDepartments();
   }, []);
 
-  const fetchDepartments = async () => {
-    try {
-      const data = await getDepartments();
-      setDepartments(data);
-    } catch (error) {
-      console.error("Error loading departments:", error);
+ const fetchDepartments = async () => {
+  try {
+    const response = await getDepartments();
 
-      setToast({
-        show: true,
-        message: "Failed to load departments.",
-        type: "error",
-      });
-    } finally {
-      setPageLoading(false);
-    }
-  };
+    setDepartments(response.data || []);
+  } catch (error) {
+    console.error("Error loading departments:", error);
+
+    setToast({
+      show: true,
+      message: "Failed to load departments.",
+      type: "error",
+    });
+  } finally {
+    setPageLoading(false);
+  }
+};
 
   const handleSubmit = async (formData) => {
     try {
@@ -77,10 +79,11 @@ if (pageLoading) {
   return <Loader text="Loading departments..." />;
 }
 
-  return (
-    <>
-      <section className="min-h-screen bg-gray-50 py-10">
-        <div className="max-w-5xl mx-auto px-6">
+ return (
+  <>
+    <AdminLayout>
+      <section className="min-h-screen bg-gray-100 py-8 px-6">
+        <div className="max-w-5xl mx-auto">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-[#4B4B7C]">
               Add Faculty
@@ -101,20 +104,21 @@ if (pageLoading) {
           />
         </div>
       </section>
+    </AdminLayout>
 
-      <Toast
-        show={toast.show}
-        message={toast.message}
-        type={toast.type}
-        onClose={() =>
-          setToast((prev) => ({
-            ...prev,
-            show: false,
-          }))
-        }
-      />
-    </>
-  );
+    <Toast
+      show={toast.show}
+      message={toast.message}
+      type={toast.type}
+      onClose={() =>
+        setToast((prev) => ({
+          ...prev,
+          show: false,
+        }))
+      }
+    />
+  </>
+);
 };
 
 export default AddFaculty;

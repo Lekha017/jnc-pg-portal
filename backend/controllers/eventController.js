@@ -65,7 +65,7 @@ export const createEvent = async (req, res) => {
   }
 };
 
-// Get All Events
+// Get Published Events (Public)
 export const getEvents = async (req, res) => {
   try {
     const events = await Event.find({ isPublished: true })
@@ -76,6 +76,47 @@ export const getEvents = async (req, res) => {
     res.status(200).json({
       success: true,
       count: events.length,
+      data: events,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Get All Events (Admin)
+export const getAllEvents = async (req, res) => {
+  try {
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 5;
+    const search = req.query.search || "";
+
+    const filter = {};
+
+    if (search) {
+      filter.title = {
+        $regex: search,
+        $options: "i",
+      };
+    }
+
+    const totalEvents = await Event.countDocuments(filter);
+
+    const events = await Event.find(filter)
+      .populate("department", "name code")
+      .populate("createdBy", "fullName")
+      .sort({ startDate: 1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    res.status(200).json({
+      success: true,
+      count: events.length,
+      totalEvents,
+      currentPage: page,
+      totalPages: Math.ceil(totalEvents / limit),
       data: events,
     });
   } catch (error) {
@@ -312,26 +353,6 @@ export const togglePublishStatus = async (req, res) => {
       message: `Event ${event.isPublished ? "Published" : "Unpublished"
         } successfully`,
       data: event,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-// Get All Events (Admin)
-export const getAllEvents = async (req, res) => {
-  try {
-    const events = await Event.find({})
-      .populate("department", "name code")
-      .populate("createdBy", "fullName")
-      .sort({ startDate: 1 });
-
-    res.status(200).json({
-      success: true,
-      count: events.length,
-      data: events,
     });
   } catch (error) {
     res.status(500).json({

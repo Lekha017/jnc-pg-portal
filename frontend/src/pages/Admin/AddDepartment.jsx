@@ -7,6 +7,7 @@ import {
   getFacultyDropdown,
 } from "../../services/facultyService";
 import Toast from "../../components/common/Toast";
+import AdminLayout from "../../components/layout/AdminLayout";
 
 export default function AddDepartment() {
   const navigate = useNavigate();
@@ -36,13 +37,16 @@ export default function AddDepartment() {
   }, []);
 
   const fetchFaculty = async () => {
-    try {
-      const res = await getFacultyDropdown();
-      setFacultyList(res.data.data || []);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  try {
+    const res = await getFacultyDropdown();
+
+    console.log("Response:", res);
+
+    setFacultyList(res.data || []);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   const generateSlug = (value) => {
     return value
@@ -94,198 +98,211 @@ export default function AddDepartment() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!formData.name.trim()) {
-      return setToast({
-        show: true,
-        message: "Department name is required.",
-        type: "error",
-      });
-    }
+  if (!formData.name.trim()) {
+    return setToast({
+      show: true,
+      message: "Department name is required.",
+      type: "error",
+    });
+  }
 
-    setLoading(true);
+  setLoading(true);
 
-    try {
-      await createDepartment(formData);
+  try {
+    const response = await createDepartment(formData);
 
-      setToast({
-        show: true,
-        message: "Department created successfully.",
-        type: "success",
-      });
+    setToast({
+      show: true,
+      message:
+        response.message || "Department created successfully.",
+      type: "success",
+    });
 
-      setTimeout(() => {
-        navigate("/admin/departments");
-      }, 1200);
+    setTimeout(() => {
+      navigate("/admin/departments");
+    }, 1200);
+  } catch (error) {
+console.log(JSON.stringify(error.response?.data, null, 2));
+    setToast({
+      show: true,
+      message:
+        error.response?.data?.message ||
+        "Failed to create department.",
+      type: "error",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
+   return (
+  <>
+    <AdminLayout>
+      <div className="min-h-screen bg-gray-100 py-8 px-6">
+        <div className="max-w-5xl mx-auto bg-white rounded-xl shadow p-8">
+          <h1 className="text-3xl font-bold text-[#2f2f6f] mb-8">
+            Add Department
+          </h1>
 
-    } catch (error) {
-      setToast({
-        show: true,
-        message:
-          error.response?.data?.message ||
-          "Failed to create department.",
-        type: "error",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-    return (
-    <div className="min-h-screen bg-[#f5f7ff] py-10 px-6">
-      <div className="max-w-5xl mx-auto bg-white rounded-xl shadow p-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
 
-        <h1 className="text-3xl font-bold text-[#2f2f6f] mb-8">
-          Add Department
-        </h1>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Department Name *
+              </label>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
+                required
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Department Name *</label>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                About
+              </label>
 
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
-              required
-            />
-          </div>
+              <textarea
+                rows="5"
+                name="about"
+                value={formData.about}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">About </label>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Vision
+              </label>
 
-            <textarea
-              rows="5"
-              name="about"
-              value={formData.about}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
-            />
-          </div>
+              <textarea
+                rows="4"
+                name="vision"
+                value={formData.vision}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
+              />
+            </div>
 
-          <div>
-           <label className="block text-sm font-medium text-gray-700 mb-2">Vision</label>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Mission
+              </label>
 
-            <textarea
-              rows="4"
-              name="vision"
-              value={formData.vision}
-              onChange={handleChange}
-             className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
-            />
-          </div>
+              <textarea
+                rows="4"
+                name="mission"
+                value={formData.mission}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Mission</label>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Head of Department *
+              </label>
 
-            <textarea
-              rows="4"
-              name="mission"
-              value={formData.mission}
-              onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
-            />
-          </div>
+              <select
+                name="hod"
+                value={formData.hod}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
+              >
+                <option value="">Select HOD</option>
 
-          {/* HOD */}
+                {facultyList.map((faculty) => (
+                  <option key={faculty._id} value={faculty._id}>
+                    {faculty.fullName} ({faculty.designation})
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Head of Department *</label>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                HOD Message
+              </label>
 
-            <select
-  name="hod"
-  value={formData.hod}
-  onChange={handleChange}
-  required
-  className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
->
-              <option value="">Select HOD</option>
+              <textarea
+                rows="5"
+                name="hodMessage"
+                value={formData.hodMessage}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
+              />
+            </div>
 
-              {facultyList.map((faculty) => (
-                <option key={faculty._id} value={faculty._id}>
-                  {faculty.fullName} ({faculty.designation})
-                </option>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Programmes Offered
+              </label>
+
+              {formData.programmes.map((programme, index) => (
+                <div key={index} className="flex gap-3 mb-3">
+                  <input
+                    type="text"
+                    value={programme}
+                    onChange={(e) =>
+                      handleProgrammeChange(index, e.target.value)
+                    }
+                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
+                    placeholder="Programme Name"
+                  />
+
+                  {formData.programmes.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeProgramme(index)}
+                      className="bg-red-500 hover:bg-red-600 text-white px-4 rounded-lg"
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
               ))}
-            </select>
-          </div>
 
-          <div>
-           <label className="block text-sm font-medium text-gray-700 mb-2">HOD Message</label>
-
-            <textarea
-              rows="5"
-              name="hodMessage"
-              value={formData.hodMessage}
-              onChange={handleChange}
-             className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Programmes Offered
-            </label>
-
-            {formData.programmes.map((programme, index) => (
-              <div key={index} className="flex gap-3 mb-3">
-
-                <input
-                  type="text"
-                  value={programme}
-                  onChange={(e) =>
-                    handleProgrammeChange(index, e.target.value)
-                  }
-               className="flex-1 px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#2f2f6f] focus:border-[#2f2f6f]"
-                  placeholder="Programme Name"
-                />
-
-                {formData.programmes.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeProgramme(index)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-4 rounded-lg"
-                  >
-                    Remove
-                  </button>
-                )}
-              </div>
-            ))}
+              <button
+                type="button"
+                onClick={addProgramme}
+                className="bg-[#2f2f6f] hover:bg-[#24245d] text-white px-5 py-2 rounded-lg"
+              >
+                + Add Programme
+              </button>
+            </div>
 
             <button
-              type="button"
-              onClick={addProgramme}
-              className="bg-[#2f2f6f] hover:bg-[#24245d] text-white px-5 py-2 rounded-lg"
+              type="submit"
+              disabled={loading}
+              className="bg-[#2f2f6f] hover:bg-[#25245d] disabled:opacity-60 text-white px-8 py-3 rounded-lg"
             >
-              + Add Programme
+              {loading ? "Saving..." : "Save Department"}
             </button>
-          </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-[#2f2f6f] hover:bg-[#25245d] disabled:opacity-60 text-white px-8 py-3 rounded-lg"
-          >
-            {loading ? "Saving..." : "Save Department"}
-          </button>
-
-        </form>
+          </form>
+        </div>
       </div>
+    </AdminLayout>
 
-      {toast.show && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() =>
-            setToast((prev) => ({
-              ...prev,
-              show: false,
-            }))
-          }
-        />
-      )}
-    </div>
-  );
+    {toast.show && (
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        onClose={() =>
+          setToast((prev) => ({
+            ...prev,
+            show: false,
+          }))
+        }
+      />
+    )}
+  </>
+);
 }

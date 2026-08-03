@@ -17,11 +17,12 @@ export const createDepartment = async (req, res) => {
     } = req.body;
 
     const existingDepartment = await Department.findOne({
-      $or: [
-        { name },
-        { slug },
-      ],
-    });
+  isActive: true,
+  $or: [
+    { name },
+    { slug },
+  ],
+});
 
     if (existingDepartment) {
       return res.status(400).json({
@@ -46,12 +47,14 @@ export const createDepartment = async (req, res) => {
       message: "Department created successfully.",
       data: department,
     });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
+  }catch (error) {
+  console.error("Create Department Error:", error);
+
+  res.status(500).json({
+    success: false,
+    message: error.message,
+  });
+}
 };
 
 // =======================
@@ -59,15 +62,28 @@ export const createDepartment = async (req, res) => {
 // =======================
 export const getDepartments = async (req, res) => {
   try {
-   const departments = await Department.find({
-  isActive: true,
-})
-  .populate("hod", "fullName")
-  .sort({ name: 1 });
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 5;
+    const skip = (page - 1) * limit;
+
+    const filter = {
+      isActive: true,
+    };
+
+    const totalDepartments = await Department.countDocuments(filter);
+
+    const departments = await Department.find(filter)
+      .populate("hod", "fullName")
+      .sort({ name: 1 })
+      .skip(skip)
+      .limit(limit);
 
     res.status(200).json({
       success: true,
       count: departments.length,
+      totalDepartments,
+      currentPage: page,
+      totalPages: Math.ceil(totalDepartments / limit),
       data: departments,
     });
   } catch (error) {

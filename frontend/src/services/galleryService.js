@@ -3,8 +3,11 @@ import api from "../api/axios";
 // ==========================
 // Get All Galleries (Admin)
 // ==========================
-export const getGalleries = async () => {
-  const response = await api.get("/gallery/admin/all");
+export const getGalleries = async (params = {}) => {
+  const response = await api.get("/gallery/admin/all", {
+    params,
+  });
+
   return response.data;
 };
 
