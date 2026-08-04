@@ -108,7 +108,7 @@ export default function ManageDepartments() {
             </Link>
           </div>
 
-          <div className="bg-white rounded-xl shadow overflow-hidden">
+          <div className="bg-white rounded-xl overflow-hidden">
             <table className="w-full">
               <thead className="bg-[#2f2f6f] text-white">
                 <tr>
@@ -142,7 +142,7 @@ export default function ManageDepartments() {
                   departments.map((department) => (
                     <tr
                       key={department._id}
-                      className="border-b hover:bg-gray-50"
+                      className="hover:bg-gray-50"
                     >
                       <td className="px-6 py-4 font-medium">
                         {department.name}

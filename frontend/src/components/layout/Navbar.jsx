@@ -59,40 +59,92 @@ const isHomePage = location.pathname === "/home";
   <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
     <div className="w-[700px] bg-white rounded-lg shadow-lg p-6">
       <div className="grid grid-cols-3 gap-10">
-        <Column
-          title="Administration"
-          items={[
-            "Organization Structure",
-            "Management",
-            "Governing Body",
-            "Governing Council",
-            "Principal’s Message",
-            "Academic Council",
-            "Examination Cell",
-            "Chief Coordinators",
-            "Deans",
-            "Administrative Staff",
-            "Staff Welfare Services",
-          ]}
-        />
+       <Column
+  title="Administration"
+  items={[
+    {
+      label: "Organization Structure",
+      path: "/organization-structure",
+    },
+    {
+      label: "Management",
+      path: "/management",
+    },
+    {
+      label: "Governing Body",
+      path: "/governing-body",
+    },
+    {
+      label: "Governing Council",
+      path: "/governing-council",
+    },
+    {
+      label: "Principal's Message",
+      path: "/principal-message",
+    },
+    {
+      label: "Academic Council",
+      path: "/academic-council",
+    },
+    {
+      label: "Examination Cell",
+      path: "/examination-cell",
+    },
+    {
+      label: "Chief Coordinators",
+      path: "/chief-coordinators",
+    },
+    {
+      label: "Deans",
+      path: "/deans",
+    },
+    {
+      label: "Administrative Staff",
+      path: "/administrative-staff",
+    },
+    {
+      label: "Staff Welfare Services",
+      path: "/staff-welfare-services",
+    },
+  ]}
+/>
 
         <Column
-          title="Introduction"
-          items={[
-            "History & Milestones",
-            "Institutional Best Practices",
-            "Institutional Distinctiveness",
-          ]}
-        />
+  title="Introduction"
+  items={[
+    {
+      label: "History & Milestones",
+      path: "/history-milestones",
+    },
+    {
+      label: "Institutional Best Practices",
+      path: "/best-practices",
+    }, 
+    {
+      label: "Institutional Distinctiveness",
+      path: "/institutional-distinctiveness",
+    },
+  ]}
+/>
 
-        <Column
-          title="JNC Timeline"
-          items={[
-            "Campus Culture",
-            "Annual Reports",
-            "Glimpse of College Achievements & Activities",
-          ]}
-        />
+       <Column
+  title="JNC Timeline"
+  items={[
+    {
+      label: "Campus Culture",
+      path: "/campus-culture",
+    },
+    {
+      label: "Annual Reports",
+      path: "/annual-reports",
+    },
+     {
+      label: "Glimpse of College Achievements & Activities",
+       url: "https://www.youtube.com/watch?v=_rjTLOrKMM4",
+      external: true,
+    },
+  ]}
+/>
       </div>
     </div>
   </div>
@@ -345,47 +397,38 @@ const isHomePage = location.pathname === "/home";
   );
 }
 
-/* DROPDOWN */
-const Dropdown = ({ title, children, simple }) => (
-  <div className="group">
-    <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
-      {title} <span className="text-[10px]">▾</span>
-    </span>
-
-    {simple ? (
-      <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 bg-white shadow-md border hidden group-hover:block z-50 w-[220px]">
-        {children.map((item, i) => (
-          <div key={i} className="px-4 py-2 text-[12px] hover:bg-gray-100 cursor-pointer">
-            {item}
-          </div>
-        ))}
-      </div>
-    ) : (
-      <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[1000px] bg-white shadow-md hidden group-hover:block z-50">
-        <div className="grid grid-cols-3 gap-16 px-10 py-8 text-[12px]">
-          {children}
-        </div>
-      </div>
-    )}
-  </div>
-);
-
 const Column = ({ title, items }) => (
   <div className="space-y-2">
-    {title && (
-      <p className="font-semibold text-[#2F2F6F] mb-2">
-        {title}
-      </p>
-    )}
+    {title && <p className="font-semibold">{title}</p>}
 
-    {items.map((item, i) => (
-      <p
-        key={i}
-        className="px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] cursor-pointer transition"
-      >
-        {item}
-      </p>
-    ))}
+    {items.map((item, i) =>
+      typeof item === "string" ? (
+        <p
+          key={i}
+          className="hover:text-[#FF2D55] cursor-pointer"
+        >
+          {item}
+        </p>
+      ) : item.external ? (
+        <a
+          key={i}
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block hover:text-[#FF2D55] transition"
+        >
+          {item.label}
+        </a>
+      ) : (
+        <Link
+          key={i}
+          to={item.path}
+          className="block hover:text-[#FF2D55] transition"
+        >
+          {item.label}
+        </Link>
+      )
+    )}
   </div>
 );
 

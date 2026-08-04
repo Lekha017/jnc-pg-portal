@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import AdminLayout from "../../components/layout/AdminLayout";
 
 export default function AdminDashboard() {
- const modules = [
+const modules = [
   {
     title: "Faculty",
     path: "/admin/faculty",
@@ -22,6 +22,14 @@ export default function AdminDashboard() {
   {
     title: "Announcements",
     path: "/admin/announcements",
+  },
+  {
+    title: "Management",
+    path: "/admin/management",
+  },
+  {
+    title: "Deans",
+    path: "/admin/deans",
   },
 ];
 

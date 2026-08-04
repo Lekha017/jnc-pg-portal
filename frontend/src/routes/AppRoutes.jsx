@@ -22,10 +22,32 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import ManageFaculty from "../pages/admin/ManageFaculty";
 import AddFaculty from "../pages/admin/AddFaculty";
 import AdminEditFaculty from "../pages/admin/AdminEditFaculty";
+import ManageManagement from "../pages/admin/ManageManagement";
+import AddManagement from "../pages/admin/AddManagement";
+import EditManagement from "../pages/admin/EditManagement";
+import ManageDeans from "../pages/admin/ManageDeans";
+import AddDean from "../pages/admin/AddDean";
+import EditDean from "../pages/admin/EditDean";
 
+import OrganizationStructure from "../pages/AboutUs/OrganizationStructure";
+import GoverningBody from "../pages/AboutUs/GoverningBody";
+import PrincipalMessage from "../pages/AboutUs/PrincipalMessage";
+import ExaminationCell from "../pages/AboutUs/ExaminationCell";
+import ChiefCoordinators from "../pages/AboutUs/ChiefCoordinators";
+import AdministrativeStaff from "../pages/AboutUs/AdministrativeStaff";
+import StaffWelfareServices from "../pages/AboutUs/StaffWelfareServices";
+import Management from "../pages/AboutUs/Management";
+import GoverningCouncil from "../pages/AboutUs/GoverningCouncil";
+import AcademicCouncil from "../pages/AboutUs/AcademicCouncil";
+import Deans from "../pages/AboutUs/Deans";
+import HistoryMilestones from "../pages/AboutUs/HistoryMilestones";
+import InstitutionalDistinctiveness from "../pages/AboutUs/InstitutionalDistinctiveness";
+import BestPractices from "../pages/AboutUs/BestPractices";
+import CampusCulture from "../pages/AboutUs/CampusCulture";
 
 import Library from "../pages/Library";
 import PlacementGallery from "../pages/PlacementGallery";
+
 
 import AddDepartment from "../pages/admin/AddDepartment";
 import EditDepartment from "../pages/admin/EditDepartment";
@@ -210,6 +232,59 @@ const AppRoutes = () => {
         }
       />
 
+<Route
+  path="/admin/management"
+  element={
+    <ProtectedRoute roles={["admin"]}>
+      <ManageManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/management/add"
+  element={
+    <ProtectedRoute roles={["admin"]}>
+      <AddManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/management/edit/:id"
+  element={
+    <ProtectedRoute roles={["admin"]}>
+      <EditManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/deans"
+  element={
+    <ProtectedRoute roles={["admin"]}>
+      <ManageDeans />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/deans/add"
+  element={
+    <ProtectedRoute roles={["admin"]}>
+      <AddDean />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/deans/edit/:id"
+  element={
+    <ProtectedRoute roles={["admin"]}>
+      <EditDean />
+    </ProtectedRoute>
+  }
+/>
       {/* ================= FACULTY ADMIN ================= */}
 
       <Route
@@ -250,14 +325,14 @@ const AppRoutes = () => {
         }
       />
 
-     <Route
-  path="/faculty/edit-profile"
-  element={
-    <ProtectedRoute roles={["faculty"]}>
-      <EditFaculty />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/faculty/edit-profile"
+        element={
+          <ProtectedRoute roles={["faculty"]}>
+            <EditFaculty />
+          </ProtectedRoute>
+        }
+      />
 
       {/* ================= AUTH ================= */}
 
@@ -286,6 +361,81 @@ const AppRoutes = () => {
         }
       />
 
+      {/* ================= ABOUT US ================= */}
+      <Route
+        path="/organization-structure"
+        element={<OrganizationStructure />}
+      />
+
+<Route
+  path="/management"
+  element={<Management />}
+/>
+
+      <Route
+        path="/governing-body"
+        element={<GoverningBody />}
+      />
+
+      <Route
+        path="/principal-message"
+        element={<PrincipalMessage />}
+      />
+
+      <Route
+        path="/examination-cell"
+        element={<ExaminationCell />}
+      />
+
+      <Route
+        path="/chief-coordinators"
+        element={<ChiefCoordinators />}
+      />
+
+      <Route
+        path="/administrative-staff"
+        element={<AdministrativeStaff />}
+      />
+
+      <Route
+  path="/staff-welfare-services"
+  element={<StaffWelfareServices />}
+/>
+
+<Route
+  path="/governing-council"
+  element={<GoverningCouncil />}
+/>
+
+<Route
+  path="/academic-council"
+  element={<AcademicCouncil />}
+/>
+
+<Route
+  path="/deans"
+  element={<Deans />}
+/>
+
+<Route
+  path="/history-milestones"
+  element={<HistoryMilestones />}
+/>
+
+<Route
+  path="/institutional-distinctiveness"
+  element={<InstitutionalDistinctiveness />}
+/>
+
+<Route
+  path="/best-practices"
+  element={<BestPractices />}
+/>
+
+<Route
+  path="/campus-culture"
+  element={<CampusCulture />}
+/>
     </Routes>
   );
 };
