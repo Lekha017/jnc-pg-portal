@@ -22,12 +22,15 @@ import ManageFaculty from "../pages/admin/ManageFaculty";
 import AddFaculty from "../pages/admin/AddFaculty";
 import AdminEditFaculty from "../pages/admin/AdminEditFaculty";
 
+
 import Library from "../pages/Library";
 import PlacementGallery from "../pages/PlacementGallery";
 
 import AddDepartment from "../pages/admin/AddDepartment";
 import EditDepartment from "../pages/admin/EditDepartment";
 import ManageDepartments from "../pages/admin/ManageDepartments";
+import ManagePrograms from "../pages/admin/programs/ManagePrograms";
+import ManageFees from "../pages/Admin/Programs/ManageFees";
 
 import ManageEvents from "../pages/Admin/ManageEvents";
 
@@ -184,6 +187,24 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute roles={["admin"]}>
             <EditDepartment />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/programs"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <ManagePrograms />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/fees"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <ManageFees />
           </ProtectedRoute>
         }
       />
