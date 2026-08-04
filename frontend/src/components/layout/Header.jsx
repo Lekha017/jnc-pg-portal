@@ -9,10 +9,10 @@ const Header = () => {
       {/* ================= TOP BAR ================= */}
 
       <div className="bg-[#4B4B7C] text-white">
-        <div className="max-w-[1300px] mx-auto px-6 h-[50px] flex items-center justify-between">
+        <div className="max-w-[1300px] mx-auto px-4 h-[50px] flex items-center justify-between">
 
           {/* Left */}
-          <div className="hidden lg:flex items-center gap-4 text-[16px]">
+          <div className="hidden lg:flex items-center gap-4 text-[14px]">
 
             <span className="cursor-pointer hover:underline">IQAC</span>
 

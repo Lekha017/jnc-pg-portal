@@ -51,45 +51,138 @@ const isHomePage = location.pathname === "/home";
 )}
           {navItem("HOME", "/home")}
 
-          <Dropdown title="ABOUT US">
-            <Column title="Administration" items={[
-              "Organization Structure","Management","Governing Body","Governing Council",
-              "Principal’s Message","Academic Council","Examination Cell","Chief Coordinators",
-              "Deans","Administrative Staff","Staff Welfare Services"
-            ]}/>
-            <Column title="Introduction" items={[
-              "History & Milestones","Institutional Best Practices","Institutional Distinctiveness"
-            ]}/>
-            <Column title="JNC Timeline" items={[
-              "Campus Culture","Annual Reports","Glimpse of College Achievements & Activities"
-            ]}/>
-          </Dropdown>
+        <div className="relative group">
+  <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
+    ABOUT US <span className="text-[10px]">▾</span>
+  </span>
 
-          <Dropdown title="ACADEMICS">
-           <DepartmentDropdown />
-          </Dropdown>
+  <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
+    <div className="w-[700px] bg-white rounded-lg shadow-lg p-6">
+      <div className="grid grid-cols-3 gap-10">
+        <Column
+          title="Administration"
+          items={[
+            "Organization Structure",
+            "Management",
+            "Governing Body",
+            "Governing Council",
+            "Principal’s Message",
+            "Academic Council",
+            "Examination Cell",
+            "Chief Coordinators",
+            "Deans",
+            "Administrative Staff",
+            "Staff Welfare Services",
+          ]}
+        />
 
-          <Dropdown title="INFRASTRUCTURE">
-            <Column items={[
-              "Library & Info Centre","Auditorium","Food Court","Hostel",
-              "Medical Room","Board Room","Conference Hall","Meditation Room","Video Studio"
-            ]}/>
-            <Column items={[
-              "Chapel","Gymnasium","Indoor Games Room","Bank","Parking",
-              "Audio Studio","Media Lab","Innovation Lab","Media Incubation Centre"
-            ]}/>
-            <Column items={[
-              "Zoological Museum","Language Lab","Student Union Room",
-              "Performing Arts Studio","Maintenance Policy"
-            ]}/>
-          </Dropdown>
+        <Column
+          title="Introduction"
+          items={[
+            "History & Milestones",
+            "Institutional Best Practices",
+            "Institutional Distinctiveness",
+          ]}
+        />
 
-          <Dropdown title="ADMISSIONS" simple>
-            {[
-              "Online Payment","Undergraduate Programme","Prospectus",
-              "Dhwani 2024-25","PUC","Postgraduate Programme"
-            ]}
-          </Dropdown>
+        <Column
+          title="JNC Timeline"
+          items={[
+            "Campus Culture",
+            "Annual Reports",
+            "Glimpse of College Achievements & Activities",
+          ]}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+          <div className="relative group">
+  <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
+    ACADEMICS <span className="text-[10px]">▾</span>
+  </span>
+
+ <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
+    <DepartmentDropdown />
+  </div>
+</div>
+
+        <div className="relative group">
+  <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
+    INFRASTRUCTURE <span className="text-[10px]">▾</span>
+  </span>
+
+  <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
+    <div className="w-[700px] bg-white rounded-lg shadow-lg p-6">
+      <div className="grid grid-cols-3 gap-10">
+        <Column
+          items={[
+            "Library & Info Centre",
+            "Auditorium",
+            "Food Court",
+            "Hostel",
+            "Medical Room",
+            "Board Room",
+            "Conference Hall",
+            "Meditation Room",
+            "Video Studio",
+          ]}
+        />
+
+        <Column
+          items={[
+            "Chapel",
+            "Gymnasium",
+            "Indoor Games Room",
+            "Bank",
+            "Parking",
+            "Audio Studio",
+            "Media Lab",
+            "Innovation Lab",
+            "Media Incubation Centre",
+          ]}
+        />
+
+        <Column
+          items={[
+            "Zoological Museum",
+            "Language Lab",
+            "Student Union Room",
+            "Performing Arts Studio",
+            "Maintenance Policy",
+          ]}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+         <div className="relative group">
+  <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
+    ADMISSIONS <span className="text-[10px]">▾</span>
+  </span>
+
+  <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
+    <div className="w-72 bg-white rounded-lg shadow-lg py-2">
+      {[
+        "Online Payment",
+        "Undergraduate Programme",
+        "Prospectus",
+        "Dhwani 2024-25",
+        "PUC",
+        "Postgraduate Programme",
+      ].map((item, index) => (
+        <p
+          key={index}
+          className="px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] cursor-pointer transition"
+        >
+          {item}
+        </p>
+      ))}
+    </div>
+  </div>
+</div>
 
           {/* ✅ FIXED: LIBRARY LINK */}
           <Link
@@ -134,7 +227,7 @@ const isHomePage = location.pathname === "/home";
 
     {user.role === "faculty" && (
       <>
-        <Link to="/faculty/profile">
+        <Link to="/faculty/edit-profile">
           <button
             onClick={() => setOpen(false)}
             className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
@@ -211,7 +304,7 @@ const isHomePage = location.pathname === "/home";
 
     {user.role === "faculty" && (
       <>
-        <Link to="/faculty/profile">
+        <Link to="/faculty/edit-profile">
           <button
             onClick={() => setOpen(false)}
             className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
@@ -279,9 +372,17 @@ const Dropdown = ({ title, children, simple }) => (
 
 const Column = ({ title, items }) => (
   <div className="space-y-2">
-    {title && <p className="font-semibold">{title}</p>}
+    {title && (
+      <p className="font-semibold text-[#2F2F6F] mb-2">
+        {title}
+      </p>
+    )}
+
     {items.map((item, i) => (
-      <p key={i} className="hover:text-[#FF2D55] cursor-pointer">
+      <p
+        key={i}
+        className="px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] cursor-pointer transition"
+      >
         {item}
       </p>
     ))}

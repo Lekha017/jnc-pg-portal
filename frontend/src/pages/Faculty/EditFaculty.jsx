@@ -73,8 +73,13 @@ const EditFaculty = () => {
       const response = await getMyFacultyProfile();
 
       const data =
-        response.data?.data ||
-        response.data?.faculty;
+  response.data?.data ||
+  response.data?.faculty ||
+  response.data;
+
+if (!data) {
+  throw new Error("Faculty profile not found");
+}
 
       setFaculty(data);
 
@@ -219,12 +224,14 @@ return (
 
           {" "}›{" "}
 
-          <Link
-            to={`/faculty/${faculty._id}`}
-            className="text-blue-600 hover:underline"
-          >
-            {faculty.fullName}
-          </Link>
+         {faculty && (
+  <Link
+    to={`/faculty/${faculty._id}`}
+    className="text-blue-600 hover:underline"
+  >
+    {faculty.fullName}
+  </Link>
+)}
 
           {" "}›{" "}
 

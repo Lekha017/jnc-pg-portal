@@ -44,14 +44,13 @@ const Login = () => {
 
       toast.success(response.message || "Login Successful");
 
-      // Refresh authenticated user from backend
       await login();
 
-      // Redirect everyone to Home
       navigate("/");
     } catch (error) {
       toast.error(
-        error.response?.data?.message || "Invalid email or password"
+        error.response?.data?.message ||
+          "Invalid email or password"
       );
     } finally {
       setLoading(false);
@@ -60,11 +59,13 @@ const Login = () => {
 
   return (
     <AuthLayout>
-      <div className="flex justify-center mb-5">
+      {/* Logo */}
+      <div className="flex justify-center mb-6 scale-110">
         <Logo />
       </div>
 
-      <h2 className="text-4xl font-bold text-center text-[#4B4B7C]">
+      {/* Heading */}
+      <h2 className="text-3xl font-bold text-center text-[#4B4B7C]">
         Welcome Back
       </h2>
 
@@ -91,11 +92,19 @@ const Login = () => {
           placeholder="Enter your password"
         />
 
+        <div className="flex justify-end mb-5">
+          <Link
+            to="/forgot-password"
+            className="text-sm text-[#4B4B7C] hover:underline font-medium"
+          >
+            Forgot Password?
+          </Link>
+        </div>
+
         <Button
           type="submit"
           text={loading ? "Logging In..." : "Login"}
           disabled={loading}
-          className="mt-2"
         />
       </form>
 
