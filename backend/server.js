@@ -22,6 +22,8 @@ import placementGalleryRoutes from "./routes/placementGalleryRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import programRoutes from "./routes/programRoutes.js";
 import feeRoutes from "./routes/feeRoutes.js";
+import programDetailsRoutes from "./routes/programDetailsRoutes.js";
+
 
 dotenv.config();
 
@@ -65,6 +67,7 @@ app.use("/api/placement-gallery",placementGalleryRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/programs", programRoutes);
 app.use("/api/fees", feeRoutes);
+app.use("/api/program-details",programDetailsRoutes);
 
 
 app.get("/", (req, res) => {
