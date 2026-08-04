@@ -7,6 +7,23 @@ import Placement from "../pages/Placement";
 import RecruitingCompaniesPage from "../pages/RecruitingCompanies";
 import PlacementTraining from "../pages/PlacementTraining";
 import PlacementContact from "../pages/PlacementContact";
+import ProgramDetailsPage from "../pages/Admissions/components/ProgramDetailsPage";
+import Auditorium from "../pages/infrastructure/Auditorium";
+import FoodCourt from "../pages/infrastructure/FoodCourt";
+import Hostel from "../pages/infrastructure/Hostel";
+import MedicalRoom from "../pages/infrastructure/MedicalRoom";
+import BoardRoom from "../pages/infrastructure/BoardRoom";
+import MeditationRoom from "../pages/infrastructure/MeditationRoom";
+import ConferenceHall from "../pages/infrastructure/ConferenceHall";
+import VideoStudio from "../pages/infrastructure/VideoStudio";
+import Chapel from "../pages/infrastructure/Chapel";
+import Gymnasium from "../pages/infrastructure/Gymnasium";
+import IndoorGamesRoom from "../pages/infrastructure/IndoorGamesRoom";
+import Bank from "../pages/infrastructure/Bank";
+import Parking from "../pages/infrastructure/Parking";
+import AudioStudio from "../pages/infrastructure/AudioStudio";
+import MediaLab from "../pages/infrastructure/MediaLab";
+import InnovationLab from "../pages/infrastructure/InnovationLab";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -54,6 +71,7 @@ import EditDepartment from "../pages/admin/EditDepartment";
 import ManageDepartments from "../pages/admin/ManageDepartments";
 import ManagePrograms from "../pages/admin/programs/ManagePrograms";
 import ManageFees from "../pages/Admin/Programs/ManageFees";
+import ManageProgramDetails from "../pages/admin/programs/ManageProgramDetails";
 
 import ManageEvents from "../pages/Admin/ManageEvents";
 
@@ -120,6 +138,91 @@ const AppRoutes = () => {
       <Route
         path="/admissions"
         element={<AdmissionsPage />}
+      />
+
+      <Route
+        path="/program-details/:programId"
+        element={<ProgramDetailsPage />}
+      />
+
+      <Route
+        path="/infrastructure/auditorium"
+        element={<Auditorium />}
+      />
+
+      <Route
+        path="/infrastructure/food-court"
+        element={<FoodCourt />}
+      />
+
+      <Route
+        path="/infrastructure/hostel"
+        element={<Hostel />}
+      />
+
+      <Route
+        path="/infrastructure/medical-room"
+        element={<MedicalRoom />}
+      />
+
+      <Route
+        path="/infrastructure/board-room"
+        element={<BoardRoom />}
+      />
+
+      <Route
+        path="/infrastructure/meditation-room"
+        element={<MeditationRoom />}
+      />
+
+      <Route
+        path="/infrastructure/conference-hall"
+        element={<ConferenceHall />}
+      />
+
+      <Route
+        path="/infrastructure/video-studio"
+        element={<VideoStudio />}
+      />
+
+      <Route
+        path="/infrastructure/chapel"
+        element={<Chapel />}
+      />
+
+      <Route
+        path="/infrastructure/gymnasium"
+        element={<Gymnasium />}
+      />
+
+      <Route
+        path="/infrastructure/indoor-games-room"
+        element={<IndoorGamesRoom />}
+      />
+
+      <Route
+        path="/infrastructure/bank"
+        element={<Bank />}
+      />
+
+      <Route
+        path="/infrastructure/parking"
+        element={<Parking />}
+      />
+
+      <Route
+        path="/infrastructure/audio-studio"
+        element={<AudioStudio />}
+      />
+
+      <Route
+        path="/infrastructure/media-lab"
+        element={<MediaLab />}
+      />
+
+      <Route
+        path="/infrastructure/innovation-lab"
+        element={<InnovationLab />}
       />
 
       {/* ================= LIBRARY ================= */}
@@ -285,6 +388,16 @@ const AppRoutes = () => {
     </ProtectedRoute>
   }
 />
+
+      <Route
+        path="/admin/program-details"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <ManageProgramDetails />
+          </ProtectedRoute>
+        }
+      />
+
       {/* ================= FACULTY ADMIN ================= */}
 
       <Route

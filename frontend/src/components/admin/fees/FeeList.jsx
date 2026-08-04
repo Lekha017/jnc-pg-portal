@@ -3,7 +3,6 @@ import { Search } from "lucide-react";
 import { toast } from "react-toastify";
 
 import FeeCard from "./FeeCard";
-
 import ConfirmModal from "../../common/ConfirmModal";
 
 import {
@@ -69,8 +68,10 @@ function FeeList({
       );
 
       setShowDeleteModal(false);
+      setDeleteId(null);
 
       loadFees();
+
     } catch (error) {
       console.error(error);
 
@@ -81,7 +82,7 @@ function FeeList({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
+    <div className="bg-white rounded-2xl shadow-md border border-gray-300 p-6">
 
       {/* Header */}
 
@@ -112,19 +113,21 @@ function FeeList({
           className="
             w-full
             border
+            border-gray-300
             rounded-xl
             pl-10
             pr-4
             py-2.5
-            focus:ring-2
-            focus:ring-[#2D2A70]
             outline-none
+            focus:border-gray-400
+            focus:ring-2
+            focus:ring-[#2D2A70]/20
           "
         />
 
       </div>
 
-      {/* List */}
+      {/* Fee List */}
 
       <div className="space-y-4">
 
@@ -156,16 +159,17 @@ function FeeList({
 
       </div>
 
-      {/* Delete Modal */}
+      {/* Delete Confirmation */}
 
       <ConfirmModal
         isOpen={showDeleteModal}
-        onClose={() =>
-          setShowDeleteModal(false)
-        }
-        onConfirm={handleDelete}
         title="Delete Fee"
         message="Are you sure you want to delete this fee?"
+        onConfirm={handleDelete}
+        onCancel={() => {
+          setShowDeleteModal(false);
+          setDeleteId(null);
+        }}
       />
 
     </div>

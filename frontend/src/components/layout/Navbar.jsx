@@ -6,22 +6,21 @@ import { useAuth } from "../../context/AuthContext";
 import DepartmentDropdown from "./DepartmentDropdown";
 
 function Navbar() {
-   const { user } = useAuth();
-    
+  const { user } = useAuth();
+
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-const isHomePage = location.pathname === "/home";
+  const isHomePage = location.pathname === "/home";
   const isActive = (path) => location.pathname === path;
 
   const navItem = (label, path) => (
     <Link
       to={path}
       className={`px-4 py-[6px] rounded-full text-[12px] font-bold transition
-        ${
-          isActive(path)
-            ? "bg-[#FF2D55] text-white"
-            : "text-[#2C2C2C] hover:text-[#FF2D55]"
+        ${isActive(path)
+          ? "bg-[#FF2D55] text-white"
+          : "text-[#2C2C2C] hover:text-[#FF2D55]"
         }`}
     >
       {label}
@@ -29,212 +28,280 @@ const isHomePage = location.pathname === "/home";
   );
 
   return (
-    <nav  className="bg-[#f5f5f5] border-t border-gray-200 relative">
+    <nav className="bg-[#f5f5f5] border-t border-gray-200 relative">
 
       {/* DESKTOP */}
       <div className="hidden lg:flex items-center justify-between max-w-[1300px] mx-auto px-6 h-[55px]">
 
         {/* LEFT */}
         <div className="flex items-center gap-7 text-[12px] font-semibold tracking-wide">
-{!isHomePage && (
-  <ArrowLeftCircle
-    size={32}
-    className="cursor-pointer text-[#2f2f6f] hover:scale-110 transition"
-    onClick={() => {
-  if (window.history.length > 1) {
-    navigate(-1);
-  } else {
-    navigate("/");
-  }
-}}
-  />
-)}
+          {!isHomePage && (
+            <ArrowLeftCircle
+              size={32}
+              className="cursor-pointer text-[#2f2f6f] hover:scale-110 transition"
+              onClick={() => {
+                if (window.history.length > 1) {
+                  navigate(-1);
+                } else {
+                  navigate("/");
+                }
+              }}
+            />
+          )}
           {navItem("HOME", "/home")}
 
-        <div className="relative group">
-  <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
-    ABOUT US <span className="text-[10px]">▾</span>
-  </span>
+          <div className="relative group">
+            <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
+              ABOUT US <span className="text-[10px]">▾</span>
+            </span>
 
   <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
     <div className="w-[700px] bg-white rounded-lg shadow-lg p-6">
       <div className="grid grid-cols-3 gap-10">
-       <Column
-  title="Administration"
-  items={[
-    {
-      label: "Organization Structure",
-      path: "/organization-structure",
-    },
-    {
-      label: "Management",
-      path: "/management",
-    },
-    {
-      label: "Governing Body",
-      path: "/governing-body",
-    },
-    {
-      label: "Governing Council",
-      path: "/governing-council",
-    },
-    {
-      label: "Principal's Message",
-      path: "/principal-message",
-    },
-    {
-      label: "Academic Council",
-      path: "/academic-council",
-    },
-    {
-      label: "Examination Cell",
-      path: "/examination-cell",
-    },
-    {
-      label: "Chief Coordinators",
-      path: "/chief-coordinators",
-    },
-    {
-      label: "Deans",
-      path: "/deans",
-    },
-    {
-      label: "Administrative Staff",
-      path: "/administrative-staff",
-    },
-    {
-      label: "Staff Welfare Services",
-      path: "/staff-welfare-services",
-    },
-  ]}
-/>
+        <Column
+          title="Administration"
+          items={[
+            "Organization Structure",
+            "Management",
+            "Governing Body",
+            "Governing Council",
+            "Principal’s Message",
+            "Academic Council",
+            "Examination Cell",
+            "Chief Coordinators",
+            "Deans",
+            "Administrative Staff",
+            "Staff Welfare Services",
+          ]}
+        />
 
         <Column
-  title="Introduction"
-  items={[
-    {
-      label: "History & Milestones",
-      path: "/history-milestones",
-    },
-    {
-      label: "Institutional Best Practices",
-      path: "/best-practices",
-    }, 
-    {
-      label: "Institutional Distinctiveness",
-      path: "/institutional-distinctiveness",
-    },
-  ]}
-/>
+          title="Introduction"
+          items={[
+            "History & Milestones",
+            "Institutional Best Practices",
+            "Institutional Distinctiveness",
+          ]}
+        />
 
-       <Column
-  title="JNC Timeline"
-  items={[
-    {
-      label: "Campus Culture",
-      path: "/campus-culture",
-    },
-    {
-      label: "Annual Reports",
-      path: "/annual-reports",
-    },
-     {
-      label: "Glimpse of College Achievements & Activities",
-       url: "https://www.youtube.com/watch?v=_rjTLOrKMM4",
-      external: true,
-    },
-  ]}
-/>
+        <Column
+          title="JNC Timeline"
+          items={[
+            "Campus Culture",
+            "Annual Reports",
+            "Glimpse of College Achievements & Activities",
+          ]}
+        />
       </div>
     </div>
   </div>
 </div>
 
           <div className="relative group">
-  <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
-    ACADEMICS <span className="text-[10px]">▾</span>
-  </span>
+            <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
+              ACADEMICS <span className="text-[10px]">▾</span>
+            </span>
 
- <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
-    <DepartmentDropdown />
-  </div>
-</div>
+            <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
+              <DepartmentDropdown />
+            </div>
+          </div>
 
-        <div className="relative group">
-  <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
-    INFRASTRUCTURE <span className="text-[10px]">▾</span>
-  </span>
+          <div className="relative group">
+            <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
+              INFRASTRUCTURE <span className="text-[10px]">▾</span>
+            </span>
 
-  <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
-    <div className="w-[700px] bg-white rounded-lg shadow-lg p-6">
-      <div className="grid grid-cols-3 gap-10">
-        <Column
-          items={[
-            "Library & Info Centre",
-            "Auditorium",
-            "Food Court",
-            "Hostel",
-            "Medical Room",
-            "Board Room",
-            "Conference Hall",
-            "Meditation Room",
-            "Video Studio",
-          ]}
-        />
+            <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
+              <div className="w-[700px] bg-white rounded-lg shadow-lg p-6">
+                <div className="grid grid-cols-3 gap-10">
+                  <div className="space-y-2">
 
-        <Column
-          items={[
-            "Chapel",
-            "Gymnasium",
-            "Indoor Games Room",
-            "Bank",
-            "Parking",
-            "Audio Studio",
-            "Media Lab",
-            "Innovation Lab",
-            "Media Incubation Centre",
-          ]}
-        />
+                    <Link
+                      to="/infrastructure/auditorium"
+                      className="
+                        px-2
+                        py-1
+                        rounded
+                        text-[13px]
+                        text-gray-700
+                        hover:bg-[#F5F3FF]
+                        hover:text-[#2F2F6F]
+                        cursor-pointer
+                        transition
+                        block
+                      "
+                    >
+                      Auditorium
+                    </Link>
 
-        <Column
-          items={[
-            "Zoological Museum",
-            "Language Lab",
-            "Student Union Room",
-            "Performing Arts Studio",
-            "Maintenance Policy",
-          ]}
-        />
-      </div>
-    </div>
-  </div>
-</div>
+                    <div className="space-y-2">
 
-         <div className="relative group">
-  <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
-    ADMISSIONS <span className="text-[10px]">▾</span>
-  </span>
+                      <a
+                        href="https://linktr.ee/jnclibrary"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                      >
+                        Digital Library
+                      </a>
 
-  <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
-    <div className="w-72 bg-white rounded-lg shadow-lg py-2">
-      {[
-        "Online Payment",
-        "Undergraduate Programme",
-        "Prospectus",
-        "Dhwani 2024-25",
-        "PUC",
-        "Postgraduate Programme",
-      ].map((item, index) => (
-        <p
-          key={index}
-          className="px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] cursor-pointer transition"
-        >
-          {item}
-        </p>
-      ))}
-    </div>
-  </div>
-</div>
+                      <Link
+                        to="/infrastructure/food-court"
+                        className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                      >
+                        Food Court
+                      </Link>
+
+                      <Link
+                        to="/infrastructure/hostel"
+                        className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                      >
+                        Hostel
+                      </Link>
+
+                      <Link
+                        to="/infrastructure/medical-room"
+                        className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                      >
+                        Medical Room
+                      </Link>
+
+                      <Link
+                        to="/infrastructure/board-room"
+                        className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                      >
+                        Board Room
+                      </Link>
+
+                      <Link
+                        to="/infrastructure/meditation-room"
+                        className=" block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF]  hover:text-[#2F2F6F] transition"
+                      >
+                        Meditation Room
+                      </Link>
+
+                      <Link
+                        to="/infrastructure/conference-hall"
+                        className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                      >
+                        Conference Hall
+                      </Link>
+
+                      <Link
+                        to="/infrastructure/video-studio"
+                        className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                      >
+                        Video Studio
+                      </Link>
+
+                    </div>
+
+                  </div>
+
+                  <div className="space-y-2">
+
+                    <Link
+                      to="/infrastructure/chapel"
+                      className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                    >
+                      Chapel
+                    </Link>
+
+                    <Link
+                      to="/infrastructure/gymnasium"
+                      className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                    >
+                      Gymnasium
+                    </Link>
+
+                    <Link
+                      to="/infrastructure/indoor-games-room"
+                      className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                    >
+                      Indoor Games Room
+                    </Link>
+
+                    <Link
+                      to="/infrastructure/bank"
+                      className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                    >
+                      Bank
+                    </Link>
+
+                    <Link
+                      to="/infrastructure/parking"
+                      className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                    >
+                      Parking
+                    </Link>
+
+                    <Link
+                      to="/infrastructure/audio-studio"
+                      className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                    >
+                      Audio Studio
+                    </Link>
+
+                    <Link
+                      to="/infrastructure/media-lab"
+                      className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                    >
+                      Media Lab
+                    </Link>
+
+                    <Link
+                      to="/infrastructure/innovation-lab"
+                      className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                    >
+                      Innovation Lab
+                    </Link>
+
+                    <p className="px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] cursor-pointer transition">
+                      Media Incubation Centre
+                    </p>
+
+                  </div>
+
+                  <Column
+                    items={[
+                      "Zoological Museum",
+                      "Language Lab",
+                      "Student Union Room",
+                      "Performing Arts Studio",
+                      "Maintenance Policy",
+                    ]}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative group">
+            <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
+              ADMISSIONS <span className="text-[10px]">▾</span>
+            </span>
+
+            <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
+              <div className="w-72 bg-white rounded-lg shadow-lg py-2">
+                {[
+                  "Online Payment",
+                  "Undergraduate Programme",
+                  "Prospectus",
+                  "Dhwani 2024-25",
+                  "PUC",
+                  "Postgraduate Programme",
+                ].map((item, index) => (
+                  <p
+                    key={index}
+                    className="px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] cursor-pointer transition"
+                  >
+                    {item}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
 
           {/* ✅ FIXED: LIBRARY LINK */}
           <Link
@@ -248,7 +315,7 @@ const isHomePage = location.pathname === "/home";
 
         {/* RIGHT */}
         <div className="flex items-center gap-6">
-          
+
           <div className="relative z-10">
             <button
               onClick={() => setOpen(!open)}
@@ -260,60 +327,60 @@ const isHomePage = location.pathname === "/home";
             {open && (
               <div className="absolute right-0 mt-3 w-60 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
 
-{user ? (
-  <>
-    <p className="px-4 py-2 text-sm text-gray-500">
-      Welcome, {user.fullName || user.email}
-    </p>
+                {user ? (
+                  <>
+                    <p className="px-4 py-2 text-sm text-gray-500">
+                      Welcome, {user.fullName || user.email}
+                    </p>
 
-    {user.role === "admin" && (
-      <Link to="/admin">
-        <button
-          onClick={() => setOpen(false)}
-          className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
-        >
-          Admin Dashboard
-        </button>
-      </Link>
-    )}
+                    {user.role === "admin" && (
+                      <Link to="/admin">
+                        <button
+                          onClick={() => setOpen(false)}
+                          className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
+                        >
+                          Admin Dashboard
+                        </button>
+                      </Link>
+                    )}
 
-    {user.role === "faculty" && (
-      <>
-        <Link to="/faculty/edit-profile">
-          <button
-            onClick={() => setOpen(false)}
-            className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
-          >
-            My Profile
-          </button>
-        </Link>
+                    {user.role === "faculty" && (
+                      <>
+                        <Link to="/faculty/edit-profile">
+                          <button
+                            onClick={() => setOpen(false)}
+                            className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
+                          >
+                            My Profile
+                          </button>
+                        </Link>
 
-        <Link to="/faculty/dashboard">
-          <button
-            onClick={() => setOpen(false)}
-            className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
-          >
-            Faculty Dashboard
-          </button>
-        </Link>
-      </>
-    )}
+                        <Link to="/faculty/dashboard">
+                          <button
+                            onClick={() => setOpen(false)}
+                            className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
+                          >
+                            Faculty Dashboard
+                          </button>
+                        </Link>
+                      </>
+                    )}
 
-    <div className="px-2 py-2">
-      <LogoutButton onLogout={() => setOpen(false)} />
-    </div>
-  </>
-) : (
-  <button
-    onClick={() => {
-      navigate("/login");
-      setOpen(false);
-    }}
-    className="w-full text-left px-4 py-2 hover:bg-gray-100"
-  >
-    Login
-  </button>
-)}
+                    <div className="px-2 py-2">
+                      <LogoutButton onLogout={() => setOpen(false)} />
+                    </div>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => {
+                      navigate("/login");
+                      setOpen(false);
+                    }}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                  >
+                    Login
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -337,60 +404,60 @@ const isHomePage = location.pathname === "/home";
           <p>Student Support</p>
           <p>Infrastructure</p>
           <p>Admissions</p>
-                       {user ? (
-  <>
-    <p className="px-4 py-2 text-sm text-gray-500">
-      Welcome, {user.fullName || user.email}
-    </p>
+          {user ? (
+            <>
+              <p className="px-4 py-2 text-sm text-gray-500">
+                Welcome, {user.fullName || user.email}
+              </p>
 
-    {user.role === "admin" && (
-      <Link to="/admin">
-        <button
-          onClick={() => setOpen(false)}
-          className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
-        >
-          Admin Dashboard
-        </button>
-      </Link>
-    )}
+              {user.role === "admin" && (
+                <Link to="/admin">
+                  <button
+                    onClick={() => setOpen(false)}
+                    className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
+                  >
+                    Admin Dashboard
+                  </button>
+                </Link>
+              )}
 
-    {user.role === "faculty" && (
-      <>
-        <Link to="/faculty/edit-profile">
-          <button
-            onClick={() => setOpen(false)}
-            className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
-          >
-            My Profile
-          </button>
-        </Link>
+              {user.role === "faculty" && (
+                <>
+                  <Link to="/faculty/edit-profile">
+                    <button
+                      onClick={() => setOpen(false)}
+                      className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
+                    >
+                      My Profile
+                    </button>
+                  </Link>
 
-        <Link to="/faculty/dashboard">
-          <button
-            onClick={() => setOpen(false)}
-            className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
-          >
-            Faculty Dashboard
-          </button>
-        </Link>
-      </>
-    )}
+                  <Link to="/faculty/dashboard">
+                    <button
+                      onClick={() => setOpen(false)}
+                      className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
+                    >
+                      Faculty Dashboard
+                    </button>
+                  </Link>
+                </>
+              )}
 
-    <div className="px-2 py-2">
-      <LogoutButton onLogout={() => setOpen(false)} />
-    </div>
-  </>
-) : (
-  <button
-    onClick={() => {
-      navigate("/login");
-      setOpen(false);
-    }}
-    className="w-full text-left px-4 py-2 hover:bg-gray-100"
-  >
-    Login
-  </button>
-)}
+              <div className="px-2 py-2">
+                <LogoutButton onLogout={() => setOpen(false)} />
+              </div>
+            </>
+          ) : (
+            <button
+              onClick={() => {
+                navigate("/login");
+                setOpen(false);
+              }}
+              className="w-full text-left px-4 py-2 hover:bg-gray-100"
+            >
+              Login
+            </button>
+          )}
         </div>
       )}
     </nav>
@@ -401,34 +468,14 @@ const Column = ({ title, items }) => (
   <div className="space-y-2">
     {title && <p className="font-semibold">{title}</p>}
 
-    {items.map((item, i) =>
-      typeof item === "string" ? (
-        <p
-          key={i}
-          className="hover:text-[#FF2D55] cursor-pointer"
-        >
-          {item}
-        </p>
-      ) : item.external ? (
-        <a
-          key={i}
-          href={item.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block hover:text-[#FF2D55] transition"
-        >
-          {item.label}
-        </a>
-      ) : (
-        <Link
-          key={i}
-          to={item.path}
-          className="block hover:text-[#FF2D55] transition"
-        >
-          {item.label}
-        </Link>
-      )
-    )}
+    {items.map((item, i) => (
+      <p
+        key={i}
+        className="px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] cursor-pointer transition"
+      >
+        {item}
+      </p>
+    ))}
   </div>
 );
 

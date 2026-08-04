@@ -1,34 +1,52 @@
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
+import { getFeeByProgram } from "../../services/feeService";
 
 function FeeModal({
   isOpen,
   onClose,
   program,
 }) {
+  const [fees, setFees] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (isOpen && program?._id) {
+      fetchFees();
+    }
+  }, [isOpen, program]);
+
+  const fetchFees = async () => {
+    try {
+      setLoading(true);
+
+      const res = await getFeeByProgram(
+        program._id
+      );
+
+      if (res.success) {
+        setFees(res.data || []);
+      } else {
+        setFees([]);
+      }
+    } catch (error) {
+      console.error(error);
+      setFees([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (!isOpen || !program) return null;
 
-  // Dummy data (replace with API later)
-  const fees = [
-    {
-      year: "I Year",
-      insideKarnatakaFee: 100000,
-      outsideKarnatakaFee: 107000,
-    },
-    {
-      year: "II Year",
-      insideKarnatakaFee: 98000,
-      outsideKarnatakaFee: 105000,
-    },
-  ];
-
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
 
-      <div className="bg-white rounded-2xl w-full max-w-3xl shadow-2xl overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden">
 
         {/* Header */}
 
-        <div className="bg-[#2D2A70] text-white px-6 py-4 flex justify-between items-center">
+        <div className="bg-[#2D2A70] text-white px-6 py-4 flex items-center justify-between">
 
           <div>
 
@@ -44,7 +62,7 @@ function FeeModal({
 
           <button
             onClick={onClose}
-            className="hover:bg-white/20 p-2 rounded-full transition"
+            className="p-2 rounded-full hover:bg-white/20 transition"
           >
             <X size={22} />
           </button>
@@ -55,62 +73,80 @@ function FeeModal({
 
         <div className="p-6">
 
-          <div className="overflow-x-auto">
+          {loading ? (
 
-            <table className="w-full border-collapse">
+            <div className="py-10 text-center text-gray-600">
+              Loading Fee Structure...
+            </div>
 
-              <thead>
+          ) : fees.length === 0 ? (
 
-                <tr className="bg-gray-100">
+            <div className="py-10 text-center text-gray-500">
+              No Fee Structure Available
+            </div>
 
-                  <th className="border px-4 py-3 text-left">
-                    Academic Year
-                  </th>
+          ) : (
 
-                  <th className="border px-4 py-3 text-center">
-                    Karnataka
-                  </th>
+            <div className="overflow-x-auto">
 
-                  <th className="border px-4 py-3 text-center">
-                    Other States
-                  </th>
+              <table className="w-full border-collapse">
 
-                </tr>
+                <thead>
 
-              </thead>
+                  <tr className="bg-gray-100">
 
-              <tbody>
+                    <th className="border px-4 py-3 text-left">
+                      Academic Year
+                    </th>
 
-                {fees.map((fee, index) => (
+                    <th className="border px-4 py-3 text-center">
+                      Karnataka
+                    </th>
 
-                  <tr
-                    key={index}
-                    className="hover:bg-gray-50"
-                  >
-
-                    <td className="border px-4 py-3 font-medium">
-                      {fee.year}
-                    </td>
-
-                    <td className="border px-4 py-3 text-center">
-                      ₹
-                      {fee.insideKarnatakaFee.toLocaleString()}
-                    </td>
-
-                    <td className="border px-4 py-3 text-center">
-                      ₹
-                      {fee.outsideKarnatakaFee.toLocaleString()}
-                    </td>
+                    <th className="border px-4 py-3 text-center">
+                      Other States
+                    </th>
 
                   </tr>
 
-                ))}
+                </thead>
 
-              </tbody>
+                <tbody>
 
-            </table>
+                  {fees.map((fee) => (
 
-          </div>
+                    <tr
+                      key={fee._id}
+                      className="hover:bg-gray-50"
+                    >
+
+                      <td className="border px-4 py-3 font-medium">
+                        {fee.year}
+                      </td>
+
+                      <td className="border px-4 py-3 text-center">
+                        ₹
+                        {fee.insideKarnatakaFee?.toLocaleString() ||
+                          "0"}
+                      </td>
+
+                      <td className="border px-4 py-3 text-center">
+                        ₹
+                        {fee.outsideKarnatakaFee?.toLocaleString() ||
+                          "0"}
+                      </td>
+
+                    </tr>
+
+                  ))}
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          )}
 
           <div className="mt-6 flex justify-end">
 

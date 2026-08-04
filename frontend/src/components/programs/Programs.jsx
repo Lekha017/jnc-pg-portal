@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { getPrograms } from "../../services/programService";
 
 import FeeModal from "./FeeModal";
 
 function Programs() {
+
+  const navigate = useNavigate();
+
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -14,9 +18,11 @@ function Programs() {
   const [selectedProgram, setSelectedProgram] =
     useState(null);
 
+
   useEffect(() => {
     fetchPrograms();
   }, []);
+
 
   const fetchPrograms = async () => {
     try {
@@ -25,17 +31,21 @@ function Programs() {
       if (res.success) {
         setPrograms(res.data);
       }
+
     } catch (err) {
       console.error(err);
+
     } finally {
       setLoading(false);
     }
   };
 
+
   // Group Programs by Category
 
   const groupedPrograms = programs.reduce(
     (acc, program) => {
+
       if (!acc[program.category]) {
         acc[program.category] = [];
       }
@@ -43,9 +53,11 @@ function Programs() {
       acc[program.category].push(program);
 
       return acc;
+
     },
     {}
   );
+
 
   if (loading) {
     return (
@@ -55,29 +67,46 @@ function Programs() {
     );
   }
 
+
   return (
     <>
+
       <section className="max-w-7xl mx-auto py-8">
+
 
         {Object.entries(groupedPrograms).map(
           ([category, items]) => (
 
             <div
               key={category}
-              className="mb-10 border border-gray-300 overflow-hidden rounded-md"
+              className="
+                mb-10
+                border
+                border-gray-300
+                overflow-hidden
+                rounded-md
+              "
             >
+
 
               {/* Category */}
 
               <div className="bg-[#403777] px-6 py-4">
 
-                <h2 className="text-2xl font-semibold text-white">
+                <h2 className="
+                  text-2xl
+                  font-semibold
+                  text-white
+                ">
                   {category}
                 </h2>
 
               </div>
 
+
+
               {/* Programs */}
+
 
               {items
                 .sort(
@@ -107,26 +136,32 @@ function Programs() {
                       `}
                     >
 
+
                       {/* Program */}
 
-                      <h3 className="text-[20px] leading-8 text-gray-800">
+                      <h3 className="
+                        text-[20px]
+                        leading-8
+                        text-gray-800
+                      ">
 
                         {program.programName}
 
                       </h3>
 
+
+
                       {/* Fee */}
 
                       <button
                         onClick={() => {
-                          setSelectedProgram(
-                            program
-                          );
 
-                          setShowFeeModal(
-                            true
-                          );
+                          setSelectedProgram(program);
+
+                          setShowFeeModal(true);
+
                         }}
+
                         className="
                           border
                           border-[#2D2A70]
@@ -142,9 +177,17 @@ function Programs() {
                         Fee
                       </button>
 
+
+
                       {/* Details */}
 
                       <button
+                        onClick={() =>
+                          navigate(
+                            `/program-details/${program._id}`
+                          )
+                        }
+
                         className="
                           border
                           border-[#2D2A70]
@@ -159,6 +202,8 @@ function Programs() {
                       >
                         Details
                       </button>
+
+
 
                       {/* Apply */}
 
@@ -176,6 +221,8 @@ function Programs() {
                         Apply
                       </button>
 
+
+
                     </div>
 
                   )
@@ -186,17 +233,27 @@ function Programs() {
           )
         )}
 
+
       </section>
 
+
+
       <FeeModal
+
         isOpen={showFeeModal}
+
         onClose={() =>
           setShowFeeModal(false)
         }
+
         program={selectedProgram}
+
       />
+
+
     </>
   );
 }
+
 
 export default Programs;
