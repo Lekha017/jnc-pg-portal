@@ -31,10 +31,10 @@ function Navbar() {
     <nav className="bg-[#f5f5f5] border-t border-gray-200 relative">
 
       {/* DESKTOP */}
-      <div className="hidden lg:flex items-center justify-between max-w-[1300px] mx-auto px-6 h-[55px]">
+      <div className="hidden lg:flex items-center justify-center max-w-[1300px] mx-auto px-6 h-[55px] relative">
 
         {/* LEFT */}
-        <div className="flex items-center gap-7 text-[12px] font-semibold tracking-wide">
+       <div className="flex items-center justify-center gap-5 text-[13px] font-medium tracking-normal">
           {!isHomePage && (
             <ArrowLeftCircle
               size={32}
@@ -101,7 +101,7 @@ function Navbar() {
     },
     {
       label: "Annual Reports",
-      path: "/annual-reports",
+      
     },
     {
       label: "Glimpse of College Achievements & Activities",
@@ -275,21 +275,40 @@ function Navbar() {
                       Innovation Lab
                     </Link>
 
-                    <p className="px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] cursor-pointer transition">
+                    
+                    <Link
+                      to="/infrastructure/media-incubation-centre"
+                      className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                    >
                       Media Incubation Centre
-                    </p>
+                    </Link>
 
                   </div>
 
-                  <Column
-                    items={[
-                      "Zoological Museum",
-                      "Language Lab",
-                      "Student Union Room",
-                      "Performing Arts Studio",
-                      "Maintenance Policy",
-                    ]}
-                  />
+                <Column
+  items={[
+    {
+      label: "Zoological Museum",
+      path: "/infrastructure/zoological-museum",
+    },
+    {
+      label: "Language Lab",
+      path: "/infrastructure/language-lab",
+    },
+    {
+      label: "Student Union Room",
+      path: "/infrastructure/student-union-room",
+    },
+    {
+      label: "Performing Arts Studio",
+      path: "/infrastructure/performing-arts",
+    },
+    {
+      label: "Maintenance Policy",
+      path: "/infrastructure/maintenance-policy",
+    },
+  ]}
+/>
                 </div>
               </div>
             </div>
@@ -332,7 +351,7 @@ function Navbar() {
         </div>
 
         {/* RIGHT */}
-        <div className="flex items-center gap-6">
+      <div className="absolute right-6 flex items-center gap-6">
 
           <div className="relative z-10">
             <button

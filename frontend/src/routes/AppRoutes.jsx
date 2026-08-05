@@ -24,6 +24,11 @@ import Parking from "../pages/infrastructure/Parking";
 import AudioStudio from "../pages/infrastructure/AudioStudio";
 import MediaLab from "../pages/infrastructure/MediaLab";
 import InnovationLab from "../pages/infrastructure/InnovationLab";
+import MediaIncubationCentre from "../pages/infrastructure/MediaIncubationCentre";
+import ZoologicalMuseum from "../pages/infrastructure/ZoologicalMuseum";
+import LanguageLab from "../pages/infrastructure/LanguageLab";
+import StudentUnionRoom from "../pages/infrastructure/StudentUnionRoom";
+import PerformingArts from "../pages/infrastructure/PerformingArts";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -225,6 +230,31 @@ const AppRoutes = () => {
         element={<InnovationLab />}
       />
 
+      <Route
+        path="/infrastructure/media-incubation-centre"
+        element={<MediaIncubationCentre />}
+      />
+
+      <Route
+        path="/infrastructure/zoological-museum"
+        element={<ZoologicalMuseum />}
+      />  
+
+      <Route
+        path="/infrastructure/language-lab"
+        element={<LanguageLab />}
+      />  
+
+      <Route
+        path="/infrastructure/student-union-room"
+        element={<StudentUnionRoom />}
+      />
+
+      <Route
+        path="/infrastructure/performing-arts"
+        element={<PerformingArts />}
+      />
+
       {/* ================= LIBRARY ================= */}
 
       <Route
@@ -335,59 +365,59 @@ const AppRoutes = () => {
         }
       />
 
-<Route
-  path="/admin/management"
-  element={
-    <ProtectedRoute roles={["admin"]}>
-      <ManageManagement />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/admin/management"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <ManageManagement />
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/admin/management/add"
-  element={
-    <ProtectedRoute roles={["admin"]}>
-      <AddManagement />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/admin/management/add"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <AddManagement />
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/admin/management/edit/:id"
-  element={
-    <ProtectedRoute roles={["admin"]}>
-      <EditManagement />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/admin/management/edit/:id"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <EditManagement />
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/admin/deans"
-  element={
-    <ProtectedRoute roles={["admin"]}>
-      <ManageDeans />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/admin/deans"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <ManageDeans />
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/admin/deans/add"
-  element={
-    <ProtectedRoute roles={["admin"]}>
-      <AddDean />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/admin/deans/add"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <AddDean />
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/admin/deans/edit/:id"
-  element={
-    <ProtectedRoute roles={["admin"]}>
-      <EditDean />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/admin/deans/edit/:id"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <EditDean />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/admin/program-details"
@@ -480,10 +510,10 @@ const AppRoutes = () => {
         element={<OrganizationStructure />}
       />
 
-<Route
-  path="/management"
-  element={<Management />}
-/>
+      <Route
+        path="/management"
+        element={<Management />}
+      />
 
       <Route
         path="/governing-body"
@@ -511,44 +541,44 @@ const AppRoutes = () => {
       />
 
       <Route
-  path="/staff-welfare-services"
-  element={<StaffWelfareServices />}
-/>
+        path="/staff-welfare-services"
+        element={<StaffWelfareServices />}
+      />
 
-<Route
-  path="/governing-council"
-  element={<GoverningCouncil />}
-/>
+      <Route
+        path="/governing-council"
+        element={<GoverningCouncil />}
+      />
 
-<Route
-  path="/academic-council"
-  element={<AcademicCouncil />}
-/>
+      <Route
+        path="/academic-council"
+        element={<AcademicCouncil />}
+      />
 
-<Route
-  path="/deans"
-  element={<Deans />}
-/>
+      <Route
+        path="/deans"
+        element={<Deans />}
+      />
 
-<Route
-  path="/history-milestones"
-  element={<HistoryMilestones />}
-/>
+      <Route
+        path="/history-milestones"
+        element={<HistoryMilestones />}
+      />
 
-<Route
-  path="/institutional-distinctiveness"
-  element={<InstitutionalDistinctiveness />}
-/>
+      <Route
+        path="/institutional-distinctiveness"
+        element={<InstitutionalDistinctiveness />}
+      />
 
-<Route
-  path="/best-practices"
-  element={<BestPractices />}
-/>
+      <Route
+        path="/best-practices"
+        element={<BestPractices />}
+      />
 
-<Route
-  path="/campus-culture"
-  element={<CampusCulture />}
-/>
+      <Route
+        path="/campus-culture"
+        element={<CampusCulture />}
+      />
     </Routes>
   );
 };
