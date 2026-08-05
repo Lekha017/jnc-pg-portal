@@ -92,30 +92,7 @@ function Navbar() {
                     ]}
                   />
 
-<<<<<<< HEAD
-        <Column
-  title="JNC Timeline"
-  items={[
-    {
-      label: "Campus Culture",
-      path: "/campus-culture",
-    },
-    {
-      label: "Annual Reports",
-      
-    },
-    {
-      label: "Glimpse of College Achievements & Activities",
-      path: "https://www.youtube.com/watch?v=_rjTLOrKMM4",
-      external: true,
-    },
-  ]}
-/>
-      </div>
-    </div>
-  </div>
-</div>
-=======
+
                   <Column
                     title="JNC Timeline"
                     items={[
@@ -138,7 +115,6 @@ function Navbar() {
               </div>
             </div>
           </div>
->>>>>>> ac181fc (added admission pages and resolved chatbot issue)
 
           <div className="relative group">
             <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
@@ -310,7 +286,7 @@ function Navbar() {
 
                   </div>
 
-<<<<<<< HEAD
+
                 <Column
   items={[
     {
@@ -335,7 +311,7 @@ function Navbar() {
     },
   ]}
 />
-=======
+
                   <Column
                     items={[
                       {
@@ -360,7 +336,6 @@ function Navbar() {
                       },
                     ]}
                   />
->>>>>>> ac181fc (added admission pages and resolved chatbot issue)
                 </div>
               </div>
             </div>

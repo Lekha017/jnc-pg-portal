@@ -25,6 +25,10 @@ import AudioStudio from "../pages/infrastructure/AudioStudio";
 import MediaLab from "../pages/infrastructure/MediaLab";
 import InnovationLab from "../pages/infrastructure/InnovationLab";
 
+import Dhwani from "../pages/AdmissionsNavbar/Dhwani";
+import Prospectus from "../pages/AdmissionsNavbar/Prospectus";
+import MaintenancePolicy from "../pages/infrastructure/MaintenancePolicy";
+
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import ForgotPassword from "../pages/auth/ForgotPassword";
@@ -221,6 +225,21 @@ const AppRoutes = () => {
       <Route
         path="/infrastructure/innovation-lab"
         element={<InnovationLab />}
+      />
+
+      <Route
+      path="/prospectus"
+      element={<Prospectus/>}
+      />
+
+      <Route
+      path="/dhwani"
+      element={<Dhwani/>}
+      />
+
+      <Route
+      path="/infrastructure/maintenance-policy"
+      element={<MaintenancePolicy/>}
       />
 
       {/* ================= LIBRARY ================= */}
