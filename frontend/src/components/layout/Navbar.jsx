@@ -350,7 +350,7 @@ function Navbar() {
               <div className="w-72 bg-white rounded-lg shadow-lg py-2">
 
                 <a
-                  href="https://www.jyotinivas.org/"
+                  href="https://www.jyotinivas.org/iic.php"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"

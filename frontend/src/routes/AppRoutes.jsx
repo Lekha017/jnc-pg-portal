@@ -28,6 +28,8 @@ import InnovationLab from "../pages/infrastructure/InnovationLab";
 import Dhwani from "../pages/AdmissionsNavbar/Dhwani";
 import Prospectus from "../pages/AdmissionsNavbar/Prospectus";
 import MaintenancePolicy from "../pages/infrastructure/MaintenancePolicy";
+import ARIIA from "../pages/AdmissionsNavbar/ARIIA";
+
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -240,6 +242,11 @@ const AppRoutes = () => {
       <Route
       path="/infrastructure/maintenance-policy"
       element={<MaintenancePolicy/>}
+      />
+
+      <Route
+      path="/ARIIA"
+      element={<ARIIA/>}
       />
 
       {/* ================= LIBRARY ================= */}
