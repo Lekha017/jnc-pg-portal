@@ -23,7 +23,6 @@ function ManagePrograms() {
       setPrograms(res.data || []);
     } catch (error) {
       console.error(error);
-
       toast.error("Failed to load programs");
     }
   };
@@ -36,9 +35,7 @@ function ManagePrograms() {
     try {
       await deleteProgram(id);
 
-      toast.success(
-        "Program Deleted Successfully"
-      );
+      toast.success("Program Deleted Successfully");
 
       loadPrograms();
     } catch (error) {
@@ -50,53 +47,23 @@ function ManagePrograms() {
   };
 
   return (
-    <div className="pt-8 px-6">
+    <div className="grid grid-cols-12 gap-8">
 
-      {/* PAGE HEADER */}
-
-      <div className="mb-10">
-
-        <h1 className="text-5xl font-bold text-[#2D2A70]">
-          Manage Programs
-        </h1>
-
-        <p className="text-gray-600 text-lg mt-3">
-          Create, update and manage admission programs.
-        </p>
-
-        <div className="border-b border-gray-300 mt-8"></div>
-
+      <div className="col-span-12 lg:col-span-5">
+        <ProgramForm
+          selectedProgram={selectedProgram}
+          setSelectedProgram={setSelectedProgram}
+          triggerRefresh={loadPrograms}
+        />
       </div>
 
-      {/* CONTENT */}
-
-      <div className="grid grid-cols-12 gap-8">
-
-        {/* LEFT */}
-
-        <div className="col-span-12 lg:col-span-5">
-
-          <ProgramForm
-            selectedProgram={selectedProgram}
-            setSelectedProgram={setSelectedProgram}
-            triggerRefresh={loadPrograms}
-          />
-
-        </div>
-
-        {/* RIGHT */}
-
-        <div className="col-span-12 lg:col-span-7">
-
-          <ProgramList
-            programs={programs}
-            onEdit={setSelectedProgram}
-            onDelete={handleDelete}
-            fetchPrograms={loadPrograms}
-          />
-
-        </div>
-
+      <div className="col-span-12 lg:col-span-7">
+        <ProgramList
+          programs={programs}
+          onEdit={setSelectedProgram}
+          onDelete={handleDelete}
+          fetchPrograms={loadPrograms}
+        />
       </div>
 
     </div>

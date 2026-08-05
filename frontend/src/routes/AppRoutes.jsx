@@ -24,11 +24,6 @@ import Parking from "../pages/infrastructure/Parking";
 import AudioStudio from "../pages/infrastructure/AudioStudio";
 import MediaLab from "../pages/infrastructure/MediaLab";
 import InnovationLab from "../pages/infrastructure/InnovationLab";
-import MediaIncubationCentre from "../pages/infrastructure/MediaIncubationCentre";
-import ZoologicalMuseum from "../pages/infrastructure/ZoologicalMuseum";
-import LanguageLab from "../pages/infrastructure/LanguageLab";
-import StudentUnionRoom from "../pages/infrastructure/StudentUnionRoom";
-import PerformingArts from "../pages/infrastructure/PerformingArts";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -74,9 +69,7 @@ import PlacementGallery from "../pages/PlacementGallery";
 import AddDepartment from "../pages/admin/AddDepartment";
 import EditDepartment from "../pages/admin/EditDepartment";
 import ManageDepartments from "../pages/admin/ManageDepartments";
-import ManagePrograms from "../pages/admin/programs/ManagePrograms";
-import ManageFees from "../pages/Admin/Programs/ManageFees";
-import ManageProgramDetails from "../pages/admin/programs/ManageProgramDetails";
+import ManageAcademics from "../pages/admin/programs/ManageAcademics";
 
 import ManageEvents from "../pages/Admin/ManageEvents";
 
@@ -230,31 +223,6 @@ const AppRoutes = () => {
         element={<InnovationLab />}
       />
 
-      <Route
-        path="/infrastructure/media-incubation-centre"
-        element={<MediaIncubationCentre />}
-      />
-
-      <Route
-        path="/infrastructure/zoological-museum"
-        element={<ZoologicalMuseum />}
-      />  
-
-      <Route
-        path="/infrastructure/language-lab"
-        element={<LanguageLab />}
-      />  
-
-      <Route
-        path="/infrastructure/student-union-room"
-        element={<StudentUnionRoom />}
-      />
-
-      <Route
-        path="/infrastructure/performing-arts"
-        element={<PerformingArts />}
-      />
-
       {/* ================= LIBRARY ================= */}
 
       <Route
@@ -347,32 +315,25 @@ const AppRoutes = () => {
         }
       />
 
+
       <Route
         path="/admin/programs"
         element={
           <ProtectedRoute roles={["admin"]}>
-            <ManagePrograms />
+            <ManageAcademics />
           </ProtectedRoute>
         }
       />
 
-      <Route
-        path="/admin/fees"
-        element={
-          <ProtectedRoute roles={["admin"]}>
-            <ManageFees />
-          </ProtectedRoute>
-        }
-      />
 
-      <Route
-        path="/admin/management"
-        element={
-          <ProtectedRoute roles={["admin"]}>
-            <ManageManagement />
-          </ProtectedRoute>
-        }
-      />
+<Route
+  path="/admin/management"
+  element={
+    <ProtectedRoute roles={["admin"]}>
+      <ManageManagement />
+    </ProtectedRoute>
+  }
+/>
 
       <Route
         path="/admin/management/add"
@@ -419,14 +380,7 @@ const AppRoutes = () => {
         }
       />
 
-      <Route
-        path="/admin/program-details"
-        element={
-          <ProtectedRoute roles={["admin"]}>
-            <ManageProgramDetails />
-          </ProtectedRoute>
-        }
-      />
+
 
       {/* ================= FACULTY ADMIN ================= */}
 

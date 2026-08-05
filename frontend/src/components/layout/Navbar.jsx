@@ -55,43 +55,44 @@ function Navbar() {
               ABOUT US <span className="text-[10px]">▾</span>
             </span>
 
-  <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
-    <div className="w-[700px] bg-white rounded-lg shadow-lg p-6">
-      <div className="grid grid-cols-3 gap-10">
-       <Column
-  title="Administration"
-  items={[
-    { label: "Organization Structure", path: "/organization-structure" },
-    { label: "Management", path: "/management" },
-    { label: "Governing Body", path: "/governing-body" },
-    { label: "Governing Council", path: "/governing-council" },
-    { label: "Principal's Message", path: "/principal-message" },
-    { label: "Academic Council", path: "/academic-council" },
-    { label: "Examination Cell", path: "/examination-cell" },
-    { label: "Chief Coordinators", path: "/chief-coordinators" },
-    { label: "Deans", path: "/deans" },
-    { label: "Administrative Staff", path: "/administrative-staff" },
-    { label: "Staff Welfare Services", path: "/staff-welfare-services" },
-  ]}
-/>
-      <Column
-  title="Introduction"
-  items={[
-    {
-      label: "History & Milestones",
-      path: "/history-milestones",
-    },
-    {
-      label: "Institutional Best Practices",
-      path: "/best-practices",
-    },
-    {
-      label: "Institutional Distinctiveness",
-      path: "/institutional-distinctiveness",
-    },
-  ]}
-/>
+            <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
+              <div className="w-[700px] bg-white rounded-lg shadow-lg p-6">
+                <div className="grid grid-cols-3 gap-10">
+                  <Column
+                    title="Administration"
+                    items={[
+                      { label: "Organization Structure", path: "/organization-structure" },
+                      { label: "Management", path: "/management" },
+                      { label: "Governing Body", path: "/governing-body" },
+                      { label: "Governing Council", path: "/governing-council" },
+                      { label: "Principal's Message", path: "/principal-message" },
+                      { label: "Academic Council", path: "/academic-council" },
+                      { label: "Examination Cell", path: "/examination-cell" },
+                      { label: "Chief Coordinators", path: "/chief-coordinators" },
+                      { label: "Deans", path: "/deans" },
+                      { label: "Administrative Staff", path: "/administrative-staff" },
+                      { label: "Staff Welfare Services", path: "/staff-welfare-services" },
+                    ]}
+                  />
+                  <Column
+                    title="Introduction"
+                    items={[
+                      {
+                        label: "History & Milestones",
+                        path: "/history-milestones",
+                      },
+                      {
+                        label: "Institutional Best Practices",
+                        path: "/best-practices",
+                      },
+                      {
+                        label: "Institutional Distinctiveness",
+                        path: "/institutional-distinctiveness",
+                      },
+                    ]}
+                  />
 
+<<<<<<< HEAD
         <Column
   title="JNC Timeline"
   items={[
@@ -114,6 +115,30 @@ function Navbar() {
     </div>
   </div>
 </div>
+=======
+                  <Column
+                    title="JNC Timeline"
+                    items={[
+                      {
+                        label: "Campus Culture",
+                        path: "/campus-culture",
+                      },
+                      {
+                        label: "Annual Reports",
+                        path: "/annual-reports",
+                      },
+                      {
+                        label: "Glimpse of College Achievements & Activities",
+                        path: "https://www.youtube.com/watch?v=_rjTLOrKMM4",
+                        external: true,
+                      },
+                    ]}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+>>>>>>> ac181fc (added admission pages and resolved chatbot issue)
 
           <div className="relative group">
             <span className="cursor-pointer flex items-center gap-1 hover:text-[#FF2D55]">
@@ -285,6 +310,7 @@ function Navbar() {
 
                   </div>
 
+<<<<<<< HEAD
                 <Column
   items={[
     {
@@ -309,6 +335,32 @@ function Navbar() {
     },
   ]}
 />
+=======
+                  <Column
+                    items={[
+                      {
+                        label: "Zoological Museum",
+                        path: "/infrastructure/zoological-museum",
+                      },
+                      {
+                        label: "Language Lab",
+                        path: "/infrastructure/language-lab",
+                      },
+                      {
+                        label: "Student Union Room",
+                        path: "/infrastructure/student-union-room",
+                      },
+                      {
+                        label: "Performing Arts Studio",
+                        path: "/infrastructure/performing-arts",
+                      },
+                      {
+                        label: "Maintenance Policy",
+                        path: "/infrastructure/maintenance-policy",
+                      },
+                    ]}
+                  />
+>>>>>>> ac181fc (added admission pages and resolved chatbot issue)
                 </div>
               </div>
             </div>
@@ -321,21 +373,48 @@ function Navbar() {
 
             <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
               <div className="w-72 bg-white rounded-lg shadow-lg py-2">
-                {[
-                  "Online Payment",
-                  "Undergraduate Programme",
-                  "Prospectus",
-                  "Dhwani 2024-25",
-                  "PUC",
-                  "Postgraduate Programme",
-                ].map((item, index) => (
-                  <p
-                    key={index}
-                    className="px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] cursor-pointer transition"
-                  >
-                    {item}
-                  </p>
-                ))}
+
+                <a
+                  href="https://www.jyotinivas.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                >
+                  Online Payment
+                </a>
+
+                <a
+                  href="https://www.jyotinivas.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                >
+                  Undergraduate Programme
+                </a>
+
+                <Link
+                  to="/prospectus"
+                  className="block px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                >
+                  Prospectus
+                </Link>
+
+                <Link
+                  to="/dhwani"
+                  className="block px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                >
+                  Dhwani 2024-25
+                </Link>
+
+                <a
+                  href="https://jnpuc.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                >
+                  PUC
+                </a>
+
               </div>
             </div>
           </div>
