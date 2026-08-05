@@ -286,32 +286,6 @@ function Navbar() {
 
                   </div>
 
-
-                <Column
-  items={[
-    {
-      label: "Zoological Museum",
-      path: "/infrastructure/zoological-museum",
-    },
-    {
-      label: "Language Lab",
-      path: "/infrastructure/language-lab",
-    },
-    {
-      label: "Student Union Room",
-      path: "/infrastructure/student-union-room",
-    },
-    {
-      label: "Performing Arts Studio",
-      path: "/infrastructure/performing-arts",
-    },
-    {
-      label: "Maintenance Policy",
-      path: "/infrastructure/maintenance-policy",
-    },
-  ]}
-/>
-
                   <Column
                     items={[
                       {
@@ -349,14 +323,12 @@ function Navbar() {
             <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
               <div className="w-72 bg-white rounded-lg shadow-lg py-2">
 
-                <a
-                  href="https://www.jyotinivas.org/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
-                >
-                  Online Payment
-                </a>
+                <Link
+  to="/admissionsnavbar/online-payment"
+  className="block px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+>
+  Online Payment
+</Link>
 
                 <a
                   href="https://www.jyotinivas.org/"

@@ -18,47 +18,52 @@
     const [expanded, setExpanded] = useState(false);
 
   const menuItems = [
-    {
-      name: "Dashboard",
-      icon: <FiHome size={20} />,
-      path: "/admin",
-    },
-    {
-      name: "Faculty",
-      icon: <FiUsers size={20} />,
-      path: "/admin/faculty",
-    },
-    {
-      name: "Departments",
-      icon: <FiBook size={20} />,
-      path: "/admin/departments",
-    },
-    {
-      name: "Events",
-      icon: <FiCalendar size={20} />,
-      path: "/admin/events",
-    },
-    {
-      name: "Announcements",
-      icon: <FiBell size={20} />,
-      path: "/admin/announcements",
-    },
-    {
-      name: "Placements",
-      icon: <FiClipboard size={20} />,
-      path: "/admin/placements",
-    },
+  {
+    name: "Dashboard",
+    icon: <FiHome size={20} />,
+    path: "/admin",
+  },
+  {
+    name: "Faculty",
+    icon: <FiUsers size={20} />,
+    path: "/admin/faculty",
+  },
+  {
+    name: "Departments",
+    icon: <FiBook size={20} />,
+    path: "/admin/departments",
+  },
+  {
+    name: "Academics",
+    icon: <FiBook size={20} />,
+    path: "/admin/programs",
+  },
+  {
+    name: "Events",
+    icon: <FiCalendar size={20} />,
+    path: "/admin/events",
+  },
+  {
+    name: "Announcements",
+    icon: <FiBell size={20} />,
+    path: "/admin/announcements",
+  },
+  {
+    name: "Placements",
+    icon: <FiClipboard size={20} />,
+    path: "/admin/placements",
+  },
   {
     name: "Management",
     icon: <FiUsers size={20} />,
     path: "/admin/management",
   },
   {
-  name: "Deans",
-  icon: <FiUsers size={20} />,
-  path: "/admin/deans",
-}
-  ];
+    name: "Deans",
+    icon: <FiUsers size={20} />,
+    path: "/admin/deans",
+  },
+];
 
     const handleLogout = async () => {
       try {

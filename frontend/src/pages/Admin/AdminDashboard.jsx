@@ -12,6 +12,10 @@ const modules = [
     path: "/admin/departments",
   },
   {
+    title: "Academics",
+    path: "/admin/programs",
+  },
+  {
     title: "Events",
     path: "/admin/events",
   },
