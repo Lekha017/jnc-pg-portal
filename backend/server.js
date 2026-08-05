@@ -23,7 +23,8 @@ import chatRoutes from "./routes/chatRoutes.js";
 import programRoutes from "./routes/programRoutes.js";
 import feeRoutes from "./routes/feeRoutes.js";
 import programDetailsRoutes from "./routes/programDetailsRoutes.js";
-
+import managementRoutes from "./routes/managementRoutes.js";
+import deanRoutes from "./routes/deanRoutes.js";
 
 dotenv.config();
 
