@@ -69,21 +69,7 @@ function ManageProgramDetails() {
   return (
     <div className="p-8">
 
-      {/* Header */}
-
-      <h1 className="text-5xl font-bold text-[#2D2A70]">
-        Program Details
-      </h1>
-
-      <p className="text-gray-600 mt-3 text-lg">
-        Create, update and manage
-        detailed program information.
-      </p>
-
-      {/* Divider */}
-
-      <div className="border-b border-gray-300 mt-8 mb-8"></div>
-
+  
       {/* Content */}
 
       <div className="grid grid-cols-12 gap-8">

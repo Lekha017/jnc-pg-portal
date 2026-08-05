@@ -81,8 +81,9 @@ const Header = () => {
           {/* Right */}
           <div className="flex items-center gap-3 ml-auto">
 
-            <button
-              className="
+           <Link to="/admissionsnavbar/online-payment">
+  <button
+    className="
       bg-[#FF2D55]
       hover:bg-[#e6264c]
       text-white
@@ -94,10 +95,10 @@ const Header = () => {
       transition-all
       duration-200
     "
-            >
-              ONLINE PAYMENT
-            </button>
-
+  >
+    ONLINE PAYMENT
+  </button>
+</Link>
             <Link to="/admissions">
               <button
                 className="

@@ -24,11 +24,18 @@ import Parking from "../pages/infrastructure/Parking";
 import AudioStudio from "../pages/infrastructure/AudioStudio";
 import MediaLab from "../pages/infrastructure/MediaLab";
 import InnovationLab from "../pages/infrastructure/InnovationLab";
+import MediaIncubationCentre from "../pages/infrastructure/MediaIncubationCentre";
+import ZoologicalMuseum from "../pages/infrastructure/ZoologicalMuseum";
+import LanguageLab from "../pages/infrastructure/LanguageLab";
+import StudentUnionRoom from "../pages/infrastructure/StudentUnionRoom";
+import PerformingArts from "../pages/infrastructure/PerformingArts";
 
 import Dhwani from "../pages/AdmissionsNavbar/Dhwani";
 import Prospectus from "../pages/AdmissionsNavbar/Prospectus";
 import MaintenancePolicy from "../pages/infrastructure/MaintenancePolicy";
+
 import ARIIA from "../pages/AdmissionsNavbar/ARIIA";
+import OnlinePayment from "../pages/AdmissionsNavbar/OnlinePayment";
 
 
 import Login from "../pages/auth/Login";
@@ -230,23 +237,53 @@ const AppRoutes = () => {
       />
 
       <Route
-      path="/prospectus"
-      element={<Prospectus/>}
+        path="/prospectus"
+        element={<Prospectus />}
       />
 
       <Route
-      path="/dhwani"
-      element={<Dhwani/>}
+        path="/dhwani"
+        element={<Dhwani />}
       />
 
       <Route
-      path="/infrastructure/maintenance-policy"
-      element={<MaintenancePolicy/>}
+        path="/admissionsnavbar/online-payment"
+        element={<OnlinePayment />}
+      />
+      <Route
+        path="/infrastructure/maintenance-policy"
+        element={<MaintenancePolicy />}
       />
 
       <Route
-      path="/ARIIA"
-      element={<ARIIA/>}
+
+        path="/ARIIA"
+        element={<ARIIA />}
+      />
+
+      <Route
+        path="/infrastructure/media-incubation-centre"
+        element={<MediaIncubationCentre />}
+      />
+
+      <Route
+        path="/infrastructure/zoological-museum"
+        element={<ZoologicalMuseum />}
+      />
+
+      <Route
+        path="/infrastructure/language-lab"
+        element={<LanguageLab />}
+      />
+
+      <Route
+        path="/infrastructure/student-union-room"
+        element={<StudentUnionRoom />}
+      />
+
+      <Route
+        path="/infrastructure/performing-arts"
+        element={<PerformingArts />}
       />
 
       {/* ================= LIBRARY ================= */}
@@ -352,14 +389,14 @@ const AppRoutes = () => {
       />
 
 
-<Route
-  path="/admin/management"
-  element={
-    <ProtectedRoute roles={["admin"]}>
-      <ManageManagement />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/admin/management"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <ManageManagement />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/admin/management/add"
