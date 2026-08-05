@@ -58,40 +58,58 @@ function Navbar() {
   <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
     <div className="w-[700px] bg-white rounded-lg shadow-lg p-6">
       <div className="grid grid-cols-3 gap-10">
-        <Column
-          title="Administration"
-          items={[
-            "Organization Structure",
-            "Management",
-            "Governing Body",
-            "Governing Council",
-            "Principal’s Message",
-            "Academic Council",
-            "Examination Cell",
-            "Chief Coordinators",
-            "Deans",
-            "Administrative Staff",
-            "Staff Welfare Services",
-          ]}
-        />
+       <Column
+  title="Administration"
+  items={[
+    { label: "Organization Structure", path: "/organization-structure" },
+    { label: "Management", path: "/management" },
+    { label: "Governing Body", path: "/governing-body" },
+    { label: "Governing Council", path: "/governing-council" },
+    { label: "Principal's Message", path: "/principal-message" },
+    { label: "Academic Council", path: "/academic-council" },
+    { label: "Examination Cell", path: "/examination-cell" },
+    { label: "Chief Coordinators", path: "/chief-coordinators" },
+    { label: "Deans", path: "/deans" },
+    { label: "Administrative Staff", path: "/administrative-staff" },
+    { label: "Staff Welfare Services", path: "/staff-welfare-services" },
+  ]}
+/>
+      <Column
+  title="Introduction"
+  items={[
+    {
+      label: "History & Milestones",
+      path: "/history-milestones",
+    },
+    {
+      label: "Institutional Best Practices",
+      path: "/best-practices",
+    },
+    {
+      label: "Institutional Distinctiveness",
+      path: "/institutional-distinctiveness",
+    },
+  ]}
+/>
 
         <Column
-          title="Introduction"
-          items={[
-            "History & Milestones",
-            "Institutional Best Practices",
-            "Institutional Distinctiveness",
-          ]}
-        />
-
-        <Column
-          title="JNC Timeline"
-          items={[
-            "Campus Culture",
-            "Annual Reports",
-            "Glimpse of College Achievements & Activities",
-          ]}
-        />
+  title="JNC Timeline"
+  items={[
+    {
+      label: "Campus Culture",
+      path: "/campus-culture",
+    },
+    {
+      label: "Annual Reports",
+      path: "/annual-reports",
+    },
+    {
+      label: "Glimpse of College Achievements & Activities",
+      path: "https://www.youtube.com/watch?v=_rjTLOrKMM4",
+      external: true,
+    },
+  ]}
+/>
       </div>
     </div>
   </div>
@@ -468,14 +486,27 @@ const Column = ({ title, items }) => (
   <div className="space-y-2">
     {title && <p className="font-semibold">{title}</p>}
 
-    {items.map((item, i) => (
-      <p
-        key={i}
-        className="px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] cursor-pointer transition"
-      >
-        {item}
-      </p>
-    ))}
+    {items.map((item, i) =>
+      item.external ? (
+        <a
+          key={i}
+          href={item.path}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+        >
+          {item.label}
+        </a>
+      ) : (
+        <Link
+          key={i}
+          to={item.path}
+          className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+        >
+          {item.label}
+        </Link>
+      )
+    )}
   </div>
 );
 
