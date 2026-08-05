@@ -12,7 +12,7 @@ function ManageAcademics() {
 
   return (
     <AdminLayout>
-      <div className="min-h-screen bg-gray-100 py-8 px-6">
+      <div className="min-h-screen bg-[#f5f7fb] py-8 px-6">
 
         <div className="max-w-7xl mx-auto">
 

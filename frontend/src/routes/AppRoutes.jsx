@@ -82,11 +82,11 @@ import PlacementGallery from "../pages/PlacementGallery";
 import AddDepartment from "../pages/admin/AddDepartment";
 import EditDepartment from "../pages/admin/EditDepartment";
 import ManageDepartments from "../pages/admin/ManageDepartments";
-import ManageAcademics from "../pages/admin/programs/ManageAcademics";
+import ManageAcademics from "../pages/Admin/programs/ManageAcademics";
 
 import ManageEvents from "../pages/Admin/ManageEvents";
 
-import ManageAnnouncements from "../pages/admin/ManageAnnouncements";
+import ManageAnnouncements from "../pages/Admin/ManageAnnouncements";
 
 import ManagePlacements from "../pages/Admin/ManagePlacements";
 
