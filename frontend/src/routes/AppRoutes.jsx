@@ -44,6 +44,8 @@ import FacultyDetails from "../pages/Faculty/FacultyDetails";
 import EditFaculty from "../pages/Faculty/EditFaculty";
 import FacultyDashboard from "../pages/Faculty/FacultyDashboard";
 import AdmissionsPage from "../pages/Admissions/AdmissionsPage";
+import AdmissionPortal from "../pages/Admissions/AdmissionPortal";
+import ApplicationForm from "../pages/Admissions/ApplicationForm";
 
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import ManageFaculty from "../pages/admin/ManageFaculty";
@@ -275,6 +277,16 @@ const AppRoutes = () => {
       <Route
         path="/infrastructure/performing-arts"
         element={<PerformingArts />}
+      />
+
+      <Route
+        path="/admission-portal"
+        element={<AdmissionPortal />}
+      />
+
+      <Route
+        path="/admissions/application"
+        element={<ApplicationForm />}
       />
       {/* ================= LIBRARY ================= */}
 
