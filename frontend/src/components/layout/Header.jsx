@@ -14,23 +14,53 @@ const Header = () => {
           {/* Left */}
           <div className="hidden lg:flex items-center gap-4 text-[14px]">
 
-            <span className="cursor-pointer hover:underline">IQAC</span>
+            <a
+              href="https://www.jyotinivas.org/iqac.php"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer hover:underline"
+            >
+              IQAC
+            </a>
 
             <span>|</span>
 
-            <span className="cursor-pointer hover:underline">NIRF</span>
+            <a
+              href="https://www.jyotinivas.org/nirf.php"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer hover:underline"
+            >
+              NIRF
+            </a>
 
             <span>|</span>
 
-            <span className="cursor-pointer hover:underline">ARIIA</span>
+            <Link to="/ARIIA" className="cursor-pointer hover:underline">
+              ARIIA
+            </Link>
 
             <span>|</span>
 
-            <span className="cursor-pointer hover:underline">MOUS</span>
+            <a
+              href="https://www.jyotinivas.org/mous.php"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer hover:underline"
+            >
+              MOUS
+            </a>
 
             <span>|</span>
 
-            <span className="cursor-pointer hover:underline">IIC</span>
+            <a
+              href="https://www.jyotinivas.org/iic.php"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer hover:underline"
+            >
+              IIC
+            </a>
 
             <span>|</span>
 

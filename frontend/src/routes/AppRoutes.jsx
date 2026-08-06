@@ -33,7 +33,10 @@ import PerformingArts from "../pages/infrastructure/PerformingArts";
 import Dhwani from "../pages/AdmissionsNavbar/Dhwani";
 import Prospectus from "../pages/AdmissionsNavbar/Prospectus";
 import MaintenancePolicy from "../pages/infrastructure/MaintenancePolicy";
+
+import ARIIA from "../pages/AdmissionsNavbar/ARIIA";
 import OnlinePayment from "../pages/AdmissionsNavbar/OnlinePayment";
+
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -81,11 +84,11 @@ import PlacementGallery from "../pages/PlacementGallery";
 import AddDepartment from "../pages/admin/AddDepartment";
 import EditDepartment from "../pages/admin/EditDepartment";
 import ManageDepartments from "../pages/admin/ManageDepartments";
-import ManageAcademics from "../pages/admin/programs/ManageAcademics";
+import ManageAcademics from "../pages/Admin/programs/ManageAcademics";
 
 import ManageEvents from "../pages/Admin/ManageEvents";
 
-import ManageAnnouncements from "../pages/admin/ManageAnnouncements";
+import ManageAnnouncements from "../pages/Admin/ManageAnnouncements";
 
 import ManagePlacements from "../pages/Admin/ManagePlacements";
 
@@ -255,6 +258,12 @@ const AppRoutes = () => {
       />
 
       <Route
+
+        path="/ARIIA"
+        element={<ARIIA />}
+      />
+
+      <Route
         path="/infrastructure/media-incubation-centre"
         element={<MediaIncubationCentre />}
       />
@@ -288,6 +297,7 @@ const AppRoutes = () => {
         path="/admissions/application"
         element={<ApplicationForm />}
       />
+
       {/* ================= LIBRARY ================= */}
 
       <Route

@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { Plus, X } from "lucide-react";
+
+import AdminLayout from "../../components/layout/AdminLayout";
 
 import PlacementForm from "../../components/admin/placements/PlacementForm";
 import PlacementList from "../../components/admin/placements/PlacementList";
@@ -8,26 +11,41 @@ import RecruiterList from "../../components/admin/RecruiterList";
 
 import PlacementContactForm from "../../components/admin/placementContact/PlacementContactForm";
 import PlacementContactList from "../../components/admin/placementContact/PlacementContactList";
-import { getPlacementContacts } from "../../services/placementContactService";
 
 import PlacementGalleryForm from "../../components/admin/placementGallery/PlacementGalleryForm";
 import PlacementGalleryList from "../../components/admin/placementGallery/PlacementGalleryList";
-import AdminLayout from "../../components/layout/AdminLayout";
-import { getPlacementGalleries } from "../../services/placementGalleryService";
+
+import {
+    getPlacementContacts,
+} from "../../services/placementContactService";
+
+import {
+    getPlacementGalleries,
+} from "../../services/placementGalleryService";
 
 function ManagePlacements() {
 
-    const [activeTab, setActiveTab] = useState("placements");
+    const [activeTab, setActiveTab] =
+        useState("placements");
 
     /* ===========================
           Placement
     =========================== */
 
-    const [selectedPlacement, setSelectedPlacement] =
-        useState(null);
+    const [
+        selectedPlacement,
+        setSelectedPlacement,
+    ] = useState(null);
 
-    const [placementRefresh, setPlacementRefresh] =
-        useState(false);
+    const [
+        placementRefresh,
+        setPlacementRefresh,
+    ] = useState(false);
+
+    const [
+        showPlacementForm,
+        setShowPlacementForm,
+    ] = useState(false);
 
     const triggerPlacementRefresh = () =>
         setPlacementRefresh((prev) => !prev);
@@ -36,82 +54,78 @@ function ManagePlacements() {
           Recruiters
     =========================== */
 
-    const [selectedRecruiter, setSelectedRecruiter] =
-        useState(null);
+    const [
+        selectedRecruiter,
+        setSelectedRecruiter,
+    ] = useState(null);
 
-    const [recruiterRefresh, setRecruiterRefresh] =
-        useState(0);
+    const [
+        recruiterRefresh,
+        setRecruiterRefresh,
+    ] = useState(0);
+
+    const [
+        showRecruiterForm,
+        setShowRecruiterForm,
+    ] = useState(false);
 
     const triggerRecruiterRefresh = () =>
         setRecruiterRefresh((prev) => prev + 1);
 
     /* ===========================
-          Placement Contact
+        Placement Contact
     =========================== */
 
-    const [selectedContact, setSelectedContact] =
-        useState(null);
+    const [
+        selectedContact,
+        setSelectedContact,
+    ] = useState(null);
 
     const [contacts, setContacts] =
         useState([]);
 
-    const [contactRefresh, setContactRefresh] =
-        useState(false);
+    const [
+        contactRefresh,
+        setContactRefresh,
+    ] = useState(false);
+
+    const [
+        showContactForm,
+        setShowContactForm,
+    ] = useState(false);
 
     const triggerContactRefresh = () =>
         setContactRefresh((prev) => !prev);
 
     /* ===========================
-      Placement Gallery
-=========================== */
+        Placement Gallery
+    =========================== */
 
-    const [selectedGallery, setSelectedGallery] =
-        useState(null);
+    const [
+        selectedGallery,
+        setSelectedGallery,
+    ] = useState(null);
 
     const [galleries, setGalleries] =
         useState([]);
 
-    const [gallerySearch, setGallerySearch] =
-        useState("");
+    const [
+        gallerySearch,
+        setGallerySearch,
+    ] = useState("");
 
-    const [galleryRefresh, setGalleryRefresh] =
-        useState(false);
+    const [
+        galleryRefresh,
+        setGalleryRefresh,
+    ] = useState(false);
+
+    const [
+        showGalleryForm,
+        setShowGalleryForm,
+    ] = useState(false);
 
     const triggerGalleryRefresh = () =>
         setGalleryRefresh((prev) => !prev);
-
-    useEffect(() => {
-
-        const fetchGalleries = async () => {
-
-            try {
-
-                const response = await getPlacementGalleries();
-
-                console.log(
-                    "Placement Galleries:",
-                    response
-                );
-
-                // setGalleries(response.data || []);
-                setGalleries(response || []);
-                console.log("Gallery Array:", response);
-
-            } catch (error) {
-
-                console.error(
-                    "Error fetching placement galleries",
-                    error
-                );
-
-            }
-
-        };
-
-
-        fetchGalleries();
-
-    }, [galleryRefresh]);
 
     useEffect(() => {
 
@@ -119,18 +133,14 @@ function ManagePlacements() {
 
             try {
 
-                const response = await getPlacementContacts();
-
-                console.log("Placement Contacts:", response);
+                const response =
+                    await getPlacementContacts();
 
                 setContacts(response.data || []);
 
             } catch (error) {
 
-                console.error(
-                    "Error fetching placement contacts",
-                    error
-                );
+                console.error(error);
 
             }
 
@@ -139,251 +149,354 @@ function ManagePlacements() {
         fetchContacts();
 
     }, [contactRefresh]);
+
+    useEffect(() => {
+
+        const fetchGalleries = async () => {
+
+            try {
+
+                const response =
+                    await getPlacementGalleries();
+
+                setGalleries(response || []);
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+
+        };
+
+        fetchGalleries();
+
+    }, [galleryRefresh]);
+
     return (
-         <AdminLayout>
-        <div className="min-h-screen bg-gray-100 py-8 px-6">
+        <AdminLayout>
 
-            <div className="max-w-7xl mx-auto">
+            <div className="min-h-screen bg-[#f5f7fb] p-8">
 
+                <div className="max-w-7xl mx-auto">
 
-                {/* Heading */}
+                    {/* Header */}
 
-                <div className="mb-8">
+                    <div className="mb-8">
 
-                    <h1 className="text-4xl font-bold text-[#2D2A70]">
-                        Manage Placements
-                    </h1>
+                        <h1 className="text-4xl font-bold text-[#2D2A70]">
+                            Manage Placements
+                        </h1>
 
-                    <p className="text-gray-600 mt-2">
-                        Manage placements, recruiting companies and placement coordinator details.
-                    </p>
+                        <p className="text-gray-600 mt-2">
+                            Manage placements, recruiting companies and placement coordinator details.
+                        </p>
+
+                    </div>
+
+                    {/* Tabs + Add Button */}
+
+                    <div className="flex items-center justify-between mb-8">
+
+                        <div className="flex gap-4">
+
+                            <button
+                                onClick={() => setActiveTab("placements")}
+                                className={`px-8 py-3 rounded-full font-semibold transition-all ${activeTab === "placements"
+                                        ? "bg-[#2D2A70] text-white"
+                                        : "border border-[#2D2A70] text-[#2D2A70] hover:bg-[#EEF5FF]"
+                                    }`}
+                            >
+                                Placements
+                            </button>
+
+                            <button
+                                onClick={() => setActiveTab("recruiters")}
+                                className={`px-8 py-3 rounded-full font-semibold transition-all ${activeTab === "recruiters"
+                                        ? "bg-[#2D2A70] text-white"
+                                        : "border border-[#2D2A70] text-[#2D2A70] hover:bg-[#EEF5FF]"
+                                    }`}
+                            >
+                                Recruiters
+                            </button>
+
+                            <button
+                                onClick={() => setActiveTab("contact")}
+                                className={`px-8 py-3 rounded-full font-semibold transition-all ${activeTab === "contact"
+                                        ? "bg-[#2D2A70] text-white"
+                                        : "border border-[#2D2A70] text-[#2D2A70] hover:bg-[#EEF5FF]"
+                                    }`}
+                            >
+                                Placement Contact
+                            </button>
+
+                            <button
+                                onClick={() => setActiveTab("gallery")}
+                                className={`px-8 py-3 rounded-full font-semibold transition-all ${activeTab === "gallery"
+                                        ? "bg-[#2D2A70] text-white"
+                                        : "border border-[#2D2A70] text-[#2D2A70] hover:bg-[#EEF5FF]"
+                                    }`}
+                            >
+                                Placement Gallery
+                            </button>
+
+                        </div>
+
+                        <button
+                            onClick={() => {
+
+                                if (activeTab === "placements") {
+                                    setSelectedPlacement(null);
+                                    setShowPlacementForm(true);
+                                }
+
+                                else if (activeTab === "recruiters") {
+                                    setSelectedRecruiter(null);
+                                    setShowRecruiterForm(true);
+                                }
+
+                                else if (activeTab === "contact") {
+                                    setSelectedContact(null);
+                                    setShowContactForm(true);
+                                }
+
+                                else {
+                                    setSelectedGallery(null);
+                                    setShowGalleryForm(true);
+                                }
+
+                            }}
+                            className="flex items-center gap-2 bg-[#2D2A70] hover:bg-[#221f59] text-white px-5 py-3 rounded-xl font-semibold transition"
+                        >
+                            <Plus size={18} />
+
+                            {activeTab === "placements"
+                                ? "Add Placement"
+                                : activeTab === "recruiters"
+                                    ? "Add Recruiter"
+                                    : activeTab === "contact"
+                                        ? "Add Contact"
+                                        : "Add Gallery"}
+
+                        </button>
+
+                    </div>
+                    {/* ==========================
+                PLACEMENTS TAB
+          ========================== */}
+
+                    {activeTab === "placements" && (
+                        <PlacementList
+                            refresh={placementRefresh}
+                            onEdit={(placement) => {
+                                setSelectedPlacement(placement);
+                                setShowPlacementForm(true);
+                            }}
+                        />
+                    )}
+
+                    {/* ==========================
+                RECRUITERS TAB
+          ========================== */}
+
+                    {activeTab === "recruiters" && (
+                        <RecruiterList
+                            refresh={recruiterRefresh}
+                            onEdit={(recruiter) => {
+                                setSelectedRecruiter(recruiter);
+                                setShowRecruiterForm(true);
+                            }}
+                        />
+                    )}
+
+                    {/* ==========================
+                CONTACT TAB
+          ========================== */}
+
+                    {activeTab === "contact" && (
+                        <PlacementContactList
+                            contacts={contacts}
+                            onEdit={(contact) => {
+                                setSelectedContact(contact);
+                                setShowContactForm(true);
+                            }}
+                        />
+                    )}
+
+                    {/* ==========================
+                GALLERY TAB
+          ========================== */}
+
+                    {activeTab === "gallery" && (
+                        <PlacementGalleryList
+                            galleries={galleries}
+                            search={gallerySearch}
+                            setSearch={setGallerySearch}
+                            onEdit={(gallery) => {
+                                setSelectedGallery(gallery);
+                                setShowGalleryForm(true);
+                            }}
+                        />
+                    )}
 
                 </div>
 
-
-                {/* Tabs */}
-
-                <div className="flex gap-4 mb-8 border-b border-gray-300 pb-5">
-
-
-                    <button
-                        onClick={() => setActiveTab("placements")}
-                        className={`px-8 py-3 rounded-full font-semibold transition-all ${activeTab === "placements"
-                            ? "bg-[#2D2A70] text-white"
-                            : "border border-[#2D2A70] text-[#2D2A70] hover:bg-[#EEF5FF]"
-                            }`}
-                    >
-                        Placements
-                    </button>
-
-
-                    <button
-                        onClick={() => setActiveTab("recruiters")}
-                        className={`px-8 py-3 rounded-full font-semibold transition-all ${activeTab === "recruiters"
-                            ? "bg-[#2D2A70] text-white"
-                            : "border border-[#2D2A70] text-[#2D2A70] hover:bg-[#EEF5FF]"
-                            }`}
-                    >
-                        Recruiters
-                    </button>
-
-
-                    <button
-                        onClick={() => setActiveTab("contact")}
-                        className={`px-8 py-3 rounded-full font-semibold transition-all ${activeTab === "contact"
-                            ? "bg-[#2D2A70] text-white"
-                            : "border border-[#2D2A70] text-[#2D2A70] hover:bg-[#EEF5FF]"
-                            }`}
-                    >
-                        Placement Contact
-                    </button>
-
-                    <button
-                        onClick={() => setActiveTab("gallery")}
-                        className={`px-8 py-3 rounded-full font-semibold transition-all ${activeTab === "gallery"
-                                ? "bg-[#2D2A70] text-white"
-                                : "border border-[#2D2A70] text-[#2D2A70] hover:bg-[#EEF5FF]"
-                            }`}
-                    >
-                        Placement Gallery
-                    </button>
-
-
-                </div>
-
-
-
                 {/* ==========================
-              PLACEMENTS TAB
-        =========================== */}
+              Placement Popup
+        ========================== */}
 
+                {showPlacementForm && (
+                    <div className="fixed inset-0 z-50 bg-black/40 overflow-y-auto">
+                        <div className="min-h-screen flex items-start justify-center p-8">
 
-                {activeTab === "placements" && (
+                            <div className="relative w-full max-w-7xl bg-[#f5f7fb] rounded-3xl shadow-2xl">
 
-                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                                <button
+                                    onClick={() => {
+                                        setShowPlacementForm(false);
+                                        setSelectedPlacement(null);
+                                    }}
+                                    className="absolute top-6 right-6 z-50 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-100"
+                                >
+                                    <X size={24} />
+                                </button>
 
+                                <div className="p-10">
 
-                        {/* Form */}
+                                    <PlacementForm
+                                        selectedPlacement={selectedPlacement}
+                                        setSelectedPlacement={setSelectedPlacement}
+                                        triggerRefresh={() => {
+                                            triggerPlacementRefresh();
+                                            setShowPlacementForm(false);
+                                        }}
+                                    />
 
-                        <div className="lg:col-span-2">
+                                </div>
 
-                            <PlacementForm
-                                selectedPlacement={selectedPlacement}
-                                setSelectedPlacement={setSelectedPlacement}
-                                triggerRefresh={triggerPlacementRefresh}
-                            />
+                            </div>
 
                         </div>
-
-
-
-                        {/* List */}
-
-                        <div className="lg:col-span-3">
-
-                            <PlacementList
-                                refresh={placementRefresh}
-                                onEdit={setSelectedPlacement}
-                            />
-
-                        </div>
-
-
                     </div>
-
                 )}
                 {/* ==========================
-              RECRUITERS TAB
-        =========================== */}
+              Recruiter Popup
+        ========================== */}
 
+                {showRecruiterForm && (
+                    <div className="fixed inset-0 z-50 bg-black/40 overflow-y-auto">
+                        <div className="min-h-screen flex items-start justify-center p-8">
 
-                {activeTab === "recruiters" && (
+                            <div className="relative w-full max-w-7xl bg-[#f5f7fb] rounded-3xl shadow-2xl">
 
-                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                                <button
+                                    onClick={() => {
+                                        setShowRecruiterForm(false);
+                                        setSelectedRecruiter(null);
+                                    }}
+                                    className="absolute top-6 right-6 z-50 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-100"
+                                >
+                                    <X size={24} />
+                                </button>
 
+                                <div className="p-10">
 
-                        {/* Recruiter Form */}
+                                    <RecruiterForm
+                                        selectedRecruiter={selectedRecruiter}
+                                        setSelectedRecruiter={setSelectedRecruiter}
+                                        triggerRefresh={() => {
+                                            triggerRecruiterRefresh();
+                                            setShowRecruiterForm(false);
+                                        }}
+                                    />
 
-                        <div className="lg:col-span-2">
+                                </div>
 
-                            <RecruiterForm
-                                selectedRecruiter={selectedRecruiter}
-                                setSelectedRecruiter={setSelectedRecruiter}
-                                refresh={triggerRecruiterRefresh}
-                            />
+                            </div>
 
                         </div>
-
-
-
-                        {/* Recruiter List */}
-
-                        <div className="lg:col-span-3">
-
-                            <RecruiterList
-                                onEdit={setSelectedRecruiter}
-                                refresh={recruiterRefresh}
-                            />
-
-                        </div>
-
-
                     </div>
-
                 )}
-
-
-
-
-
                 {/* ==========================
-              PLACEMENT CONTACT TAB
-        =========================== */}
+              Contact Popup
+        ========================== */}
 
+                {showContactForm && (
+                    <div className="fixed inset-0 z-50 bg-black/40 overflow-y-auto">
+                        <div className="min-h-screen flex items-start justify-center p-8">
 
-                {activeTab === "contact" && (
+                            <div className="relative w-full max-w-7xl bg-[#f5f7fb] rounded-3xl shadow-2xl">
 
-                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                                <button
+                                    onClick={() => {
+                                        setShowContactForm(false);
+                                        setSelectedContact(null);
+                                    }}
+                                    className="absolute top-6 right-6 z-50 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-100"
+                                >
+                                    <X size={24} />
+                                </button>
 
+                                <div className="p-10">
 
-                        {/* Contact Form */}
+                                    <PlacementContactForm
+                                        selectedContact={selectedContact}
+                                        setSelectedContact={setSelectedContact}
+                                        triggerRefresh={() => {
+                                            triggerContactRefresh();
+                                            setShowContactForm(false);
+                                        }}
+                                    />
 
-                        <div className="lg:col-span-2">
+                                </div>
 
-                            <PlacementContactForm
-                                selectedContact={selectedContact}
-                                setSelectedContact={setSelectedContact}
-                                triggerRefresh={triggerContactRefresh}
-                            />
+                            </div>
 
                         </div>
-
-
-
-                        {/* Contact List */}
-
-                        <div className="lg:col-span-3">
-
-                            <PlacementContactList
-                                contacts={contacts}
-                                onEdit={setSelectedContact}
-                            />
-
-                        </div>
-
-
                     </div>
-
                 )}
+                {/* ==========================
+              Gallery Popup
+        ========================== */}
 
-                                {/* ==========================
-              PLACEMENT GALLERY TAB
-        =========================== */}
+                {showGalleryForm && (
+                    <div className="fixed inset-0 z-50 bg-black/40 overflow-y-auto">
+                        <div className="min-h-screen flex items-start justify-center p-8">
 
+                            <div className="relative w-full max-w-7xl bg-[#f5f7fb] rounded-3xl shadow-2xl">
 
-                {activeTab === "gallery" && (
+                                <button
+                                    onClick={() => {
+                                        setShowGalleryForm(false);
+                                        setSelectedGallery(null);
+                                    }}
+                                    className="absolute top-6 right-6 z-50 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-100"
+                                >
+                                    <X size={24} />
+                                </button>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                                <div className="p-10">
 
+                                    <PlacementGalleryForm
+                                        selectedGallery={selectedGallery}
+                                        setSelectedGallery={setSelectedGallery}
+                                        triggerRefresh={() => {
+                                            triggerGalleryRefresh();
+                                            setShowGalleryForm(false);
+                                        }}
+                                    />
 
-                        {/* Gallery Form */}
+                                </div>
 
-                        <div className="lg:col-span-2">
-
-                            <PlacementGalleryForm
-                                selectedGallery={selectedGallery}
-                                setSelectedGallery={setSelectedGallery}
-                                triggerRefresh={triggerGalleryRefresh}
-                            />
+                            </div>
 
                         </div>
-
-
-
-                        {/* Gallery List */}
-
-                        <div className="lg:col-span-3">
-
-                            <PlacementGalleryList
-                                galleries={galleries}
-                                search={gallerySearch}
-                                setSearch={setGallerySearch}
-                                onEdit={setSelectedGallery}
-                            />
-
-                        </div>
-
-
                     </div>
-
                 )}
-
             </div>
 
-        </div>
         </AdminLayout>
     );
 }
-
 
 export default ManagePlacements;
