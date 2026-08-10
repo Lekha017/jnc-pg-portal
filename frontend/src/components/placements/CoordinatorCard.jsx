@@ -8,18 +8,20 @@ import {
 const CoordinatorCard = ({ contact }) => {
   if (!contact) {
     return (
-      <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-12 text-center">
-        No Placement Coordinator Found
+      <div className="bg-white rounded-2xl shadow-sm p-8">
+        <p className="text-gray-600">
+          No Placement Coordinator Found
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
 
       {/* Header */}
 
-      <div className="bg-[#EAF4FF] px-8 py-6 border-b">
+      <div className="bg-[#EAF4FF] px-8 py-6 border-none">
 
         <h2 className="text-3xl font-bold text-[#2D2A70]">
           Placement Coordinator
@@ -31,6 +33,7 @@ const CoordinatorCard = ({ contact }) => {
         </p>
 
       </div>
+
 
       {/* Body */}
 
@@ -45,10 +48,11 @@ const CoordinatorCard = ({ contact }) => {
             <img
               src={contact.profileImage?.url}
               alt={contact.coordinatorName}
-              className="w-52 h-52 rounded-3xl object-cover border-4 border-[#EAF4FF] shadow"
+              className="w-52 h-52 rounded-3xl object-cover border-none shadow"
             />
 
           </div>
+
 
           {/* Details */}
 
@@ -61,6 +65,7 @@ const CoordinatorCard = ({ contact }) => {
             <p className="text-xl text-gray-600 mt-2">
               {contact.designation}
             </p>
+
 
             <div className="mt-8 grid md:grid-cols-3 gap-5">
 
@@ -83,6 +88,7 @@ const CoordinatorCard = ({ contact }) => {
 
               </div>
 
+
               {/* Email */}
 
               <div className="bg-[#F8FAFC] rounded-2xl p-5">
@@ -101,6 +107,7 @@ const CoordinatorCard = ({ contact }) => {
                 </p>
 
               </div>
+
 
               {/* Phone */}
 
@@ -126,6 +133,7 @@ const CoordinatorCard = ({ contact }) => {
           </div>
 
         </div>
+
 
         {/* About */}
 

@@ -6,11 +6,11 @@ import {
 
 const OfficeInfoCard = () => {
   return (
-    <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
 
       {/* Header */}
 
-      <div className="bg-[#EAF4FF] px-6 py-5 border-b">
+      <div className="bg-[#EAF4FF] px-6 py-5 border-none">
 
         <h2 className="text-2xl font-bold text-[#2D2A70]">
           Office Information
@@ -21,6 +21,7 @@ const OfficeInfoCard = () => {
         </p>
 
       </div>
+
 
       {/* Content */}
 
@@ -52,6 +53,7 @@ const OfficeInfoCard = () => {
           </div>
 
         </div>
+
 
         {/* Address */}
 
@@ -85,6 +87,7 @@ const OfficeInfoCard = () => {
 
         </div>
 
+
         {/* Working Hours */}
 
         <div className="flex gap-4">
@@ -109,7 +112,7 @@ const OfficeInfoCard = () => {
             </p>
 
             <p className="text-gray-600 text-sm">
-              9:00 AM – 5:00 PM
+              9:00 AM – 4:00 PM
             </p>
 
           </div>

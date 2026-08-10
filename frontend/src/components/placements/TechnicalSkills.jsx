@@ -36,7 +36,10 @@ const technicalSkills = [
 
 function TechnicalSkills() {
   return (
-    <section className="bg-white rounded-xl border shadow-sm p-6">
+    <section className="bg-white rounded-2xl shadow-sm p-8">
+
+      {/* Heading */}
+
       <h2
         className="text-2xl font-bold text-[#2D2A70]"
         style={{ fontFamily: "Georgia, serif" }}
@@ -46,29 +49,42 @@ function TechnicalSkills() {
 
       <div className="w-16 h-1 bg-blue-500 rounded-full mt-2 mb-6"></div>
 
+      {/* Skills */}
+
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+
         {technicalSkills.map((skill, index) => {
           const Icon = skill.icon;
 
           return (
             <div
               key={index}
-              className="border rounded-lg p-4 text-center hover:shadow-md transition"
+              className="bg-white rounded-xl p-4 text-center shadow-sm hover:shadow-md transition-all duration-300"
             >
+
+              {/* Icon */}
+
               <div className="w-12 h-12 mx-auto rounded-full bg-blue-50 flex items-center justify-center">
+
                 <Icon
                   size={22}
                   className="text-blue-600"
                 />
+
               </div>
+
+              {/* Title */}
 
               <h3 className="mt-3 font-semibold text-[#2D2A70] text-xs leading-5">
                 {skill.title}
               </h3>
+
             </div>
           );
         })}
+
       </div>
+
     </section>
   );
 }

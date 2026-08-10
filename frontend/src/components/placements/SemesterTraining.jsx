@@ -36,7 +36,7 @@ function SemesterTraining() {
   ];
 
   return (
-    <section className="bg-white rounded-xl border shadow-sm p-6">
+    <section>
       <h2
         className="text-2xl font-bold text-[#2D2A70]"
         style={{ fontFamily: "Georgia, serif" }}
@@ -50,7 +50,7 @@ function SemesterTraining() {
         {years.map((year) => (
           <div
             key={year.number}
-            className="bg-blue-50 rounded-lg border p-4"
+            className="bg-blue-50 rounded-lg p-4 border-none"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-9 h-9 rounded-full bg-blue-200 text-blue-700 flex items-center justify-center text-base font-bold">
