@@ -41,7 +41,10 @@ const skills = [
 
 function SkillsCovered() {
   return (
-    <section className="bg-white rounded-xl border shadow-sm p-6">
+    <section className="bg-white rounded-2xl border border-gray-200 p-8">
+
+      {/* Heading */}
+
       <h2
         className="text-2xl font-bold text-[#2D2A70]"
         style={{ fontFamily: "Georgia, serif" }}
@@ -51,33 +54,48 @@ function SkillsCovered() {
 
       <div className="w-16 h-1 bg-blue-500 rounded-full mt-2 mb-6"></div>
 
+      {/* Skills */}
+
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+
         {skills.map((skill, index) => {
           const Icon = skill.icon;
 
           return (
             <div
               key={index}
-              className="border rounded-lg p-4 text-center hover:shadow-md transition"
+              className="border border-gray-200 rounded-lg p-4 text-center hover:shadow-md transition"
             >
+
+              {/* Icon */}
+
               <div className="w-12 h-12 mx-auto rounded-full bg-blue-50 flex items-center justify-center">
+
                 <Icon
                   size={22}
                   className="text-blue-600"
                 />
+
               </div>
+
+              {/* Title */}
 
               <h3 className="font-semibold text-[#2D2A70] text-sm mt-3 leading-5">
                 {skill.title}
               </h3>
 
+              {/* Description */}
+
               <p className="text-xs text-gray-600 mt-2 leading-5">
                 {skill.description}
               </p>
+
             </div>
           );
         })}
+
       </div>
+
     </section>
   );
 }

@@ -12,7 +12,7 @@ function PlacementContactCard({
   onDelete,
 }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition p-6">
+    <div className="bg-white rounded-2xl shadow-sm overflow-hidden border-none">
 
       {/* Top Section */}
 
@@ -20,26 +20,23 @@ function PlacementContactCard({
 
         {/* Profile Image */}
 
-        <div className="w-24 h-24 rounded-xl overflow-hidden border bg-gray-100 flex items-center justify-center flex-shrink-0">
+        <div className="w-24 h-24 rounded-xl overflow-hidden bg-gray-100 flex items-center justify-center flex-shrink-0 border-none">
 
           {contact.profileImage?.url ? (
-
             <img
               src={contact.profileImage.url}
               alt={contact.coordinatorName}
               className="w-full h-full object-cover"
             />
-
           ) : (
-
             <UserRound
               size={42}
               className="text-gray-400"
             />
-
           )}
 
         </div>
+
 
         {/* Details */}
 
@@ -63,6 +60,9 @@ function PlacementContactCard({
 
             </div>
 
+
+            {/* Status */}
+
             <span
               className={`px-3 py-1 rounded-full text-xs font-semibold ${
                 contact.isPublished
@@ -77,9 +77,12 @@ function PlacementContactCard({
 
           </div>
 
-          {/* Contact */}
+
+          {/* Contact Details */}
 
           <div className="mt-5 space-y-2">
+
+            {/* Email */}
 
             <div className="flex items-center gap-2 text-gray-600">
 
@@ -88,9 +91,14 @@ function PlacementContactCard({
                 className="text-[#2D2A70]"
               />
 
-              <span>{contact.email}</span>
+              <span>
+                {contact.email}
+              </span>
 
             </div>
+
+
+            {/* Phone */}
 
             <div className="flex items-center gap-2 text-gray-600">
 
@@ -99,7 +107,9 @@ function PlacementContactCard({
                 className="text-[#2D2A70]"
               />
 
-              <span>{contact.phone}</span>
+              <span>
+                {contact.phone}
+              </span>
 
             </div>
 
@@ -109,9 +119,10 @@ function PlacementContactCard({
 
       </div>
 
+
       {/* Description */}
 
-      <div className="mt-5 border-t pt-4">
+      <div className="mt-5 pt-4 border-none">
 
         <p className="text-gray-600 leading-7">
           {contact.description}
@@ -119,21 +130,27 @@ function PlacementContactCard({
 
       </div>
 
+
       {/* Buttons */}
 
       <div className="flex justify-end gap-3 mt-6">
 
+        {/* Edit */}
+
         <button
           onClick={() => onEdit(contact)}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition border-none"
         >
           <Pencil size={16} />
           Edit
         </button>
 
+
+        {/* Delete */}
+
         <button
           onClick={() => onDelete(contact._id)}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white transition"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white transition border-none"
         >
           <Trash2 size={16} />
           Delete

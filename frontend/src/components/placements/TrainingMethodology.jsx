@@ -62,7 +62,9 @@ const methods = [
 
 function TrainingMethodology() {
   return (
-    <section className="bg-white rounded-2xl border shadow-sm p-6">
+    <section className="bg-white rounded-2xl shadow-sm p-8">
+
+      {/* Heading */}
 
       <h2
         className="text-2xl font-bold text-[#2D2A70]"
@@ -73,17 +75,20 @@ function TrainingMethodology() {
 
       <div className="w-16 h-1 bg-blue-500 rounded-full mt-2 mb-6"></div>
 
+      {/* Methodology Cards */}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
         {methods.map((item, index) => {
-
           const Icon = item.icon;
 
           return (
             <div
               key={index}
-              className="border rounded-xl p-4 hover:shadow-md transition bg-white"
+              className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300"
             >
+
+              {/* Icon */}
 
               <div className="w-11 h-11 rounded-full bg-blue-50 flex items-center justify-center mb-3">
 
@@ -94,9 +99,13 @@ function TrainingMethodology() {
 
               </div>
 
+              {/* Title */}
+
               <h3 className="text-base font-semibold text-[#2D2A70] leading-6">
                 {item.title}
               </h3>
+
+              {/* Description */}
 
               <p className="text-gray-600 text-sm mt-2 leading-5">
                 {item.description}

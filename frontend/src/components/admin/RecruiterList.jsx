@@ -31,52 +31,48 @@ const RecruiterList = ({
     fetchRecruiters();
   }, [refresh]);
 
-  const fetchRecruiters =
-    async () => {
-      try {
-        setLoading(true);
+  const fetchRecruiters = async () => {
+    try {
+      setLoading(true);
 
-        const res =
-          await getRecruiters();
+      const res =
+        await getRecruiters();
 
-        setRecruiters(
-          res.data || []
-        );
-      } catch (error) {
-        console.error(error);
+      setRecruiters(
+        res.data || []
+      );
+    } catch (error) {
+      console.error(error);
 
-        toast.error(
-          "Failed to load recruiters"
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
+      toast.error(
+        "Failed to load recruiters"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const handleDelete =
-    async () => {
-      try {
-        await deleteRecruiter(
-          recruiterToDelete
-        );
+  const handleDelete = async () => {
+    try {
+      await deleteRecruiter(
+        recruiterToDelete
+      );
 
-        toast.success(
-          "Recruiter deleted successfully"
-        );
+      toast.success(
+        "Recruiter deleted successfully"
+      );
 
-        setRecruiterToDelete(
-          null
-        );
+      setRecruiterToDelete(null);
 
-        fetchRecruiters();
-      } catch (error) {
-        console.error(error);
+      fetchRecruiters();
+    } catch (error) {
+      console.error(error);
 
-        toast.error(
-          "Failed to delete recruiter"
-        );
-      }
-    };
+      toast.error(
+        "Failed to delete recruiter"
+      );
+    }
+  };
 
   const filteredRecruiters =
     recruiters.filter(
@@ -90,15 +86,20 @@ const RecruiterList = ({
 
   return (
     <>
-      <div className="bg-white rounded-2xl shadow-md border border-gray-200">
+      {/* Recruiter List Container */}
+
+      <div className="bg-white rounded-2xl shadow-md border-none overflow-hidden">
 
         {/* Header */}
 
-        <div className="flex items-center justify-between px-7 py-5 border-b">
+        <div className="flex items-center justify-between px-7 py-5 border-none">
 
           <h2 className="text-3xl font-bold text-[#2D2A70]">
             Recruiters
           </h2>
+
+
+          {/* Search */}
 
           <div className="relative w-80">
 
@@ -117,15 +118,18 @@ const RecruiterList = ({
                 )
               }
               className="
-              w-full
-              border
-              rounded-xl
-              pl-11
-              pr-4
-              py-3
-              outline-none
-              focus:ring-2
-              focus:ring-[#2D2A70]
+                w-full
+                rounded-xl
+                pl-11
+                pr-4
+                py-3
+                bg-white
+                border-none
+                outline-none
+                ring-1
+                ring-gray-200
+                focus:ring-2
+                focus:ring-[#2D2A70]
               "
             />
 
@@ -133,25 +137,30 @@ const RecruiterList = ({
 
         </div>
 
+
         {/* Recruiters */}
 
         <div className="max-h-[760px] overflow-y-auto">
 
           {loading ? (
+
             <div className="py-12 text-center text-gray-500">
               Loading recruiters...
             </div>
-          ) : filteredRecruiters.length ===
-            0 ? (
+
+          ) : filteredRecruiters.length === 0 ? (
+
             <div className="py-12 text-center text-gray-500">
               No recruiters found.
             </div>
+
           ) : (
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 p-5">
 
               {filteredRecruiters.map(
                 (recruiter) => (
+
                   <RecruiterCard
                     key={
                       recruiter._id
@@ -166,6 +175,7 @@ const RecruiterList = ({
                       setRecruiterToDelete
                     }
                   />
+
                 )
               )}
 
@@ -177,12 +187,14 @@ const RecruiterList = ({
 
       </div>
 
+
       {/* Delete Modal */}
 
       {recruiterToDelete && (
+
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-          <div className="bg-white rounded-2xl p-6 w-[400px] shadow-xl">
+          <div className="bg-white rounded-2xl p-6 w-[400px] shadow-xl border-none">
 
             <h3 className="text-xl font-bold text-[#2D2A70] mb-3">
               Delete Recruiter
@@ -194,6 +206,9 @@ const RecruiterList = ({
               recruiter?
             </p>
 
+
+            {/* Modal Buttons */}
+
             <div className="flex justify-end gap-3 mt-6">
 
               <button
@@ -202,16 +217,35 @@ const RecruiterList = ({
                     null
                   )
                 }
-                className="px-4 py-2 border rounded-lg"
+                className="
+                  px-4
+                  py-2
+                  rounded-lg
+                  bg-gray-100
+                  text-gray-700
+                  hover:bg-gray-200
+                  border-none
+                  transition
+                "
               >
                 Cancel
               </button>
+
 
               <button
                 onClick={
                   handleDelete
                 }
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                className="
+                  px-4
+                  py-2
+                  bg-red-600
+                  text-white
+                  rounded-lg
+                  hover:bg-red-700
+                  border-none
+                  transition
+                "
               >
                 Delete
               </button>
@@ -221,7 +255,9 @@ const RecruiterList = ({
           </div>
 
         </div>
+
       )}
+
     </>
   );
 };
