@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import { toast } from "react-toastify";
 
 import AuthLayout from "../../components/layout/AuthLayout";
@@ -12,6 +16,7 @@ import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { login } = useAuth();
 
@@ -42,11 +47,18 @@ const Login = () => {
 
       const response = await loginUser(formData);
 
-      toast.success(response.message || "Login Successful");
+      toast.success(
+        response.message || "Login Successful"
+      );
 
       await login();
 
-      navigate("/");
+      const redirectTo =
+        location.state?.from || "/";
+
+      navigate(redirectTo, {
+        replace: true,
+      });
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
@@ -103,7 +115,11 @@ const Login = () => {
 
         <Button
           type="submit"
-          text={loading ? "Logging In..." : "Login"}
+          text={
+            loading
+              ? "Logging In..."
+              : "Login"
+          }
           disabled={loading}
         />
       </form>

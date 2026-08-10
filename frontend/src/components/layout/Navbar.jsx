@@ -34,7 +34,7 @@ function Navbar() {
       <div className="hidden lg:flex items-center justify-center max-w-[1300px] mx-auto px-6 h-[55px] relative">
 
         {/* LEFT */}
-       <div className="flex items-center justify-center gap-5 text-[13px] font-medium tracking-normal">
+        <div className="flex items-center justify-center gap-5 text-[13px] font-medium tracking-normal">
           {!isHomePage && (
             <ArrowLeftCircle
               size={32}
@@ -276,7 +276,7 @@ function Navbar() {
                       Innovation Lab
                     </Link>
 
-                    
+
                     <Link
                       to="/infrastructure/media-incubation-centre"
                       className="block px-2 py-1 rounded text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
@@ -334,11 +334,18 @@ function Navbar() {
                 </a>
 
                 <Link
-  to="/admissionsnavbar/online-payment"
-  className="block px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
->
-  Online Payment
-</Link>
+                  to="/admission-portal"
+                  className="block px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                >
+                  Apply Now (PG)
+                </Link>
+
+                <Link
+                  to="/admissionsnavbar/online-payment"
+                  className="block px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
+                >
+                  Online Payment
+                </Link>
 
 
                 <a
@@ -388,7 +395,7 @@ function Navbar() {
         </div>
 
         {/* RIGHT */}
-      <div className="absolute right-6 flex items-center gap-6">
+        <div className="absolute right-6 flex items-center gap-6">
 
           <div className="relative z-10">
             <button
