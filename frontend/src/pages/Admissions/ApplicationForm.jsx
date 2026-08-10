@@ -5,13 +5,13 @@ import Header from "../../components/layout/Header";
 import Navbar from "../../components/layout/Navbar";
 import Footer from "../../components/layout/Footer";
 
-// import Step1Personal from "./application/Step1Personal";
-// import Step2Address from "./application/Step2Address";
-// import Step3Academic from "./application/Step3Academic";
-// import Step4Programme from "./application/Step4Programme";
-// import Step5Documents from "./application/Step5Documents";
-// import Step6Declaration from "./application/Step6Declaration";
-// import Step7Review from "./application/Step7Review";
+import Step1Personal from "./application/Step1Personal";
+import Step2Address from "./application/Step2Address";
+import Step3Academic from "./application/Step3Academic";
+import Step4Programme from "./application/Step4Programme";
+import Step5Documents from "./application/Step5Documents";
+import Step6Declaration from "./application/Step6Declaration";
+import Step7Review from "./application/Step7Review";
 
 export default function AdmissionForm() {
   const methods = useForm({
@@ -66,35 +66,26 @@ export default function AdmissionForm() {
     // Razorpay later
   };
 
-  // const renderStep = () => {
-  //   switch (currentStep) {
-      // case 1:
-      //   return <Step1Personal />;
-
-      /*
-      case 2:
+ const renderStep = () => {
+  switch (currentStep) {
+    case 1:
+      return <Step1Personal />;
+    case 2:
         return <Step2Address />;
-
-      case 3:
+    case 3:
         return <Step3Academic />;
-
-      case 4:
+    case 4:
         return <Step4Programme />;
-
-      case 5:
+    case 5:
         return <Step5Documents />;
-
-      case 6:
+    case 6:
         return <Step6Declaration />;
-
-      case 7:
+    case 7:
         return <Step7Review />;
-      */
-
-  //     default:
-  //       return <Step1Personal />;
-  //   }
-  // };
+    default:
+      return null;
+  }
+};
 
   return (
     <>
