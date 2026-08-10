@@ -323,16 +323,6 @@ function Navbar() {
             <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
               <div className="w-72 bg-white rounded-lg shadow-lg py-2">
 
-
-                <a
-                  href="https://www.jyotinivas.org/iic.php"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
-                >
-                  Online Payment
-                </a>
-
                 <Link
                   to="/admission-portal"
                   className="block px-5 py-2 text-[13px] text-gray-700 hover:bg-[#F5F3FF] hover:text-[#2F2F6F] transition"
