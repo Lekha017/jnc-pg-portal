@@ -12,6 +12,10 @@ import {
   updateEvent,
   deleteEvent,
   togglePublishStatus,
+  getFacultyEvents,
+  createFacultyEvent,
+  updateFacultyEvent,
+  deleteFacultyEvent,
 } from "../controllers/eventController.js";
 
 import { protect } from "../middleware/authMiddleware.js";
@@ -85,6 +89,43 @@ router.patch(
   togglePublishStatus
 );
 
+/* ===========================
+   Faculty Routes
+=========================== */
+
+// Get events belonging to faculty's department(s)
+router.get(
+  "/faculty/my-events",
+  protect,
+  authorize("faculty"),
+  getFacultyEvents
+);
+
+// Create department event
+router.post(
+  "/faculty",
+  protect,
+  authorize("faculty"),
+  upload.single("poster"),
+  createFacultyEvent
+);
+
+// Update department event
+router.put(
+  "/faculty/:id",
+  protect,
+  authorize("faculty"),
+  upload.single("poster"),
+  updateFacultyEvent
+);
+
+// Delete department event
+router.delete(
+  "/faculty/:id",
+  protect,
+  authorize("faculty"),
+  deleteFacultyEvent
+);
 /* ===========================
    Single Event
 =========================== */

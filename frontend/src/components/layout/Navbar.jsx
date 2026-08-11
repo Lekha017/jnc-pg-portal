@@ -416,14 +416,7 @@ function Navbar() {
 
                     {user.role === "faculty" && (
                       <>
-                        <Link to="/faculty/edit-profile">
-                          <button
-                            onClick={() => setOpen(false)}
-                            className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
-                          >
-                            My Profile
-                          </button>
-                        </Link>
+
 
                         <Link to="/faculty/dashboard">
                           <button
@@ -493,14 +486,6 @@ function Navbar() {
 
               {user.role === "faculty" && (
                 <>
-                  <Link to="/faculty/edit-profile">
-                    <button
-                      onClick={() => setOpen(false)}
-                      className="w-full text-left text-gray-600 px-4 py-2 hover:bg-gray-100"
-                    >
-                      My Profile
-                    </button>
-                  </Link>
 
                   <Link to="/faculty/dashboard">
                     <button

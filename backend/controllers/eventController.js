@@ -1,4 +1,5 @@
 import Event from "../models/Event.js";
+import Faculty from "../models/Faculty.js";
 
 const getTodayRange = () => {
   const today = new Date();
@@ -378,6 +379,254 @@ export const togglePublishStatus = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// =====================================================
+// FACULTY EVENTS
+// =====================================================
+
+// Get Faculty's Department Events
+export const getFacultyEvents = async (req, res) => {
+  try {
+    const faculty = await Faculty.findOne({
+      user: req.user._id,
+    });
+
+    if (!faculty) {
+      return res.status(404).json({
+        success: false,
+        message: "Faculty profile not found.",
+      });
+    }
+
+    const departmentIds = faculty.departments;
+
+    const events = await Event.find({
+      department: { $in: departmentIds },
+    })
+      .populate("department", "name code")
+      .populate("createdBy", "fullName")
+      .sort({ startDate: 1 });
+
+    return res.status(200).json({
+      success: true,
+      count: events.length,
+      data: events,
+    });
+  } catch (error) {
+    console.error("Get Faculty Events Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+// Create Event - Faculty
+export const createFacultyEvent = async (req, res) => {
+  try {
+    const faculty = await Faculty.findOne({
+      user: req.user._id,
+    });
+
+    if (!faculty) {
+      return res.status(404).json({
+        success: false,
+        message: "Faculty profile not found.",
+      });
+    }
+
+    const departmentId = req.body.department;
+
+    // Faculty can only create events for their assigned department
+    const hasDepartment = faculty.departments.some(
+      (id) => id.toString() === departmentId
+    );
+
+    if (!hasDepartment) {
+      return res.status(403).json({
+        success: false,
+        message: "You can only create events for your assigned department.",
+      });
+    }
+
+    let poster = {
+      url: "https://placehold.co/800x1000?text=Event+Poster",
+      public_id: "",
+    };
+
+    if (req.file) {
+      poster = {
+        url: req.file.path,
+        public_id: req.file.filename,
+      };
+    }
+
+    const event = await Event.create({
+      title: req.body.title,
+      description: req.body.description,
+      department: departmentId,
+      venue: req.body.venue,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      chiefGuest: req.body.chiefGuest,
+      registrationLink: req.body.registrationLink,
+      isPublished: true,
+      poster,
+      createdBy: req.user._id,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Event created successfully.",
+      data: event,
+    });
+  } catch (error) {
+    console.error("Create Faculty Event Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+// Update Event - Faculty
+export const updateFacultyEvent = async (req, res) => {
+  try {
+    const faculty = await Faculty.findOne({
+      user: req.user._id,
+    });
+
+    if (!faculty) {
+      return res.status(404).json({
+        success: false,
+        message: "Faculty profile not found.",
+      });
+    }
+
+    const event = await Event.findById(req.params.id);
+
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: "Event not found.",
+      });
+    }
+
+    // Check whether the event belongs to faculty's department
+    const hasDepartment = faculty.departments.some(
+      (id) => id.toString() === event.department.toString()
+    );
+
+    if (!hasDepartment) {
+      return res.status(403).json({
+        success: false,
+        message: "You cannot edit events from another department.",
+      });
+    }
+
+    // If department is being changed, verify the new department too
+    if (req.body.department) {
+      const canUseDepartment = faculty.departments.some(
+        (id) => id.toString() === req.body.department
+      );
+
+      if (!canUseDepartment) {
+        return res.status(403).json({
+          success: false,
+          message: "You cannot move an event to another department.",
+        });
+      }
+
+      event.department = req.body.department;
+    }
+
+    event.title = req.body.title;
+    event.description = req.body.description;
+    event.venue = req.body.venue;
+    event.startDate = req.body.startDate;
+    event.endDate = req.body.endDate;
+    event.chiefGuest = req.body.chiefGuest;
+    event.registrationLink = req.body.registrationLink;
+
+    if (req.file) {
+      event.poster = {
+        url: req.file.path,
+        public_id: req.file.filename,
+      };
+    }
+
+    await event.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Event updated successfully.",
+      data: event,
+    });
+  } catch (error) {
+    console.error("Update Faculty Event Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+// Delete Event - Faculty
+export const deleteFacultyEvent = async (req, res) => {
+  try {
+    const faculty = await Faculty.findOne({
+      user: req.user._id,
+    });
+
+    if (!faculty) {
+      return res.status(404).json({
+        success: false,
+        message: "Faculty profile not found.",
+      });
+    }
+
+    const event = await Event.findById(req.params.id);
+
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: "Event not found.",
+      });
+    }
+
+    // Check whether the event belongs to faculty's department
+    const hasDepartment = faculty.departments.some(
+      (id) => id.toString() === event.department.toString()
+    );
+
+    if (!hasDepartment) {
+      return res.status(403).json({
+        success: false,
+        message: "You cannot delete events from another department.",
+      });
+    }
+
+    await event.deleteOne();
+
+    return res.status(200).json({
+      success: true,
+      message: "Event deleted successfully.",
+    });
+  } catch (error) {
+    console.error("Delete Faculty Event Error:", error);
+
+    return res.status(500).json({
       success: false,
       message: error.message,
     });

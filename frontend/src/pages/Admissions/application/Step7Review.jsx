@@ -9,7 +9,9 @@ const Step7Review = () => {
     if (!file) return "Not uploaded";
 
     if (file instanceof FileList) {
-      return file.length > 0 ? file[0].name : "Not uploaded";
+      return file.length > 0
+        ? file[0].name
+        : "Not uploaded";
     }
 
     return "Uploaded";
@@ -17,6 +19,20 @@ const Step7Review = () => {
 
   const formatDeclaration = (value) => {
     return value ? "Accepted" : "Not accepted";
+  };
+
+  const formatProgramme = () => {
+    // If programme name is already available in form data
+    if (data.programName) {
+      return data.programName;
+    }
+
+    // Otherwise show the selected ID
+    if (data.programId) {
+      return data.programId;
+    }
+
+    return "Not selected";
   };
 
   return (
@@ -240,7 +256,7 @@ const Step7Review = () => {
 
         <ReviewItem
           label="Selected Programme"
-          value={data.programId || "Not selected"}
+          value={formatProgramme()}
         />
       </div>
 
@@ -342,14 +358,27 @@ const Step7Review = () => {
 };
 
 const ReviewItem = ({ label, value }) => {
+  const displayValue =
+    value !== undefined &&
+    value !== null &&
+    String(value).trim() !== ""
+      ? value
+      : "Not provided";
+
   return (
     <div>
       <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
         {label}
       </p>
 
-      <p className="mt-1 break-words text-sm font-medium text-gray-800">
-        {value || "Not provided"}
+      <p
+        className={`mt-1 break-words text-sm font-medium ${
+          displayValue === "Not provided"
+            ? "text-red-500"
+            : "text-gray-800"
+        }`}
+      >
+        {displayValue}
       </p>
     </div>
   );

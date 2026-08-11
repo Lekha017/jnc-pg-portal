@@ -1,31 +1,4 @@
-import { useNavigate } from "react-router-dom";
-
 function ProgramContent({ details, fees }) {
-    const navigate = useNavigate();
-
-    const handleViewMore = () => {
-        // Program name is used as the department name
-        const programName = details?.program?.programName;
-
-        if (!programName) {
-            console.error("Program name not found");
-            return;
-        }
-
-        // Convert program name into department slug
-        // Example:
-        // "Computer Science" -> "computer-science"
-        // "Commerce" -> "commerce"
-        const slug = programName
-            .trim()
-            .toLowerCase()
-            .replace(/&/g, "and")
-            .replace(/[^\w\s-]/g, "")
-            .replace(/\s+/g, "-");
-
-        navigate(`/department/${slug}`);
-    };
-
     const Section = ({ title, content }) => {
         if (!content) return null;
 
@@ -166,30 +139,6 @@ function ProgramContent({ details, fees }) {
                     )}
                 </div>
             )}
-
-            {/* View More */}
-            <div className="mt-8 pb-6">
-                <button
-                    type="button"
-                    onClick={handleViewMore}
-                    className="
-                        inline-flex
-                        items-center
-                        justify-center
-                        bg-[#2D2A70]
-                        text-white
-                        px-7
-                        py-3
-                        rounded-xl
-                        font-semibold
-                        hover:bg-[#24205f]
-                        transition
-                        cursor-pointer
-                    "
-                >
-                    View More
-                </button>
-            </div>
 
         </div>
     );

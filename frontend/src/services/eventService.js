@@ -112,3 +112,45 @@ export const getEventsByDepartment = async (departmentId) => {
 
     return response.data;
 };
+
+// ==========================
+// Faculty - My Department Events
+// ==========================
+export const getFacultyEvents = async () => {
+  const response = await api.get("/events/faculty/my-events");
+  return response.data;
+};
+
+// ==========================
+// Faculty - Create Event
+// ==========================
+export const createFacultyEvent = async (formData) => {
+  const response = await api.post("/events/faculty", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response.data;
+};
+
+// ==========================
+// Faculty - Update Event
+// ==========================
+export const updateFacultyEvent = async (id, formData) => {
+  const response = await api.put(`/events/faculty/${id}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response.data;
+};
+
+// ==========================
+// Faculty - Delete Event
+// ==========================
+export const deleteFacultyEvent = async (id) => {
+  const response = await api.delete(`/events/faculty/${id}`);
+  return response.data;
+};

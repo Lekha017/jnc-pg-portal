@@ -12,6 +12,7 @@ const generateApplicationNumber = () => {
 };
 
 // Apply
+// Apply
 export const submitApplication = async (req, res) => {
   try {
     const documents = {
@@ -40,13 +41,19 @@ export const submitApplication = async (req, res) => {
         req.files?.migrationCertificate?.[0]?.path || "",
     };
 
-  const application = await Application.create({
-  ...req.body,
-  user: req.user._id,
-  documents,
-  applicationNumber:
-    generateApplicationNumber(),
-});
+    const application = await Application.create({
+      ...req.body,
+
+      // JNC is a women's college
+      gender: "Female",
+
+      user: req.user._id,
+
+      documents,
+
+      applicationNumber:
+        generateApplicationNumber(),
+    });
 
     res.status(201).json({
       success: true,

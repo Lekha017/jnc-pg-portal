@@ -108,15 +108,15 @@ const Footer = () => {
             </li>
 
             <li>
-              <a
-                href="http://106.51.73.95:8585/KnowledgePro/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white"
-              >
-                <strong>MIS</strong>
-              </a>
-            </li>
+  <a
+    href="http://106.51.73.95:8585/KnowledgePro/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="hover:text-white"
+  >
+   <strong>MIS</strong> 
+  </a>
+</li>
 
             <li>
               <a
@@ -143,14 +143,9 @@ const Footer = () => {
 
           <ul className="mt-5 space-y-3 text-[13px] text-gray-300">
 
-            <li>
-  <Link
-    to="/careers"
-    className="hover:text-white"
-  >
-    <strong> › Career</strong>
-  </Link>
-</li>
+            <li className="hover:text-white cursor-pointer">
+              <strong> › Career</strong>
+            </li>
 
             <li>
               <a

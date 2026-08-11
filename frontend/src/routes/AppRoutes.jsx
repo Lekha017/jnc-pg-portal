@@ -47,6 +47,8 @@ import Faculty from "../pages/Faculty/Faculty";
 import FacultyDetails from "../pages/Faculty/FacultyDetails";
 import EditFaculty from "../pages/Faculty/EditFaculty";
 import FacultyDashboard from "../pages/Faculty/FacultyDashboard";
+import FacultyEvents from "../pages/Faculty/FacultyEvents";
+
 import AdmissionsPage from "../pages/Admissions/AdmissionsPage";
 import AdmissionPortal from "../pages/Admissions/AdmissionPortal";
 import ApplicationForm from "../pages/Admissions/ApplicationForm";
@@ -302,15 +304,15 @@ const AppRoutes = () => {
         element={<ApplicationForm />}
       />
 
-<Route
-  path="/admissions/application/invoice"
-  element={<ApplicationInvoice />}
-/>
+      <Route
+        path="/admissions/application/invoice"
+        element={<ApplicationInvoice />}
+      />
 
-<Route
-  path="/careers"
-  element={<Careers />}
-/>
+      <Route
+        path="/careers"
+        element={<Careers />}
+      />
       {/* ================= LIBRARY ================= */}
 
       <Route
@@ -533,6 +535,14 @@ const AppRoutes = () => {
         }
       />
 
+      <Route
+        path="/faculty/events"
+        element={
+          <ProtectedRoute roles={["faculty"]}>
+            <FacultyEvents />
+          </ProtectedRoute>
+        }
+      />
       {/* ================= AUTH ================= */}
 
       <Route

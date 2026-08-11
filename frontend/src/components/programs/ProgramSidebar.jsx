@@ -1,15 +1,33 @@
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+
 function ProgramSidebar({ details }) {
+    const navigate = useNavigate();
+    const { user } = useAuth();
+
+    const handleApplyNow = () => {
+        if (user) {
+            navigate("/admissions/application");
+        } else {
+            navigate("/login", {
+                state: {
+                    from: "/admissions/application",
+                },
+            });
+        }
+    };
+
     return (
         <div
             className="
-        bg-white
-        border
-        border-gray-200
-        rounded-2xl
-        p-6
-        sticky
-        top-24
-      "
+                bg-white
+                border
+                border-gray-200
+                rounded-2xl
+                p-6
+                sticky
+                top-24
+            "
         >
             {/* Contact Section */}
 
@@ -63,15 +81,17 @@ function ProgramSidebar({ details }) {
                     target="_blank"
                     rel="noreferrer"
                     className="
-            block
-            w-full
-            text-center
-            bg-[#2D2A70]
-            text-white
-            py-3
-            rounded-xl
-            mb-4
-          "
+                        block
+                        w-full
+                        text-center
+                        bg-[#2D2A70]
+                        text-white
+                        py-3
+                        rounded-xl
+                        mb-4
+                        hover:bg-[#23205b]
+                        transition
+                    "
                 >
                     Download Syllabus
                 </a>
@@ -80,16 +100,19 @@ function ProgramSidebar({ details }) {
             {/* Apply */}
 
             <button
+                type="button"
+                onClick={handleApplyNow}
                 className="
-    w-full
-    bg-[#2D2A70]
-    hover:bg-[#23205b]
-    text-white
-    py-3
-    rounded-xl
-    font-medium
-    transition
-  "
+                    w-full
+                    bg-[#2D2A70]
+                    hover:bg-[#23205b]
+                    text-white
+                    py-3
+                    rounded-xl
+                    font-medium
+                    transition
+                    cursor-pointer
+                "
             >
                 Apply Now
             </button>

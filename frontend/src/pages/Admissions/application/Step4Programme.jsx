@@ -6,11 +6,15 @@ import { getPrograms } from "../../../services/programService";
 const Step4Programme = () => {
   const {
     register,
+    setValue,
+    watch,
     formState: { errors },
   } = useFormContext();
 
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const selectedProgramId = watch("programId");
 
   useEffect(() => {
     const loadPrograms = async () => {
@@ -44,6 +48,28 @@ const Step4Programme = () => {
     return groups;
   }, {});
 
+  const handleProgrammeChange = (event) => {
+    const programId = event.target.value;
+
+    const selectedProgram = programs.find(
+      (program) => program._id === programId
+    );
+
+    setValue("programId", programId, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+
+    setValue(
+      "programName",
+      selectedProgram?.programName || "",
+      {
+        shouldValidate: false,
+        shouldDirty: true,
+      }
+    );
+  };
+
   return (
     <div className="space-y-6">
       {/* Section Heading */}
@@ -75,6 +101,7 @@ const Step4Programme = () => {
           <select
             {...register("programId", {
               required: "Please select a programme",
+              onChange: handleProgrammeChange,
             })}
             className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#2F2F6F] focus:ring-1 focus:ring-[#2F2F6F]"
           >
@@ -82,7 +109,10 @@ const Step4Programme = () => {
 
             {Object.entries(groupedPrograms).map(
               ([category, categoryPrograms]) => (
-                <optgroup key={category} label={category}>
+                <optgroup
+                  key={category}
+                  label={category}
+                >
                   {categoryPrograms
                     .sort(
                       (a, b) =>
@@ -114,7 +144,7 @@ const Step4Programme = () => {
       </div>
 
       {/* Information */}
-      <div className="rounded-lg bg-[#F8F9FC] border border-gray-200 p-5">
+      <div className="rounded-lg border border-gray-200 bg-[#F8F9FC] p-5">
         <p className="text-sm text-gray-600">
           Please make sure you select the correct programme before
           proceeding. Your selected programme will be associated with

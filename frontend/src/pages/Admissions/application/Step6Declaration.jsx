@@ -58,8 +58,11 @@ const Step6Declaration = () => {
           <input
             type="checkbox"
             {...register("declarationAccepted", {
-              required:
-                "You must accept the declaration before proceeding",
+              required: {
+                value: true,
+                message:
+                  "You must accept the declaration before proceeding",
+              },
             })}
             className="mt-1 h-4 w-4 accent-[#2F2F6F]"
           />
