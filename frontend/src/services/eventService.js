@@ -22,19 +22,29 @@ export const getAllEvents = async (params = {}) => {
 // ==========================
 // Get Upcoming Events
 // ==========================
-export const getUpcomingEvents = async () => {
-  const response = await api.get("/events/upcoming");
-  return response.data;
+export const getUpcomingEvents = async (departmentId = "") => {
+    const response = await api.get("/events/upcoming", {
+        params: departmentId
+            ? { department: departmentId }
+            : {},
+    });
+
+    return response.data;
 };
+
 
 // ==========================
 // Get Ongoing Events
 // ==========================
-export const getOngoingEvents = async () => {
-  const response = await api.get("/events/ongoing");
-  return response.data;
-};
+export const getOngoingEvents = async (departmentId = "") => {
+    const response = await api.get("/events/ongoing", {
+        params: departmentId
+            ? { department: departmentId }
+            : {},
+    });
 
+    return response.data;
+};
 // ==========================
 // Get Completed Events
 // ==========================
@@ -91,4 +101,14 @@ export const deleteEvent = async (id) => {
 export const togglePublishStatus = async (id) => {
   const response = await api.patch(`/events/${id}/publish`);
   return response.data;
+};
+// ==========================
+// Get Published Events By Department
+// ==========================
+export const getEventsByDepartment = async (departmentId) => {
+    const response = await api.get(
+        `/events/department/${departmentId}`
+    );
+
+    return response.data;
 };

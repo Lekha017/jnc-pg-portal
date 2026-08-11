@@ -1,21 +1,32 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import {
   getUpcomingEvents,
   getOngoingEvents,
 } from "../../services/eventService";
+
 import { getAnnouncements } from "../../services/announcementService";
+
+import { getAchievements } from "../../services/achievementService";
 
 function EventsAnnouncements() {
   const [events, setEvents] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
+  const [achievements, setAchievements] = useState([]);
+
   const [activeTab, setActiveTab] = useState("events");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchEvents();
     fetchAnnouncements();
+    fetchAchievements();
   }, []);
+
+  /* =========================
+     FETCH EVENTS
+  ========================= */
 
   const fetchEvents = async () => {
     try {
@@ -32,27 +43,66 @@ function EventsAnnouncements() {
         ? ongoingRes.data
         : [];
 
-      setEvents([...ongoing, ...upcoming].slice(0, 2));
+      setEvents(
+        [...ongoing, ...upcoming].slice(0, 2)
+      );
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching events:", error);
       setEvents([]);
     } finally {
       setLoading(false);
     }
   };
 
+  /* =========================
+     FETCH ANNOUNCEMENTS
+  ========================= */
+
   const fetchAnnouncements = async () => {
     try {
       const response = await getAnnouncements();
 
-      if (response.success) {
-        setAnnouncements(response.data.slice(0, 2));
+      if (response?.success) {
+        setAnnouncements(
+          response.data?.slice(0, 2) || []
+        );
       }
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Error fetching announcements:",
+        error
+      );
+
       setAnnouncements([]);
     }
   };
+
+  /* =========================
+     FETCH ACHIEVEMENTS
+  ========================= */
+
+  const fetchAchievements = async () => {
+    try {
+      const response = await getAchievements();
+
+      if (response?.success) {
+        setAchievements(
+          response.data?.slice(0, 2) || []
+        );
+      }
+    } catch (error) {
+      console.error(
+        "Error fetching achievements:",
+        error
+      );
+
+      setAchievements([]);
+    }
+  };
+
+  /* =========================
+     DATE FORMAT
+  ========================= */
 
   const formatDate = (date) =>
     new Date(date).toLocaleDateString("en-US", {
@@ -62,36 +112,64 @@ function EventsAnnouncements() {
     });
 
   return (
-    <div className="w-full">
+    <div>
 
-      {/* Tabs */}
+      {/* =========================
+          TABS
+      ========================= */}
+
       <div className="flex gap-2 mb-3">
+
+        {/* EVENTS */}
 
         <button
           onClick={() => setActiveTab("events")}
           className={`w-32 py-2 rounded-md text-sm font-medium transition ${
             activeTab === "events"
               ? "bg-[#37347C] text-white"
-              : "bg-gray-200 text-gray-800"
+              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
           }`}
         >
           Events
         </button>
 
+        {/* ANNOUNCEMENTS */}
+
         <button
-          onClick={() => setActiveTab("announcements")}
+          onClick={() =>
+            setActiveTab("announcements")
+          }
           className={`w-32 py-2 rounded-md text-sm font-medium transition ${
             activeTab === "announcements"
               ? "bg-[#37347C] text-white"
-              : "bg-gray-200 text-gray-800"
+              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
           }`}
         >
           Announcements
         </button>
 
+        {/* ACHIEVEMENTS */}
+
+        <button
+          onClick={() =>
+            setActiveTab("achievements")
+          }
+          className={`w-32 py-2 rounded-md text-sm font-medium transition ${
+            activeTab === "achievements"
+              ? "bg-[#37347C] text-white"
+              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+          }`}
+        >
+          Achievements
+        </button>
+
       </div>
 
-      {/* EVENTS */}
+
+      {/* =========================
+          EVENTS
+      ========================= */}
+
       {activeTab === "events" && (
         <>
           {loading ? (
@@ -100,24 +178,30 @@ function EventsAnnouncements() {
             </div>
           ) : (
             <>
-              {events.map((event) => (
-                <div
-                  key={event._id}
-                  className="bg-white rounded-xl px-4 py-3 mb-2 shadow-sm border border-gray-100"
-                >
-                  <h3 className="text-lg font-semibold text-[#37347C] line-clamp-1">
-                    {event.title}
-                  </h3>
+              {events.length > 0 ? (
+                events.map((event) => (
+                  <div
+                    key={event._id}
+                    className="bg-white rounded-xl px-4 py-3 mb-2 shadow-sm border border-gray-100"
+                  >
+                    <h3 className="text-lg font-semibold text-[#37347C] line-clamp-1">
+                      {event.title}
+                    </h3>
 
-                  <p className="text-xs text-gray-500 mt-1">
-                    {formatDate(event.startDate)}
-                  </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {formatDate(event.startDate)}
+                    </p>
 
-                  <p className="text-sm text-gray-600 mt-1 line-clamp-1">
-                    {event.description}
-                  </p>
+                    <p className="text-sm text-gray-600 mt-1 line-clamp-1">
+                      {event.description}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <div className="bg-white rounded-xl border border-gray-100 p-4 text-sm text-gray-500">
+                  No events available.
                 </div>
-              ))}
+              )}
 
               <Link
                 to="/events"
@@ -130,7 +214,11 @@ function EventsAnnouncements() {
         </>
       )}
 
-      {/* ANNOUNCEMENTS */}
+
+      {/* =========================
+          ANNOUNCEMENTS
+      ========================= */}
+
       {activeTab === "announcements" && (
         <>
           {loading ? (
@@ -139,27 +227,88 @@ function EventsAnnouncements() {
             </div>
           ) : (
             <>
-              {announcements.map((announcement) => (
-                <div
-                  key={announcement._id}
-                  className="bg-white rounded-xl px-4 py-3 mb-2 shadow-sm border border-gray-100"
-                >
-                  <h3 className="text-lg font-semibold text-[#37347C] line-clamp-1">
-                    {announcement.title}
-                  </h3>
+              {announcements.length > 0 ? (
+                announcements.map((announcement) => (
+                  <div
+                    key={announcement._id}
+                    className="bg-white rounded-xl px-4 py-3 mb-2 shadow-sm border border-gray-100"
+                  >
+                    <h3 className="text-lg font-semibold text-[#37347C] line-clamp-1">
+                      {announcement.title}
+                    </h3>
 
-                  <p className="text-xs text-gray-500 mt-1">
-                    {formatDate(announcement.publishDate)}
-                  </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {formatDate(
+                        announcement.publishDate
+                      )}
+                    </p>
 
-                  <p className="text-sm text-gray-600 mt-1 line-clamp-1">
-                    {announcement.description}
-                  </p>
+                    <p className="text-sm text-gray-600 mt-1 line-clamp-1">
+                      {announcement.description}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <div className="bg-white rounded-xl border border-gray-100 p-4 text-sm text-gray-500">
+                  No announcements available.
                 </div>
-              ))}
+              )}
 
               <Link
                 to="/announcements"
+                className="inline-flex items-center mt-2 bg-[#37347C] text-white px-6 py-2 rounded-full text-sm hover:bg-[#2d2968] transition"
+              >
+                View More →
+              </Link>
+            </>
+          )}
+        </>
+      )}
+
+
+      {/* =========================
+          ACHIEVEMENTS
+      ========================= */}
+
+      {activeTab === "achievements" && (
+        <>
+          {loading ? (
+            <div className="bg-white rounded-xl border shadow-sm p-4">
+              Loading...
+            </div>
+          ) : (
+            <>
+              {achievements.length > 0 ? (
+                achievements.map((achievement) => (
+                  <div
+                    key={achievement._id}
+                    className="bg-white rounded-xl px-4 py-3 mb-2 shadow-sm border border-gray-100"
+                  >
+                    <h3 className="text-lg font-semibold text-[#37347C] line-clamp-1">
+                      {achievement.title}
+                    </h3>
+
+                    <p className="text-xs text-gray-500 mt-1">
+                      {formatDate(
+                        achievement.date
+                      )}
+                    </p>
+
+                    <p className="text-sm text-gray-600 mt-1 line-clamp-1">
+                      {achievement.description}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <div className="bg-white rounded-xl border border-gray-100 p-4 text-sm text-gray-500">
+                  No achievements available.
+                </div>
+              )}
+
+              {/* GO TO PUBLIC ACHIEVEMENTS PAGE */}
+
+              <Link
+                to="/achievements"
                 className="inline-flex items-center mt-2 bg-[#37347C] text-white px-6 py-2 rounded-full text-sm hover:bg-[#2d2968] transition"
               >
                 View More →
