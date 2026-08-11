@@ -1,139 +1,198 @@
+import { useNavigate } from "react-router-dom";
+
 function ProgramContent({ details, fees }) {
-  const Section = ({ title, content }) => {
-    if (!content) return null;
+    const navigate = useNavigate();
+
+    const handleViewMore = () => {
+        // Program name is used as the department name
+        const programName = details?.program?.programName;
+
+        if (!programName) {
+            console.error("Program name not found");
+            return;
+        }
+
+        // Convert program name into department slug
+        // Example:
+        // "Computer Science" -> "computer-science"
+        // "Commerce" -> "commerce"
+        const slug = programName
+            .trim()
+            .toLowerCase()
+            .replace(/&/g, "and")
+            .replace(/[^\w\s-]/g, "")
+            .replace(/\s+/g, "-");
+
+        navigate(`/department/${slug}`);
+    };
+
+    const Section = ({ title, content }) => {
+        if (!content) return null;
+
+        return (
+            <div className="mb-10">
+                <h2 className="text-3xl font-bold text-[#2D2A70] mb-4">
+                    {title}
+                </h2>
+
+                <div className="text-gray-700 leading-8 whitespace-pre-line">
+                    {content}
+                </div>
+            </div>
+        );
+    };
 
     return (
-      <div className="mb-10">
-        <h2 className="text-3xl font-bold text-[#2D2A70] mb-4">
-          {title}
-        </h2>
-
-        <div className="text-gray-700 leading-8 whitespace-pre-line">
-          {content}
-        </div>
-      </div>
-    );
-  };
-
-  return (
-    <div className="space-y-10">
-
-      <Section
-        title="Eligibility"
-        content={details?.eligibility}
-      />
-
-      <Section
-        title="Programme Details"
-        content={details?.programmeDetails}
-      />
-
-      <Section
-        title="Selection Process"
-        content={details?.selectionProcess}
-      />
-
-      <Section
-        title="Programme Objectives"
-        content={details?.programmeObjectives}
-      />
-
-      <Section
-        title="Programme Outcomes"
-        content={details?.programmeOutcomes}
-      />
-
-      <Section
-        title="Potential Career Options"
-        content={details?.potentialCareerOptions}
-      />
-
-      {/* Fee Structure */}
-
-      {fees?.length > 0 && (
-        <div className="mb-10">
-          <h2 className="text-3xl font-bold text-[#2D2A70] mb-5">
-            Fee Structure
-          </h2>
-
-          <div className="overflow-hidden rounded-2xl border border-gray-200">
-            <table className="w-full">
-              <thead className="bg-[#2D2A70] text-white">
-                <tr>
-                  <th className="p-4 text-left">
-                    Academic Year
-                  </th>
-
-                  <th className="p-4 text-left">
-                    Karnataka
-                  </th>
-
-                  <th className="p-4 text-left">
-                    Other States
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {fees.map((fee) => (
-                  <tr
-                    key={fee._id}
-                    className="border-t border-gray-200"
-                  >
-                    <td className="p-4">
-                      {fee.year}
-                    </td>
-
-                    <td className="p-4">
-                      ₹{fee.insideKarnatakaFee}
-                    </td>
-
-                    <td className="p-4">
-                      ₹{fee.outsideKarnatakaFee}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      {/* Syllabus */}
-
-      {(details?.syllabus ||
-        details?.syllabusPdf) && (
         <div>
-          <h2 className="text-3xl font-bold text-[#2D2A70] mb-4">
-            Syllabus
-          </h2>
 
-          <div className="text-gray-700 leading-8 whitespace-pre-line">
-            {details?.syllabus}
-          </div>
+            {/* Eligibility */}
+            <Section
+                title="Eligibility"
+                content={details?.eligibility}
+            />
 
-          {details?.syllabusPdf && (
-            <a
-              href={details.syllabusPdf}
-              target="_blank"
-              rel="noreferrer"
-              className="
-                inline-block
-                mt-5
-                bg-[#2D2A70]
-                text-white
-                px-6
-                py-3
-                rounded-xl
-              "
-            >
-              Download Syllabus
-            </a>
-          )}
+            {/* Programme Details */}
+            <Section
+                title="Programme Details"
+                content={details?.programmeDetails}
+            />
+
+            {/* Selection Process */}
+            <Section
+                title="Selection Process"
+                content={details?.selectionProcess}
+            />
+
+            {/* Programme Objectives */}
+            <Section
+                title="Programme Objectives"
+                content={details?.programmeObjectives}
+            />
+
+            {/* Programme Outcomes */}
+            <Section
+                title="Programme Outcomes"
+                content={details?.programmeOutcomes}
+            />
+
+            {/* Potential Career Options */}
+            <Section
+                title="Potential Career Options"
+                content={details?.potentialCareerOptions}
+            />
+
+            {/* Fee Structure */}
+            {fees?.length > 0 && (
+                <div className="mb-10">
+                    <h2 className="text-3xl font-bold text-[#2D2A70] mb-5">
+                        Fee Structure
+                    </h2>
+
+                    <div className="overflow-hidden rounded-2xl border border-gray-200">
+                        <table className="w-full">
+                            <thead className="bg-[#2D2A70] text-white">
+                                <tr>
+                                    <th className="p-4 text-left">
+                                        Academic Year
+                                    </th>
+
+                                    <th className="p-4 text-left">
+                                        Karnataka
+                                    </th>
+
+                                    <th className="p-4 text-left">
+                                        Other States
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {fees.map((fee) => (
+                                    <tr
+                                        key={fee._id}
+                                        className="border-t border-gray-200"
+                                    >
+                                        <td className="p-4">
+                                            {fee.year}
+                                        </td>
+
+                                        <td className="p-4">
+                                            ₹{fee.insideKarnatakaFee}
+                                        </td>
+
+                                        <td className="p-4">
+                                            ₹{fee.outsideKarnatakaFee}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            )}
+
+            {/* Syllabus */}
+            {(details?.syllabus || details?.syllabusPdf) && (
+                <div className="mb-10">
+                    <h2 className="text-3xl font-bold text-[#2D2A70] mb-4">
+                        Syllabus
+                    </h2>
+
+                    {details?.syllabus && (
+                        <div className="text-gray-700 leading-8 whitespace-pre-line">
+                            {details.syllabus}
+                        </div>
+                    )}
+
+                    {details?.syllabusPdf && (
+                        <a
+                            href={details.syllabusPdf}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="
+                                inline-block
+                                mt-5
+                                bg-[#2D2A70]
+                                text-white
+                                px-6
+                                py-3
+                                rounded-xl
+                                hover:bg-[#24205f]
+                                transition
+                            "
+                        >
+                            Download Syllabus
+                        </a>
+                    )}
+                </div>
+            )}
+
+            {/* View More */}
+            <div className="mt-8 pb-6">
+                <button
+                    type="button"
+                    onClick={handleViewMore}
+                    className="
+                        inline-flex
+                        items-center
+                        justify-center
+                        bg-[#2D2A70]
+                        text-white
+                        px-7
+                        py-3
+                        rounded-xl
+                        font-semibold
+                        hover:bg-[#24205f]
+                        transition
+                        cursor-pointer
+                    "
+                >
+                    View More
+                </button>
+            </div>
+
         </div>
-      )}
-    </div>
-  );
+    );
 }
 
 export default ProgramContent;

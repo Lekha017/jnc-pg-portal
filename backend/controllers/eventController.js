@@ -155,53 +155,75 @@ export const getEventById = async (req, res) => {
 
 // Upcoming Events
 export const getUpcomingEvents = async (req, res) => {
-  try {
-    const { endOfDay } = getTodayRange();
+    try {
+        const { endOfDay } = getTodayRange();
 
-    const events = await Event.find({
-      isPublished: true,
-      startDate: { $gt: endOfDay },
-    })
-      .populate("department", "name code")
-      .sort({ startDate: 1 });
+        const filter = {
+            isPublished: true,
+            startDate: { $gt: endOfDay },
+        };
 
-    res.status(200).json({
-      success: true,
-      count: events.length,
-      data: events,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
+        // If department is provided,
+        // show only that department's events
+        if (req.query.department) {
+            filter.department = req.query.department;
+        }
+
+        const events = await Event.find(filter)
+            .populate("department", "name code")
+            .sort({ startDate: 1 });
+
+        res.status(200).json({
+            success: true,
+            count: events.length,
+            data: events,
+        });
+
+    } catch (error) {
+        console.error("Error fetching upcoming events:", error);
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
 };
 
 // Ongoing Events
 export const getOngoingEvents = async (req, res) => {
-  try {
-    const { startOfDay, endOfDay } = getTodayRange();
+    try {
+        const { startOfDay, endOfDay } = getTodayRange();
 
-    const events = await Event.find({
-      isPublished: true,
-      startDate: { $lte: endOfDay },
-      endDate: { $gte: startOfDay },
-    })
-      .populate("department", "name code")
-      .sort({ startDate: 1 });
+        const filter = {
+            isPublished: true,
+            startDate: { $lte: endOfDay },
+            endDate: { $gte: startOfDay },
+        };
 
-    res.status(200).json({
-      success: true,
-      count: events.length,
-      data: events,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
+        // If department is provided,
+        // show only that department's events
+        if (req.query.department) {
+            filter.department = req.query.department;
+        }
+
+        const events = await Event.find(filter)
+            .populate("department", "name code")
+            .sort({ startDate: 1 });
+
+        res.status(200).json({
+            success: true,
+            count: events.length,
+            data: events,
+        });
+
+    } catch (error) {
+        console.error("Error fetching ongoing events:", error);
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
 };
 
 // Completed Events

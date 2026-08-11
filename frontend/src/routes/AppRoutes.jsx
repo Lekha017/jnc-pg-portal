@@ -36,6 +36,7 @@ import MaintenancePolicy from "../pages/infrastructure/MaintenancePolicy";
 
 import ARIIA from "../pages/AdmissionsNavbar/ARIIA";
 import OnlinePayment from "../pages/AdmissionsNavbar/OnlinePayment";
+import Achievements from "../pages/Achievements";
 
 
 import Login from "../pages/auth/Login";
@@ -60,6 +61,7 @@ import EditManagement from "../pages/admin/EditManagement";
 import ManageDeans from "../pages/admin/ManageDeans";
 import AddDean from "../pages/admin/AddDean";
 import EditDean from "../pages/admin/EditDean";
+import ManageAchievements from "../pages/admin/ManageAchievements";
 
 import OrganizationStructure from "../pages/AboutUs/OrganizationStructure";
 import GoverningBody from "../pages/AboutUs/GoverningBody";
@@ -309,6 +311,11 @@ const AppRoutes = () => {
         }
       />
 
+      <Route
+        path="/achievements"
+        element={<Achievements />}
+      />
+
       {/* ================= FACULTY PUBLIC ================= */}
 
 
@@ -451,6 +458,15 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute roles={["admin"]}>
             <EditDean />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/achievements"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <ManageAchievements />
           </ProtectedRoute>
         }
       />
