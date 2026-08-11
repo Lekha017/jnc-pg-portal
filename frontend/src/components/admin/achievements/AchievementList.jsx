@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
-import { Pencil, Trash2, Eye, EyeOff } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import {
+  Pencil,
+  Trash2,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 import ConfirmModal from "../../common/ConfirmModal";
 
-function AchievementList({ type }) {
-  const navigate = useNavigate();
-
+function AchievementList({
+  type,
+  refresh,
+  onEdit,
+}) {
   const API = import.meta.env.VITE_API_URL;
 
   const [achievements, setAchievements] = useState([]);
@@ -17,9 +25,15 @@ function AchievementList({ type }) {
   const [showDeleteModal, setShowDeleteModal] =
     useState(false);
 
+  /*
+  ============================
+  FETCH ACHIEVEMENTS
+  ============================
+  */
+
   useEffect(() => {
     fetchAchievements();
-  }, [type]);
+  }, [type, refresh]);
 
   const fetchAchievements = async () => {
     try {
@@ -38,23 +52,45 @@ function AchievementList({ type }) {
         "Error fetching achievements:",
         error
       );
+
+      toast.error(
+        error.response?.data?.message ||
+          "Failed to load achievements."
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  const filteredAchievements = achievements.filter(
-    (achievement) =>
-      achievement.title
-        ?.toLowerCase()
-        .includes(search.toLowerCase()) ||
-      achievement.category
-        ?.toLowerCase()
-        .includes(search.toLowerCase()) ||
-      achievement.department?.name
-        ?.toLowerCase()
-        .includes(search.toLowerCase())
-  );
+  /*
+  ============================
+  SEARCH
+  ============================
+  */
+
+  const filteredAchievements =
+    achievements.filter((achievement) => {
+      const searchText =
+        search.toLowerCase();
+
+      return (
+        achievement.title
+          ?.toLowerCase()
+          .includes(searchText) ||
+        achievement.category
+          ?.toLowerCase()
+          .includes(searchText) ||
+        achievement.department?.name
+          ?.toLowerCase()
+          .includes(searchText)
+      );
+    });
+
+  /*
+  ============================
+  DELETE
+  ============================
+  */
 
   const handleDelete = async () => {
     try {
@@ -74,18 +110,28 @@ function AchievementList({ type }) {
 
       setShowDeleteModal(false);
       setDeleteId(null);
+
+      toast.success(
+        "Achievement deleted successfully!"
+      );
     } catch (error) {
       console.error(
         "Delete achievement error:",
         error
       );
 
-      alert(
+      toast.error(
         error.response?.data?.message ||
-          "Failed to delete achievement"
+          "Failed to delete achievement."
       );
     }
   };
+
+  /*
+  ============================
+  PUBLISH / UNPUBLISH
+  ============================
+  */
 
   const handlePublishToggle = async (id) => {
     try {
@@ -104,13 +150,30 @@ function AchievementList({ type }) {
             : achievement
         )
       );
+
+      toast.success(
+        data.data?.isPublished
+          ? "Achievement published successfully!"
+          : "Achievement unpublished successfully!"
+      );
     } catch (error) {
       console.error(
         "Publish toggle error:",
         error
       );
+
+      toast.error(
+        error.response?.data?.message ||
+          "Failed to update publish status."
+      );
     }
   };
+
+  /*
+  ============================
+  LOADING
+  ============================
+  */
 
   if (loading) {
     return (
@@ -120,11 +183,19 @@ function AchievementList({ type }) {
     );
   }
 
+  /*
+  ============================
+  UI
+  ============================
+  */
+
   return (
     <>
-      {/* Search */}
-      <div className="mb-6">
+      {/* ============================
+          SEARCH
+      ============================ */}
 
+      <div className="mb-6">
         <input
           type="text"
           placeholder="Search achievements..."
@@ -134,13 +205,14 @@ function AchievementList({ type }) {
           }
           className="w-full md:w-96 border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-[#2F2F6F]"
         />
-
       </div>
 
-      {/* Empty */}
+      {/* ============================
+          EMPTY
+      ============================ */}
+
       {filteredAchievements.length === 0 ? (
         <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-
           <p className="text-gray-500">
             No{" "}
             {type === "student"
@@ -148,7 +220,6 @@ function AchievementList({ type }) {
               : "faculty"}{" "}
             achievements found.
           </p>
-
         </div>
       ) : (
         <div className="space-y-4">
@@ -160,13 +231,18 @@ function AchievementList({ type }) {
                 className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 flex flex-col lg:flex-row gap-5"
               >
 
-                {/* Image */}
+                {/* ============================
+                    IMAGE
+                ============================ */}
+
                 <div className="w-full lg:w-36 h-32 shrink-0">
 
-                  {achievement.images?.length > 0 ? (
+                  {achievement.images?.length >
+                  0 ? (
                     <img
                       src={
-                        achievement.images[0].url ||
+                        achievement.images[0]
+                          ?.url ||
                         achievement.images[0]
                       }
                       alt={achievement.title}
@@ -180,7 +256,10 @@ function AchievementList({ type }) {
 
                 </div>
 
-                {/* Content */}
+                {/* ============================
+                    CONTENT
+                ============================ */}
+
                 <div className="flex-1">
 
                   <div className="flex flex-wrap items-start justify-between gap-3">
@@ -192,13 +271,15 @@ function AchievementList({ type }) {
                       </h3>
 
                       <p className="text-sm text-gray-500 mt-1">
-                        {achievement.department?.name ||
+                        {achievement.department
+                          ?.name ||
                           "No Department"}
                       </p>
 
                     </div>
 
-                    {/* Status */}
+                    {/* STATUS */}
+
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         achievement.isPublished
@@ -213,9 +294,13 @@ function AchievementList({ type }) {
 
                   </div>
 
+                  {/* DESCRIPTION */}
+
                   <p className="text-sm text-gray-600 mt-3 line-clamp-2">
                     {achievement.description}
                   </p>
+
+                  {/* DETAILS */}
 
                   <div className="flex flex-wrap gap-3 mt-3 text-xs text-gray-500">
 
@@ -227,16 +312,22 @@ function AchievementList({ type }) {
                       {achievement.date
                         ? new Date(
                             achievement.date
-                          ).toLocaleDateString()
+                          ).toLocaleDateString(
+                            "en-IN"
+                          )
                         : ""}
                     </span>
 
-                    {achievement.images?.length > 0 && (
+                    {achievement.images
+                      ?.length > 0 && (
                       <span>
-                        {achievement.images.length}{" "}
+                        {
+                          achievement.images
+                            .length
+                        }{" "}
                         image
-                        {achievement.images.length >
-                        1
+                        {achievement.images
+                          .length > 1
                           ? "s"
                           : ""}
                       </span>
@@ -246,10 +337,16 @@ function AchievementList({ type }) {
 
                 </div>
 
-                {/* Actions */}
+                {/* ============================
+                    ACTIONS
+                ============================ */}
+
                 <div className="flex lg:flex-col justify-end gap-2">
 
+                  {/* PUBLISH */}
+
                   <button
+                    type="button"
                     onClick={() =>
                       handlePublishToggle(
                         achievement._id
@@ -269,17 +366,14 @@ function AchievementList({ type }) {
                     )}
                   </button>
 
+                  {/* ============================
+                      EDIT
+                  ============================ */}
+
                   <button
+                    type="button"
                     onClick={() =>
-                      navigate(
-                        "/admin/achievements/edit",
-                        {
-                          state: {
-                            type,
-                            achievement,
-                          },
-                        }
-                      )
+                      onEdit(achievement)
                     }
                     title="Edit"
                     className="p-2 rounded-lg border border-gray-200 hover:bg-gray-100 text-[#2F2F6F]"
@@ -287,7 +381,12 @@ function AchievementList({ type }) {
                     <Pencil size={18} />
                   </button>
 
+                  {/* ============================
+                      DELETE
+                  ============================ */}
+
                   <button
+                    type="button"
                     onClick={() => {
                       setDeleteId(
                         achievement._id
@@ -309,7 +408,10 @@ function AchievementList({ type }) {
         </div>
       )}
 
-      {/* Existing ConfirmModal */}
+      {/* ============================
+          DELETE CONFIRM MODAL
+      ============================ */}
+
       {showDeleteModal && (
         <ConfirmModal
           isOpen={showDeleteModal}

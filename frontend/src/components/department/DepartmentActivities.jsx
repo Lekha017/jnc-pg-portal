@@ -3,61 +3,43 @@ import { useNavigate } from "react-router-dom";
 
 import { getAchievementsByDepartment } from "../../services/achievementService";
 
+import {
+  getClubAssociationsByDepartment,
+} from "../../services/clubAssociationService";
+
 const DepartmentActivities = ({ departmentId }) => {
   const navigate = useNavigate();
 
+  // =========================================================
+  // ACHIEVEMENTS STATE
+  // =========================================================
+
   const [achievements, setAchievements] = useState([]);
-  const [achievementsLoading, setAchievementsLoading] = useState(false);
+  const [achievementsLoading, setAchievementsLoading] =
+    useState(false);
 
-  const [achievementIndex, setAchievementIndex] = useState(0);
+  const [achievementIndex, setAchievementIndex] =
+    useState(0);
+
+  // =========================================================
+  // CLUBS & ASSOCIATIONS STATE
+  // =========================================================
+
+  const [clubs, setClubs] = useState([]);
+  const [clubsLoading, setClubsLoading] =
+    useState(false);
+
   const [clubIndex, setClubIndex] = useState(0);
-
-  // =========================================================
-  // TEMPORARY CLUBS & ASSOCIATIONS DATA
-  // Backend will be added later
-  // =========================================================
-
-  const clubs = [
-    {
-      id: 1,
-      title: "Student Clubs",
-      description:
-        "Student clubs provide opportunities to explore interests, develop skills and participate in collaborative activities.",
-      image:
-        "https://placehold.co/800x500?text=Student+Clubs",
-    },
-    {
-      id: 2,
-      title: "Cultural Associations",
-      description:
-        "Cultural associations encourage students to participate in cultural, creative and extracurricular activities.",
-      image:
-        "https://placehold.co/800x500?text=Cultural+Associations",
-    },
-    {
-      id: 3,
-      title: "Academic Associations",
-      description:
-        "Academic associations promote knowledge sharing, discussions, workshops and department-level activities.",
-      image:
-        "https://placehold.co/800x500?text=Academic+Associations",
-    },
-    {
-      id: 4,
-      title: "Community Activities",
-      description:
-        "Students actively participate in social initiatives, awareness programmes and community-oriented activities.",
-      image:
-        "https://placehold.co/800x500?text=Community+Activities",
-    },
-  ];
 
   // =========================================================
   // FETCH ACHIEVEMENTS
   // =========================================================
 
   useEffect(() => {
-    if (!departmentId) return;
+    if (!departmentId) {
+      setAchievements([]);
+      return;
+    }
 
     const fetchAchievements = async () => {
       try {
@@ -65,18 +47,22 @@ const DepartmentActivities = ({ departmentId }) => {
         setAchievementIndex(0);
 
         const response =
-          await getAchievementsByDepartment(departmentId);
+          await getAchievementsByDepartment(
+            departmentId
+          );
 
         console.log(
           "Department achievements response:",
           response
         );
 
-        setAchievements(
-          Array.isArray(response?.data)
-            ? response.data
-            : []
-        );
+        const achievementData = Array.isArray(
+          response?.data
+        )
+          ? response.data
+          : [];
+
+        setAchievements(achievementData);
       } catch (error) {
         console.error(
           "Failed to fetch department achievements:",
@@ -93,6 +79,53 @@ const DepartmentActivities = ({ departmentId }) => {
   }, [departmentId]);
 
   // =========================================================
+  // FETCH CLUBS & ASSOCIATIONS BY DEPARTMENT
+  // =========================================================
+
+  useEffect(() => {
+    if (!departmentId) {
+      setClubs([]);
+      return;
+    }
+
+    const fetchDepartmentClubs = async () => {
+      try {
+        setClubsLoading(true);
+        setClubIndex(0);
+
+        const response =
+          await getClubAssociationsByDepartment(
+            departmentId
+          );
+
+        console.log(
+          "Department clubs & associations response:",
+          response
+        );
+
+        const clubData = Array.isArray(
+          response?.data
+        )
+          ? response.data
+          : [];
+
+        setClubs(clubData);
+      } catch (error) {
+        console.error(
+          "Failed to fetch department clubs and associations:",
+          error
+        );
+
+        setClubs([]);
+      } finally {
+        setClubsLoading(false);
+      }
+    };
+
+    fetchDepartmentClubs();
+  }, [departmentId]);
+
+  // =========================================================
   // ACHIEVEMENT AUTO SLIDER
   // =========================================================
 
@@ -101,9 +134,12 @@ const DepartmentActivities = ({ departmentId }) => {
 
     const interval = setInterval(() => {
       setAchievementIndex((prev) => {
-        const maxIndex = achievements.length - 2;
+        const maxIndex =
+          achievements.length - 2;
 
-        return prev >= maxIndex ? 0 : prev + 1;
+        return prev >= maxIndex
+          ? 0
+          : prev + 1;
       });
     }, 5000);
 
@@ -121,7 +157,9 @@ const DepartmentActivities = ({ departmentId }) => {
       setClubIndex((prev) => {
         const maxIndex = clubs.length - 2;
 
-        return prev >= maxIndex ? 0 : prev + 1;
+        return prev >= maxIndex
+          ? 0
+          : prev + 1;
       });
     }, 5000);
 
@@ -135,7 +173,8 @@ const DepartmentActivities = ({ departmentId }) => {
   const nextAchievement = () => {
     if (achievements.length <= 2) return;
 
-    const maxIndex = achievements.length - 2;
+    const maxIndex =
+      achievements.length - 2;
 
     setAchievementIndex((prev) =>
       prev >= maxIndex ? 0 : prev + 1
@@ -145,7 +184,8 @@ const DepartmentActivities = ({ departmentId }) => {
   const previousAchievement = () => {
     if (achievements.length <= 2) return;
 
-    const maxIndex = achievements.length - 2;
+    const maxIndex =
+      achievements.length - 2;
 
     setAchievementIndex((prev) =>
       prev <= 0 ? maxIndex : prev - 1
@@ -188,21 +228,66 @@ const DepartmentActivities = ({ departmentId }) => {
   };
 
   // =========================================================
+  // CLUB IMAGE
+  // =========================================================
+
+  const getClubImage = (club) => {
+    return (
+      club?.images?.[0]?.url ||
+      "https://placehold.co/800x500?text=Club+Association"
+    );
+  };
+
+  // =========================================================
   // ACHIEVEMENT DATE
   // =========================================================
 
   const formatAchievementDate = (date) => {
     if (!date) return "";
 
-    return new Date(date).toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
+    return new Date(date).toLocaleDateString(
+      "en-IN",
+      {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }
+    );
   };
+
+  // =========================================================
+  // OPEN ACHIEVEMENT
+  // =========================================================
+
+  const handleAchievementClick = (
+    achievement
+  ) => {
+    if (!achievement?._id) return;
+
+    navigate(
+      `/achievements?achievementId=${achievement._id}`
+    );
+  };
+
+  // =========================================================
+  // OPEN CLUB / ASSOCIATION
+  // =========================================================
+
+  const handleClubClick = (club) => {
+    if (!club?._id) return;
+
+    navigate(
+      `/clubs-associations/${club._id}`
+    );
+  };
+
+  // =========================================================
+  // RENDER
+  // =========================================================
 
   return (
     <section className="py-12 border-b border-gray-200">
+
       {/* =====================================================
           ACHIEVEMENTS + CLUBS & ASSOCIATIONS
       ====================================================== */}
@@ -218,6 +303,7 @@ const DepartmentActivities = ({ departmentId }) => {
           {/* HEADER */}
 
           <div className="mb-6 min-h-[90px]">
+
             <h2 className="text-3xl font-bold text-[#2F2F6F]">
               Achievements
             </h2>
@@ -226,15 +312,18 @@ const DepartmentActivities = ({ departmentId }) => {
               Achievements and accomplishments of the
               department and its students
             </p>
+
           </div>
 
           {/* LOADING */}
 
           {achievementsLoading && (
             <div className="bg-white rounded-2xl border border-gray-200 h-[420px] flex items-center justify-center">
+
               <p className="text-gray-500">
                 Loading achievements...
               </p>
+
             </div>
           )}
 
@@ -243,10 +332,12 @@ const DepartmentActivities = ({ departmentId }) => {
           {!achievementsLoading &&
             achievements.length === 0 && (
               <div className="bg-white rounded-2xl border border-gray-200 h-[420px] flex items-center justify-center">
-                <p className="text-gray-500">
+
+                <p className="text-gray-500 text-center px-6">
                   No achievements available for this
                   department.
                 </p>
+
               </div>
             )}
 
@@ -254,13 +345,10 @@ const DepartmentActivities = ({ departmentId }) => {
 
           {!achievementsLoading &&
             achievements.length > 0 && (
+
               <div className="relative overflow-hidden">
 
-                {/* VIEWPORT */}
-
                 <div className="overflow-hidden">
-
-                  {/* SLIDING TRACK */}
 
                   <div
                     className="flex gap-5 transition-transform duration-700 ease-in-out"
@@ -271,82 +359,76 @@ const DepartmentActivities = ({ departmentId }) => {
                     }}
                   >
 
-                    {achievements.map((achievement) => (
+                    {achievements.map(
+                      (achievement) => (
 
-                      <div
-                        key={achievement._id}
-
-                        /*
-                         * IMPORTANT:
-                         * Clicking an achievement from the
-                         * department page goes to the main
-                         * Achievements page.
-                         *
-                         * The image popup/slider will be
-                         * handled inside Achievements.jsx.
-                         */
-                        onClick={() => navigate("/achievements")}
-
-                        className="min-w-[calc(50%-10px)] bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
-                      >
-
-                        {/* IMAGE */}
-
-                        <div className="h-[190px] overflow-hidden bg-gray-100">
-
-                          <img
-                            src={getAchievementImage(
+                        <div
+                          key={achievement._id}
+                          onClick={() =>
+                            handleAchievementClick(
                               achievement
-                            )}
-                            alt={
-                              achievement?.title ||
-                              "Achievement"
-                            }
-                            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                            onError={(event) => {
-                              event.currentTarget.src =
-                                "https://placehold.co/800x500?text=Achievement";
-                            }}
-                          />
+                            )
+                          }
+                          className="min-w-[calc(50%-10px)] bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
+                        >
 
-                        </div>
+                          {/* IMAGE */}
 
-                        {/* CONTENT */}
+                          <div className="h-[190px] overflow-hidden bg-gray-100">
 
-                        <div className="p-5">
-
-                          <h3 className="text-lg font-bold text-[#2F2F6F] line-clamp-2">
-                            {achievement?.title}
-                          </h3>
-
-                          <p className="text-sm text-gray-600 mt-2 leading-6 line-clamp-3">
-                            {achievement?.description ||
-                              "Department achievement"}
-                          </p>
-
-                          {/* CATEGORY */}
-
-                          {achievement?.category && (
-                            <p className="text-xs font-semibold text-[#E91E63] mt-4 uppercase">
-                              {achievement.category}
-                            </p>
-                          )}
-
-                          {/* DATE */}
-
-                          {achievement?.date && (
-                            <p className="text-xs text-gray-500 mt-2">
-                              {formatAchievementDate(
-                                achievement.date
+                            <img
+                              src={getAchievementImage(
+                                achievement
                               )}
+                              alt={
+                                achievement?.title ||
+                                "Achievement"
+                              }
+                              className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                              onError={(event) => {
+                                event.currentTarget.src =
+                                  "https://placehold.co/800x500?text=Achievement";
+                              }}
+                            />
+
+                          </div>
+
+                          {/* CONTENT */}
+
+                          <div className="p-5">
+
+                            <h3 className="text-lg font-bold text-[#2F2F6F] line-clamp-2">
+                              {achievement?.title}
+                            </h3>
+
+                            <p className="text-sm text-gray-600 mt-2 leading-6 line-clamp-3">
+                              {achievement?.description ||
+                                "Department achievement"}
                             </p>
-                          )}
+
+                            {achievement?.category && (
+                              <p className="text-xs font-semibold text-[#E91E63] mt-4 uppercase">
+                                {achievement.category}
+                              </p>
+                            )}
+
+                            {achievement?.date && (
+                              <p className="text-xs text-gray-500 mt-2">
+                                {formatAchievementDate(
+                                  achievement.date
+                                )}
+                              </p>
+                            )}
+
+                            <p className="text-xs font-semibold text-[#2F2F6F] mt-4">
+                              View More Details →
+                            </p>
+
+                          </div>
 
                         </div>
-
-                      </div>
-
-                    ))}
+                      )
+                    )}
 
                   </div>
 
@@ -384,14 +466,17 @@ const DepartmentActivities = ({ departmentId }) => {
                   <div className="flex justify-center gap-2 mt-5">
 
                     {Array.from({
-                      length: achievements.length - 1,
+                      length:
+                        achievements.length - 1,
                     }).map((_, index) => (
 
                       <button
                         type="button"
                         key={index}
                         onClick={() =>
-                          setAchievementIndex(index)
+                          setAchievementIndex(
+                            index
+                          )
                         }
                         className={`h-2.5 rounded-full transition-all ${
                           achievementIndex === index
@@ -434,123 +519,193 @@ const DepartmentActivities = ({ departmentId }) => {
 
           </div>
 
-          {/* CLUB CAROUSEL */}
+          {/* =================================================
+              CLUB LOADING
+          ================================================== */}
 
-          <div className="relative overflow-hidden">
+          {clubsLoading && (
+            <div className="bg-white rounded-2xl border border-gray-200 h-[420px] flex items-center justify-center">
 
-            {/* VIEWPORT */}
+              <p className="text-gray-500">
+                Loading clubs and associations...
+              </p>
 
-            <div className="overflow-hidden">
+            </div>
+          )}
 
-              {/* SLIDING TRACK */}
+          {/* =================================================
+              CLUB EMPTY
+          ================================================== */}
 
-              <div
-                className="flex gap-5 transition-transform duration-700 ease-in-out"
-                style={{
-                  transform: `translateX(-${
-                    clubIndex * 50
-                  }%)`,
-                }}
-              >
+          {!clubsLoading &&
+            clubs.length === 0 && (
+              <div className="bg-white rounded-2xl border border-gray-200 h-[420px] flex items-center justify-center">
 
-                {clubs.map((club) => (
+                <div className="text-center px-6">
+
+                  <h3 className="text-lg font-semibold text-gray-700">
+                    No Clubs or Associations
+                  </h3>
+
+                  <p className="text-sm text-gray-500 mt-2">
+                    No published clubs or associations
+                    are available for this department.
+                  </p>
+
+                </div>
+
+              </div>
+            )}
+
+          {/* =================================================
+              CLUB CAROUSEL
+          ================================================== */}
+
+          {!clubsLoading &&
+            clubs.length > 0 && (
+
+              <div className="relative overflow-hidden">
+
+                {/* VIEWPORT */}
+
+                <div className="overflow-hidden">
+
+                  {/* SLIDING TRACK */}
 
                   <div
-                    key={club.id}
-                    className="min-w-[calc(50%-10px)] bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
+                    className="flex gap-5 transition-transform duration-700 ease-in-out"
+                    style={{
+                      transform: `translateX(-${
+                        clubIndex * 50
+                      }%)`,
+                    }}
                   >
 
-                    {/* IMAGE */}
+                    {clubs.map((club) => (
 
-                    <div className="h-[190px] overflow-hidden bg-gray-100">
+                      <div
+                        key={club._id}
+                        onClick={() =>
+                          handleClubClick(club)
+                        }
+                        className="min-w-[calc(50%-10px)] bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
+                      >
 
-                      <img
-                        src={club.image}
-                        alt={club.title}
-                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                      />
+                        {/* IMAGE */}
 
-                    </div>
+                        <div className="h-[190px] overflow-hidden bg-gray-100">
 
-                    {/* CONTENT */}
+                          <img
+                            src={getClubImage(club)}
+                            alt={
+                              club?.title ||
+                              "Club / Association"
+                            }
+                            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                            onError={(event) => {
+                              event.currentTarget.src =
+                                "https://placehold.co/800x500?text=Club+Association";
+                            }}
+                          />
 
-                    <div className="p-5">
+                        </div>
 
-                      <h3 className="text-lg font-bold text-[#2F2F6F] line-clamp-2">
-                        {club.title}
-                      </h3>
+                        {/* CONTENT */}
 
-                      <p className="text-sm text-gray-600 mt-2 leading-6 line-clamp-3">
-                        {club.description}
-                      </p>
+                        <div className="p-5">
 
-                    </div>
+                          {/* TITLE */}
+
+                          <h3 className="text-lg font-bold text-[#2F2F6F] line-clamp-2">
+                            {club?.title}
+                          </h3>
+
+                          {/* DESCRIPTION */}
+
+                          <p className="text-sm text-gray-600 mt-2 leading-6 line-clamp-3">
+                            {club?.description}
+                          </p>
+
+                          {/* VIEW DETAILS */}
+
+                          <p className="text-xs font-semibold text-[#2F2F6F] mt-4">
+                            View More Details →
+                          </p>
+
+                        </div>
+
+                      </div>
+
+                    ))}
 
                   </div>
 
-                ))}
+                </div>
 
-              </div>
+                {/* =================================================
+                    PREVIOUS
+                ================================================== */}
 
-            </div>
-
-            {/* PREVIOUS */}
-
-            {clubs.length > 2 && (
-              <button
-                type="button"
-                onClick={previousClub}
-                className="absolute left-2 top-[42%] -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 shadow-md text-[#2F2F6F] text-xl hover:bg-[#2F2F6F] hover:text-white transition z-10"
-                aria-label="Previous club"
-              >
-                ←
-              </button>
-            )}
-
-            {/* NEXT */}
-
-            {clubs.length > 2 && (
-              <button
-                type="button"
-                onClick={nextClub}
-                className="absolute right-2 top-[42%] -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 shadow-md text-[#2F2F6F] text-xl hover:bg-[#2F2F6F] hover:text-white transition z-10"
-                aria-label="Next club"
-              >
-                →
-              </button>
-            )}
-
-            {/* DOTS */}
-
-            {clubs.length > 2 && (
-              <div className="flex justify-center gap-2 mt-5">
-
-                {Array.from({
-                  length: clubs.length - 1,
-                }).map((_, index) => (
-
+                {clubs.length > 2 && (
                   <button
                     type="button"
-                    key={index}
-                    onClick={() =>
-                      setClubIndex(index)
-                    }
-                    className={`h-2.5 rounded-full transition-all ${
-                      clubIndex === index
-                        ? "w-7 bg-[#2F2F6F]"
-                        : "w-2.5 bg-gray-300"
-                    }`}
-                    aria-label={`Go to club ${
-                      index + 1
-                    }`}
-                  />
+                    onClick={previousClub}
+                    className="absolute left-2 top-[42%] -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 shadow-md text-[#2F2F6F] text-xl hover:bg-[#2F2F6F] hover:text-white transition z-10"
+                    aria-label="Previous club"
+                  >
+                    ←
+                  </button>
+                )}
 
-                ))}
+                {/* =================================================
+                    NEXT
+                ================================================== */}
+
+                {clubs.length > 2 && (
+                  <button
+                    type="button"
+                    onClick={nextClub}
+                    className="absolute right-2 top-[42%] -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 shadow-md text-[#2F2F6F] text-xl hover:bg-[#2F2F6F] hover:text-white transition z-10"
+                    aria-label="Next club"
+                  >
+                    →
+                  </button>
+                )}
+
+                {/* =================================================
+                    DOTS
+                ================================================== */}
+
+                {clubs.length > 2 && (
+                  <div className="flex justify-center gap-2 mt-5">
+
+                    {Array.from({
+                      length: clubs.length - 1,
+                    }).map((_, index) => (
+
+                      <button
+                        type="button"
+                        key={index}
+                        onClick={() =>
+                          setClubIndex(index)
+                        }
+                        className={`h-2.5 rounded-full transition-all ${
+                          clubIndex === index
+                            ? "w-7 bg-[#2F2F6F]"
+                            : "w-2.5 bg-gray-300"
+                        }`}
+                        aria-label={`Go to club ${
+                          index + 1
+                        }`}
+                      />
+
+                    ))}
+
+                  </div>
+                )}
 
               </div>
             )}
-
-          </div>
 
         </div>
 

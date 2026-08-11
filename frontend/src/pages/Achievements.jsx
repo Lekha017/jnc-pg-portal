@@ -1,8 +1,11 @@
 import Header from "../components/layout/Header";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+
 import {
   Trophy,
   Star,
@@ -14,32 +17,64 @@ import {
   ChevronLeft,
   ChevronRight,
   X,
+  CalendarDays,
+  Building2,
+  Tag,
+  Users,
 } from "lucide-react";
 
+// =========================================================
+// FILTERS
+// =========================================================
 
 const FILTERS = [
   { label: "All", value: "all" },
   { label: "Students", value: "student" },
   { label: "Faculty", value: "faculty" },
-  { label: "Research", value: "research" },
-  { label: "Competitions", value: "competitions" },
-  { label: "Other", value: "other" },
 ];
 
+// =========================================================
+// PAGINATION
+// =========================================================
+
 const ITEMS_PER_PAGE = 6;
+
+// =========================================================
+// COMPONENT
+// =========================================================
 
 const Achievements = () => {
   const API = import.meta.env.VITE_API_URL;
 
-  const [achievements, setAchievements] = useState([]);
-  const [activeFilter, setActiveFilter] = useState("all");
-  const [currentPage, setCurrentPage] = useState(1);
+  // =========================================================
+  // URL SEARCH PARAMS
+  // =========================================================
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [searchParams] = useSearchParams();
+
+  const achievementId =
+    searchParams.get("achievementId");
 
   // =========================================================
-  // IMAGE MODAL
+  // ACHIEVEMENTS
+  // =========================================================
+
+  const [achievements, setAchievements] = useState([]);
+
+  const [activeFilter, setActiveFilter] =
+    useState("all");
+
+  const [currentPage, setCurrentPage] =
+    useState(1);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState("");
+
+  // =========================================================
+  // DETAILS MODAL
   // =========================================================
 
   const [selectedAchievement, setSelectedAchievement] =
@@ -65,7 +100,10 @@ const Achievements = () => {
         `${API}/achievements`
       );
 
-      setAchievements(response.data?.data || []);
+      const data = response.data?.data || [];
+
+      setAchievements(data);
+
     } catch (error) {
       console.error(
         "Error fetching achievements:",
@@ -74,7 +112,7 @@ const Achievements = () => {
 
       setError(
         error.response?.data?.message ||
-          "Unable to load achievements."
+        "Unable to load achievements."
       );
     } finally {
       setLoading(false);
@@ -90,71 +128,53 @@ const Achievements = () => {
       return achievements;
     }
 
-    if (
-      activeFilter === "student" ||
-      activeFilter === "faculty"
-    ) {
-      return achievements.filter(
-        (achievement) =>
-          achievement.type?.toLowerCase() ===
-          activeFilter
-      );
-    }
-
-    if (activeFilter === "research") {
-      return achievements.filter((achievement) =>
-        achievement.category
-          ?.toLowerCase()
-          .includes("research")
-      );
-    }
-
-    if (activeFilter === "competitions") {
-      return achievements.filter((achievement) => {
-        const category =
-          achievement.category?.toLowerCase() || "";
-
-        return (
-          category.includes("competition") ||
-          category.includes("hackathon") ||
-          category.includes("contest")
-        );
-      });
-    }
-
-    return achievements.filter((achievement) => {
-      const category =
-        achievement.category?.toLowerCase() || "";
-
-      return (
-        !category.includes("research") &&
-        !category.includes("competition") &&
-        !category.includes("hackathon") &&
-        !category.includes("contest")
-      );
-    });
-  }, [achievements, activeFilter]);
+    return achievements.filter(
+      (achievement) =>
+        achievement.type?.toLowerCase() ===
+        activeFilter
+    );
+  }, [
+    achievements,
+    activeFilter,
+  ]);
 
   // =========================================================
   // PAGINATION
   // =========================================================
 
   const totalPages = Math.ceil(
-    filteredAchievements.length / ITEMS_PER_PAGE
+    filteredAchievements.length /
+    ITEMS_PER_PAGE
   );
 
   const paginatedAchievements =
     filteredAchievements.slice(
-      (currentPage - 1) * ITEMS_PER_PAGE,
-      currentPage * ITEMS_PER_PAGE
+      (currentPage - 1) *
+      ITEMS_PER_PAGE,
+
+      currentPage *
+      ITEMS_PER_PAGE
     );
+
+  // =========================================================
+  // RESET PAGE WHEN FILTER CHANGES
+  // =========================================================
 
   useEffect(() => {
     setCurrentPage(1);
   }, [activeFilter]);
 
+  // =========================================================
+  // PAGE CHANGE
+  // =========================================================
+
   const handlePageChange = (page) => {
-    if (page < 1 || page > totalPages) return;
+    if (
+      page < 1 ||
+      page > totalPages
+    ) {
+      return;
+    }
 
     setCurrentPage(page);
 
@@ -169,19 +189,22 @@ const Achievements = () => {
   // =========================================================
 
   const formatDate = (date) => {
-    if (!date) return "";
+    if (!date) {
+      return "-";
+    }
 
-    const formattedDate = new Date(date);
-
-    return formattedDate.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
+    return new Date(date).toLocaleDateString(
+      "en-US",
+      {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }
+    );
   };
 
   // =========================================================
-  // GET ACHIEVEMENT IMAGES
+  // GET IMAGES
   // =========================================================
 
   const getImages = (achievement) => {
@@ -217,22 +240,47 @@ const Achievements = () => {
   };
 
   // =========================================================
+  // GET DEPARTMENT NAME
+  // =========================================================
+
+  const getDepartmentName = (achievement) => {
+    if (!achievement?.department) {
+      return "-";
+    }
+
+    if (
+      typeof achievement.department === "string"
+    ) {
+      return achievement.department;
+    }
+
+    return (
+      achievement.department?.name ||
+      achievement.department?.code ||
+      "-"
+    );
+  };
+
+  // =========================================================
   // TYPE BADGE
   // =========================================================
 
   const getTypeBadge = (achievement) => {
-    const type = achievement.type?.toLowerCase();
+    const type =
+      achievement.type?.toLowerCase();
 
     if (type === "faculty") {
       return {
         label: "FACULTY",
-        className: "bg-[#6652C7] text-white",
+        className:
+          "bg-[#6652C7] text-white",
       };
     }
 
     return {
       label: "STUDENTS",
-      className: "bg-[#E83E79] text-white",
+      className:
+        "bg-[#E83E79] text-white",
     };
   };
 
@@ -242,9 +290,12 @@ const Achievements = () => {
 
   const getCategoryIcon = (achievement) => {
     const category =
-      achievement.category?.toLowerCase() || "";
+      achievement.category
+        ?.toLowerCase() || "";
 
-    if (category.includes("research")) {
+    if (
+      category.includes("research")
+    ) {
       return <Star size={18} />;
     }
 
@@ -255,11 +306,15 @@ const Achievements = () => {
       return <Trophy size={18} />;
     }
 
-    if (category.includes("code")) {
+    if (
+      category.includes("code")
+    ) {
       return <Code2 size={18} />;
     }
 
-    if (category.includes("paper")) {
+    if (
+      category.includes("paper")
+    ) {
       return <FileText size={18} />;
     }
 
@@ -270,7 +325,9 @@ const Achievements = () => {
       return <Lightbulb size={18} />;
     }
 
-    if (category.includes("award")) {
+    if (
+      category.includes("award")
+    ) {
       return <Award size={18} />;
     }
 
@@ -278,25 +335,59 @@ const Achievements = () => {
   };
 
   // =========================================================
-  // OPEN IMAGE MODAL
+  // OPEN DETAILS MODAL
   // =========================================================
 
-  const openImageModal = (achievement) => {
-    setSelectedAchievement(achievement);
+  const openDetailsModal = (
+    achievement
+  ) => {
+    setSelectedAchievement(
+      achievement
+    );
+
     setSelectedImageIndex(0);
 
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow =
+      "hidden";
   };
 
   // =========================================================
-  // CLOSE IMAGE MODAL
+  // OPEN PARTICULAR ACHIEVEMENT FROM URL
   // =========================================================
 
-  const closeImageModal = () => {
+  useEffect(() => {
+    if (
+      !achievementId ||
+      achievements.length === 0
+    ) {
+      return;
+    }
+
+    const achievement =
+      achievements.find(
+        (item) =>
+          item?._id === achievementId
+      );
+
+    if (achievement) {
+      openDetailsModal(achievement);
+    }
+  }, [
+    achievementId,
+    achievements,
+  ]);
+
+  // =========================================================
+  // CLOSE DETAILS MODAL
+  // =========================================================
+
+  const closeDetailsModal = () => {
     setSelectedAchievement(null);
+
     setSelectedImageIndex(0);
 
-    document.body.style.overflow = "auto";
+    document.body.style.overflow =
+      "auto";
   };
 
   // =========================================================
@@ -304,12 +395,20 @@ const Achievements = () => {
   // =========================================================
 
   const nextImage = () => {
-    if (!selectedAchievement) return;
+    if (!selectedAchievement) {
+      return;
+    }
 
-    const images = getImages(selectedAchievement);
+    const images =
+      getImages(
+        selectedAchievement
+      );
 
-    setSelectedImageIndex((prev) =>
-      prev >= images.length - 1 ? 0 : prev + 1
+    setSelectedImageIndex(
+      (previous) =>
+        previous >= images.length - 1
+          ? 0
+          : previous + 1
     );
   };
 
@@ -318,12 +417,20 @@ const Achievements = () => {
   // =========================================================
 
   const previousImage = () => {
-    if (!selectedAchievement) return;
+    if (!selectedAchievement) {
+      return;
+    }
 
-    const images = getImages(selectedAchievement);
+    const images =
+      getImages(
+        selectedAchievement
+      );
 
-    setSelectedImageIndex((prev) =>
-      prev <= 0 ? images.length - 1 : prev - 1
+    setSelectedImageIndex(
+      (previous) =>
+        previous <= 0
+          ? images.length - 1
+          : previous - 1
     );
   };
 
@@ -333,17 +440,23 @@ const Achievements = () => {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (!selectedAchievement) return;
-
-      if (event.key === "Escape") {
-        closeImageModal();
+      if (!selectedAchievement) {
+        return;
       }
 
-      if (event.key === "ArrowRight") {
+      if (event.key === "Escape") {
+        closeDetailsModal();
+      }
+
+      if (
+        event.key === "ArrowRight"
+      ) {
         nextImage();
       }
 
-      if (event.key === "ArrowLeft") {
+      if (
+        event.key === "ArrowLeft"
+      ) {
         previousImage();
       }
     };
@@ -359,17 +472,20 @@ const Achievements = () => {
         handleKeyDown
       );
     };
-  }, [selectedAchievement]);
+  }, [
+    selectedAchievement,
+  ]);
 
   // =========================================================
   // RETURN
   // =========================================================
 
   return (
-    
     <div className="min-h-screen bg-[#f6f8fc]">
-      <Header/>
-      <Navbar/>
+
+      <Header />
+
+      <Navbar />
 
       {/* =====================================================
           HERO
@@ -386,7 +502,6 @@ const Achievements = () => {
               className="w-full h-full"
               preserveAspectRatio="none"
             >
-
               <path
                 d="M0 180 C150 80 260 260 420 140 C560 30 680 100 800 40"
                 fill="none"
@@ -407,7 +522,6 @@ const Achievements = () => {
                 stroke="white"
                 strokeWidth="1"
               />
-
             </svg>
 
           </div>
@@ -420,17 +534,14 @@ const Achievements = () => {
 
             <div>
 
-              <p className="text-[#B7B0F2] uppercase tracking-wide text-sm font-semibold mb-3">
-                Computer Science Department
-              </p>
-
               <h1 className="text-5xl md:text-6xl font-bold text-white tracking-tight">
                 Achievements
               </h1>
 
               <p className="text-white/80 text-lg md:text-xl mt-5 max-w-xl leading-relaxed">
-                Celebrating the excellence, innovation and
-                success of our students and faculty.
+                Celebrating the excellence,
+                innovation and success of
+                our students and faculty.
               </p>
 
             </div>
@@ -465,7 +576,9 @@ const Achievements = () => {
 
       <main className="max-w-7xl mx-auto px-6 lg:px-8 py-10 lg:py-12">
 
-        {/* HEADING + FILTERS */}
+        {/* =====================================================
+            HEADING + FILTERS
+        ====================================================== */}
 
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
 
@@ -476,43 +589,51 @@ const Achievements = () => {
             </h2>
 
             <p className="text-gray-500 mt-2">
-              A showcase of milestones, recognitions and
-              accomplishments from our department.
+              A showcase of milestones,
+              recognitions and accomplishments
+              from our department.
             </p>
 
           </div>
 
+          {/* FILTERS */}
+
           <div className="flex flex-wrap gap-2">
 
-            {FILTERS.map((filter) => (
+            {FILTERS.map(
+              (filter) => (
 
-              <button
-                key={filter.value}
-                type="button"
-                onClick={() =>
-                  setActiveFilter(filter.value)
-                }
-                className={`
-                  px-5 py-2
-                  rounded-full
-                  text-sm
-                  font-medium
-                  border
-                  transition-all
-                  outline-none
-                  focus:outline-none
-                  focus:ring-0
-                  ${
-                    activeFilter === filter.value
+                <button
+                  key={filter.value}
+                  type="button"
+                  onClick={() =>
+                    setActiveFilter(
+                      filter.value
+                    )
+                  }
+                  className={`
+                    px-5
+                    py-2
+                    rounded-full
+                    text-sm
+                    font-medium
+                    border
+                    transition-all
+                    outline-none
+                    focus:outline-none
+                    focus:ring-0
+                    ${activeFilter ===
+                      filter.value
                       ? "bg-[#6752C8] border-[#6752C8] text-white shadow-sm"
                       : "bg-white border-gray-200 text-gray-600 hover:border-[#6752C8] hover:text-[#6752C8]"
-                  }
-                `}
-              >
-                {filter.label}
-              </button>
+                    }
+                  `}
+                >
+                  {filter.label}
+                </button>
 
-            ))}
+              )
+            )}
 
           </div>
 
@@ -526,30 +647,32 @@ const Achievements = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            {[1, 2, 3, 4, 5, 6].map((item) => (
+            {[1, 2, 3, 4, 5, 6].map(
+              (item) => (
 
-              <div
-                key={item}
-                className="bg-white rounded-lg overflow-hidden border border-gray-200 animate-pulse"
-              >
+                <div
+                  key={item}
+                  className="bg-white rounded-lg overflow-hidden border border-gray-200 animate-pulse"
+                >
 
-                <div className="h-48 bg-gray-200" />
+                  <div className="h-48 bg-gray-200" />
 
-                <div className="p-5">
+                  <div className="p-5">
 
-                  <div className="h-5 bg-gray-200 rounded w-3/4 mb-4" />
+                    <div className="h-5 bg-gray-200 rounded w-3/4 mb-4" />
 
-                  <div className="h-4 bg-gray-200 rounded mb-2" />
+                    <div className="h-4 bg-gray-200 rounded mb-2" />
 
-                  <div className="h-4 bg-gray-200 rounded w-5/6 mb-5" />
+                    <div className="h-4 bg-gray-200 rounded w-5/6 mb-5" />
 
-                  <div className="h-4 bg-gray-200 rounded w-1/2" />
+                    <div className="h-4 bg-gray-200 rounded w-1/2" />
+
+                  </div>
 
                 </div>
 
-              </div>
-
-            ))}
+              )
+            )}
 
           </div>
 
@@ -570,17 +693,7 @@ const Achievements = () => {
             <button
               type="button"
               onClick={fetchAchievements}
-              className="
-                mt-4
-                px-5
-                py-2
-                bg-[#2D2A70]
-                text-white
-                rounded-lg
-                outline-none
-                focus:outline-none
-                focus:ring-0
-              "
+              className="mt-4 px-5 py-2 bg-[#2D2A70] text-white rounded-lg outline-none focus:outline-none focus:ring-0"
             >
               Try Again
             </button>
@@ -609,8 +722,8 @@ const Achievements = () => {
               </h3>
 
               <p className="text-gray-500 mt-2">
-                There are no achievements available for this
-                category.
+                There are no achievements
+                available for this category.
               </p>
 
             </div>
@@ -631,26 +744,14 @@ const Achievements = () => {
                 (achievement) => {
 
                   const badge =
-                    getTypeBadge(achievement);
+                    getTypeBadge(
+                      achievement
+                    );
 
                   return (
 
                     <article
                       key={achievement._id}
-                      tabIndex={0}
-                      role="button"
-                      onClick={() =>
-                        openImageModal(achievement)
-                      }
-                      onKeyDown={(event) => {
-                        if (
-                          event.key === "Enter" ||
-                          event.key === " "
-                        ) {
-                          event.preventDefault();
-                          openImageModal(achievement);
-                        }
-                      }}
                       className="
                         group
                         bg-white
@@ -663,33 +764,19 @@ const Achievements = () => {
                         hover:-translate-y-1
                         transition-all
                         duration-300
-                        cursor-pointer
-                        outline-none
-                        focus:outline-none
-                        focus:ring-0
-                        focus:border-gray-200
                       "
                     >
 
                       {/* IMAGE */}
 
-                      <div className="relative h-48 overflow-hidden">
-
+                      <div className="relative h-48 overflow-hidden bg-gray-100">
                         <img
                           src={getImage(achievement)}
                           alt={achievement.title}
-                          className="
-                            w-full
-                            h-full
-                            object-cover
-                            group-hover:scale-105
-                            transition-transform
-                            duration-500
-                            pointer-events-none
-                          "
+                          className="w-full h-full object-contain"
                         />
 
-                        {/* BADGE */}
+                        {/* TYPE BADGE */}
 
                         <span
                           className={`
@@ -710,10 +797,12 @@ const Achievements = () => {
 
                         {/* IMAGE COUNT */}
 
-                        {getImages(achievement).length > 1 && (
+                        {getImages(
+                          achievement
+                        ).length > 1 && (
 
-                          <span
-                            className="
+                            <span
+                              className="
                               absolute
                               bottom-3
                               right-3
@@ -725,12 +814,16 @@ const Achievements = () => {
                               rounded-full
                               backdrop-blur-sm
                             "
-                          >
-                            {getImages(achievement).length}{" "}
-                            Photos
-                          </span>
+                            >
+                              {
+                                getImages(
+                                  achievement
+                                ).length
+                              }{" "}
+                              Photos
+                            </span>
 
-                        )}
+                          )}
 
                       </div>
 
@@ -748,7 +841,9 @@ const Achievements = () => {
                             min-h-[44px]
                           "
                         >
-                          {achievement.title}
+                          {
+                            achievement.title
+                          }
                         </h3>
 
                         <p
@@ -761,10 +856,12 @@ const Achievements = () => {
                             min-h-[63px]
                           "
                         >
-                          {achievement.description}
+                          {
+                            achievement.description
+                          }
                         </p>
 
-                        {/* BOTTOM INFO */}
+                        {/* CATEGORY */}
 
                         <div className="flex items-center gap-2 mt-5 min-w-0">
 
@@ -774,28 +871,78 @@ const Achievements = () => {
                             )}
                           </span>
 
-                          <span className="text-xs text-gray-600 whitespace-nowrap">
+                          <span className="text-xs text-gray-600 truncate">
+                            {
+                              achievement.category ||
+                              "Achievement"
+                            }
+                          </span>
+
+                        </div>
+
+                        {/* DATE */}
+
+                        <div className="flex items-center gap-2 mt-3">
+
+                          <CalendarDays
+                            size={17}
+                            className="text-[#6752C8] shrink-0"
+                          />
+
+                          <span className="text-xs text-gray-600">
                             {formatDate(
                               achievement.date
                             )}
                           </span>
 
-                          <span className="text-gray-300">
-                            •
-                          </span>
+                        </div>
 
-                          <span
-                            className="
-                              text-xs
-                              text-gray-600
-                              truncate
-                            "
-                          >
-                            {achievement.category ||
-                              "Achievement"}
+                        {/* DEPARTMENT */}
+
+                        <div className="flex items-center gap-2 mt-3">
+
+                          <Building2
+                            size={17}
+                            className="text-[#6752C8] shrink-0"
+                          />
+
+                          <span className="text-xs text-gray-600 truncate">
+                            {getDepartmentName(
+                              achievement
+                            )}
                           </span>
 
                         </div>
+
+                        {/* VIEW MORE */}
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            openDetailsModal(
+                              achievement
+                            )
+                          }
+                          className="
+                            w-full
+                            mt-5
+                            py-2.5
+                            rounded-lg
+                            border
+                            border-[#6752C8]
+                            text-[#6752C8]
+                            text-sm
+                            font-semibold
+                            hover:bg-[#6752C8]
+                            hover:text-white
+                            transition
+                            outline-none
+                            focus:outline-none
+                            focus:ring-0
+                          "
+                        >
+                          View More Details
+                        </button>
 
                       </div>
 
@@ -821,6 +968,8 @@ const Achievements = () => {
 
               <div className="flex items-center gap-2">
 
+                {/* PREVIOUS */}
+
                 <button
                   type="button"
                   onClick={() =>
@@ -828,7 +977,9 @@ const Achievements = () => {
                       currentPage - 1
                     )
                   }
-                  disabled={currentPage === 1}
+                  disabled={
+                    currentPage === 1
+                  }
                   className="
                     w-10
                     h-10
@@ -849,19 +1000,29 @@ const Achievements = () => {
                     focus:ring-0
                   "
                 >
-                  <ChevronLeft size={18} />
+                  <ChevronLeft
+                    size={18}
+                  />
                 </button>
 
+                {/* PAGE NUMBERS */}
+
                 {Array.from(
-                  { length: totalPages },
-                  (_, index) => index + 1
+                  {
+                    length:
+                      totalPages,
+                  },
+                  (_, index) =>
+                    index + 1
                 ).map((page) => (
 
                   <button
                     key={page}
                     type="button"
                     onClick={() =>
-                      handlePageChange(page)
+                      handlePageChange(
+                        page
+                      )
                     }
                     className={`
                       w-10
@@ -873,10 +1034,10 @@ const Achievements = () => {
                       outline-none
                       focus:outline-none
                       focus:ring-0
-                      ${
-                        currentPage === page
-                          ? "bg-[#6752C8] text-white"
-                          : "bg-white border border-gray-200 text-gray-600 hover:border-[#6752C8] hover:text-[#6752C8]"
+                      ${currentPage ===
+                        page
+                        ? "bg-[#6752C8] text-white"
+                        : "bg-white border border-gray-200 text-gray-600 hover:border-[#6752C8] hover:text-[#6752C8]"
                       }
                     `}
                   >
@@ -884,6 +1045,8 @@ const Achievements = () => {
                   </button>
 
                 ))}
+
+                {/* NEXT */}
 
                 <button
                   type="button"
@@ -893,7 +1056,8 @@ const Achievements = () => {
                     )
                   }
                   disabled={
-                    currentPage === totalPages
+                    currentPage ===
+                    totalPages
                   }
                   className="
                     w-10
@@ -915,7 +1079,9 @@ const Achievements = () => {
                     focus:ring-0
                   "
                 >
-                  <ChevronRight size={18} />
+                  <ChevronRight
+                    size={18}
+                  />
                 </button>
 
               </div>
@@ -926,8 +1092,8 @@ const Achievements = () => {
 
                 {Math.min(
                   (currentPage - 1) *
-                    ITEMS_PER_PAGE +
-                    1,
+                  ITEMS_PER_PAGE +
+                  1,
                   filteredAchievements.length
                 )}
 
@@ -935,13 +1101,15 @@ const Achievements = () => {
 
                 {Math.min(
                   currentPage *
-                    ITEMS_PER_PAGE,
+                  ITEMS_PER_PAGE,
                   filteredAchievements.length
                 )}
 
                 {" "}of{" "}
 
-                {filteredAchievements.length}{" "}
+                {
+                  filteredAchievements.length
+                }{" "}
                 achievements
 
               </p>
@@ -953,7 +1121,7 @@ const Achievements = () => {
       </main>
 
       {/* =====================================================
-          IMAGE LIGHTBOX / MODAL
+          ACHIEVEMENT DETAILS MODAL
       ====================================================== */}
 
       {selectedAchievement && (
@@ -963,44 +1131,47 @@ const Achievements = () => {
             fixed
             inset-0
             z-[100]
-            bg-black/80
+            bg-black/75
             backdrop-blur-sm
             flex
             items-center
             justify-center
             p-4
           "
-          onClick={closeImageModal}
+          onClick={closeDetailsModal}
         >
 
-          {/* MODAL */}
+          {/* MODAL CONTAINER */}
 
           <div
             className="
               relative
               w-full
-              max-w-5xl
-              max-h-[92vh]
+              max-w-6xl
+              max-h-[94vh]
               bg-white
               rounded-2xl
               overflow-hidden
               shadow-2xl
+              flex
+              flex-col
+              lg:flex-row
             "
             onClick={(event) =>
               event.stopPropagation()
             }
           >
 
-            {/* CLOSE */}
+            {/* CLOSE BUTTON */}
 
             <button
               type="button"
-              onClick={closeImageModal}
+              onClick={closeDetailsModal}
               className="
                 absolute
                 top-4
                 right-4
-                z-20
+                z-30
                 w-10
                 h-10
                 rounded-full
@@ -1015,213 +1186,438 @@ const Achievements = () => {
                 focus:outline-none
                 focus:ring-0
               "
-              aria-label="Close"
+              aria-label="Close achievement details"
             >
               <X size={21} />
             </button>
 
-            {/* IMAGE */}
+            {/* IMAGE SECTION */}
 
-            <div className="relative bg-black flex items-center justify-center">
+            <div className="lg:w-[55%] bg-black flex flex-col">
 
-              <img
-                src={
-                  getImages(selectedAchievement)[
-                    selectedImageIndex
-                  ]
-                }
-                alt={
-                  selectedAchievement.title ||
-                  "Achievement"
-                }
-                className="
-                  max-h-[72vh]
-                  w-full
-                  object-contain
-                "
-              />
+              {/* MAIN IMAGE */}
 
-              {/* PREVIOUS IMAGE */}
+              <div className="relative flex-1 min-h-[350px] lg:min-h-[650px] flex items-center justify-center">
 
-              {getImages(selectedAchievement).length >
-                1 && (
-
-                <button
-                  type="button"
-                  onClick={previousImage}
+                <img
+                  src={
+                    getImages(
+                      selectedAchievement
+                    )[selectedImageIndex]
+                  }
+                  alt={
+                    selectedAchievement.title
+                  }
                   className="
-                    absolute
-                    left-4
-                    top-1/2
-                    -translate-y-1/2
-                    w-11
-                    h-11
-                    rounded-full
-                    bg-white/90
-                    text-[#29286E]
-                    flex
-                    items-center
-                    justify-center
-                    shadow-lg
-                    hover:bg-white
-                    transition
-                    outline-none
-                    focus:outline-none
-                    focus:ring-0
+                    w-full
+                    h-full
+                    max-h-[650px]
+                    object-contain
                   "
-                  aria-label="Previous image"
-                >
-                  <ChevronLeft size={24} />
-                </button>
+                />
 
-              )}
+                {/* PREVIOUS */}
 
-              {/* NEXT IMAGE */}
+                {getImages(
+                  selectedAchievement
+                ).length > 1 && (
 
-              {getImages(selectedAchievement).length >
-                1 && (
+                    <button
+                      type="button"
+                      onClick={
+                        previousImage
+                      }
+                      className="
+                      absolute
+                      left-4
+                      top-1/2
+                      -translate-y-1/2
+                      w-11
+                      h-11
+                      rounded-full
+                      bg-white/90
+                      text-[#29286E]
+                      flex
+                      items-center
+                      justify-center
+                      shadow-lg
+                      hover:bg-white
+                      transition
+                    "
+                      aria-label="Previous image"
+                    >
+                      <ChevronLeft
+                        size={24}
+                      />
+                    </button>
 
-                <button
-                  type="button"
-                  onClick={nextImage}
-                  className="
-                    absolute
-                    right-4
-                    top-1/2
-                    -translate-y-1/2
-                    w-11
-                    h-11
-                    rounded-full
-                    bg-white/90
-                    text-[#29286E]
-                    flex
-                    items-center
-                    justify-center
-                    shadow-lg
-                    hover:bg-white
-                    transition
-                    outline-none
-                    focus:outline-none
-                    focus:ring-0
-                  "
-                  aria-label="Next image"
-                >
-                  <ChevronRight size={24} />
-                </button>
+                  )}
 
-              )}
+                {/* NEXT */}
 
-            </div>
+                {getImages(
+                  selectedAchievement
+                ).length > 1 && (
 
-            {/* DETAILS */}
+                    <button
+                      type="button"
+                      onClick={
+                        nextImage
+                      }
+                      className="
+                      absolute
+                      right-4
+                      top-1/2
+                      -translate-y-1/2
+                      w-11
+                      h-11
+                      rounded-full
+                      bg-white/90
+                      text-[#29286E]
+                      flex
+                      items-center
+                      justify-center
+                      shadow-lg
+                      hover:bg-white
+                      transition
+                    "
+                      aria-label="Next image"
+                    >
+                      <ChevronRight
+                        size={24}
+                      />
+                    </button>
 
-            <div className="p-5">
-
-              <div className="flex items-start justify-between gap-5">
-
-                <div>
-
-                  <h3 className="text-xl font-bold text-[#17245B]">
-
-                    {selectedAchievement.title}
-
-                  </h3>
-
-                  <p className="text-sm text-gray-500 mt-1">
-
-                    {selectedAchievement.category ||
-                      "Achievement"}
-
-                    {selectedAchievement.date && (
-                      <>
-                        {" • "}
-                        {formatDate(
-                          selectedAchievement.date
-                        )}
-                      </>
-                    )}
-
-                  </p>
-
-                </div>
+                  )}
 
                 {/* IMAGE COUNTER */}
 
-                {getImages(selectedAchievement).length >
-                  1 && (
+                {getImages(
+                  selectedAchievement
+                ).length > 1 && (
 
-                  <div className="shrink-0">
+                    <span
+                      className="
+                      absolute
+                      bottom-4
+                      left-1/2
+                      -translate-x-1/2
+                      bg-black/70
+                      text-white
+                      text-xs
+                      font-medium
+                      px-3
+                      py-1.5
+                      rounded-full
+                    "
+                    >
+                      {selectedImageIndex + 1}
+                      {" / "}
+                      {
+                        getImages(
+                          selectedAchievement
+                        ).length
+                      }
+                    </span>
 
-                    <span className="text-xs font-semibold text-gray-500">
+                  )}
 
-                      {selectedImageIndex + 1} /{" "}
+              </div>
+
+              {/* THUMBNAILS */}
+
+              {getImages(
+                selectedAchievement
+              ).length > 1 && (
+
+                  <div className="bg-black px-5 py-4">
+
+                    <div className="flex gap-3 overflow-x-auto pb-1">
 
                       {getImages(
                         selectedAchievement
-                      ).length}
+                      ).map(
+                        (
+                          image,
+                          index
+                        ) => (
 
-                    </span>
+                          <button
+                            key={index}
+                            type="button"
+                            onClick={() =>
+                              setSelectedImageIndex(
+                                index
+                              )
+                            }
+                            className={`
+                            shrink-0
+                            w-20
+                            h-16
+                            rounded-lg
+                            overflow-hidden
+                            border-2
+                            transition
+                            ${selectedImageIndex ===
+                                index
+                                ? "border-white"
+                                : "border-transparent opacity-60 hover:opacity-100"
+                              }
+                          `}
+                          >
+
+                            <img
+                              src={image}
+                              alt={`Achievement image ${index + 1
+                                }`}
+                              className="w-full h-full object-cover"
+                            />
+
+                          </button>
+
+                        )
+                      )}
+
+                    </div>
 
                   </div>
 
                 )}
 
-              </div>
+            </div>
 
-              <p className="text-gray-600 text-sm leading-6 mt-3">
+            {/* DETAILS SECTION */}
 
-                {selectedAchievement.description}
+            <div className="lg:w-[45%] overflow-y-auto">
 
-              </p>
+              <div className="p-7 lg:p-9">
 
-              {/* THUMBNAILS */}
+                {/* TYPE */}
 
-              {getImages(selectedAchievement).length >
-                1 && (
+                <div className="mb-5">
 
-                <div className="flex gap-3 mt-5 overflow-x-auto pb-1">
-
-                  {getImages(
-                    selectedAchievement
-                  ).map((image, index) => (
-
-                    <button
-                      key={index}
-                      type="button"
-                      onClick={() =>
-                        setSelectedImageIndex(index)
+                  <span
+                    className={`
+                      inline-flex
+                      px-3
+                      py-1.5
+                      rounded-md
+                      text-xs
+                      font-bold
+                      tracking-wide
+                      ${selectedAchievement.type?.toLowerCase() ===
+                        "faculty"
+                        ? "bg-[#6652C7] text-white"
+                        : "bg-[#E83E79] text-white"
                       }
-                      className={`
-                        shrink-0
-                        w-16
-                        h-16
-                        rounded-lg
-                        overflow-hidden
-                        border-2
-                        outline-none
-                        focus:outline-none
-                        focus:ring-0
-                        ${
-                          selectedImageIndex === index
-                            ? "border-[#6752C8]"
-                            : "border-transparent"
-                        }
-                      `}
-                    >
-
-                      <img
-                        src={image}
-                        alt={`Achievement ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-
-                    </button>
-
-                  ))}
+                    `}
+                  >
+                    {selectedAchievement.type?.toLowerCase() ===
+                      "faculty"
+                      ? "FACULTY"
+                      : "STUDENT"}
+                  </span>
 
                 </div>
 
-              )}
+                {/* TITLE */}
+
+                <h2 className="text-3xl font-bold text-[#17245B] leading-tight pr-8">
+                  {
+                    selectedAchievement.title
+                  }
+                </h2>
+
+                {/* DESCRIPTION */}
+
+                <div className="mt-6">
+
+                  <h3 className="text-sm font-bold text-[#17245B] uppercase tracking-wide mb-2">
+                    Description
+                  </h3>
+
+                  <p className="text-gray-600 text-[15px] leading-7 whitespace-pre-line">
+                    {
+                      selectedAchievement.description ||
+                      "No description available."
+                    }
+                  </p>
+
+                </div>
+
+                {/* DETAILS */}
+
+                <div className="mt-7 border-t border-gray-200 pt-6">
+
+                  <h3 className="text-sm font-bold text-[#17245B] uppercase tracking-wide mb-4">
+                    Achievement Details
+                  </h3>
+
+                  {/* CATEGORY */}
+
+                  <div className="flex gap-3 mb-5">
+
+                    <div className="w-10 h-10 rounded-lg bg-[#F4F1FF] text-[#6752C8] flex items-center justify-center shrink-0">
+                      <Tag size={18} />
+                    </div>
+
+                    <div>
+
+                      <p className="text-xs text-gray-400 uppercase font-semibold">
+                        Category
+                      </p>
+
+                      <p className="text-sm font-semibold text-gray-700 mt-1">
+                        {
+                          selectedAchievement.category ||
+                          "-"
+                        }
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  {/* DEPARTMENT */}
+
+                  <div className="flex gap-3 mb-5">
+
+                    <div className="w-10 h-10 rounded-lg bg-[#F4F1FF] text-[#6752C8] flex items-center justify-center shrink-0">
+                      <Building2 size={18} />
+                    </div>
+
+                    <div>
+
+                      <p className="text-xs text-gray-400 uppercase font-semibold">
+                        Department
+                      </p>
+
+                      <p className="text-sm font-semibold text-gray-700 mt-1">
+                        {getDepartmentName(
+                          selectedAchievement
+                        )}
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  {/* DATE */}
+
+                  <div className="flex gap-3 mb-5">
+
+                    <div className="w-10 h-10 rounded-lg bg-[#F4F1FF] text-[#6752C8] flex items-center justify-center shrink-0">
+                      <CalendarDays
+                        size={18}
+                      />
+                    </div>
+
+                    <div>
+
+                      <p className="text-xs text-gray-400 uppercase font-semibold">
+                        Achievement Date
+                      </p>
+
+                      <p className="text-sm font-semibold text-gray-700 mt-1">
+                        {formatDate(
+                          selectedAchievement.date
+                        )}
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  {/* TYPE */}
+
+                  <div className="flex gap-3">
+
+                    <div className="w-10 h-10 rounded-lg bg-[#F4F1FF] text-[#6752C8] flex items-center justify-center shrink-0">
+                      <Users size={18} />
+                    </div>
+
+                    <div>
+
+                      <p className="text-xs text-gray-400 uppercase font-semibold">
+                        Achievement Type
+                      </p>
+
+                      <p className="text-sm font-semibold text-gray-700 mt-1 capitalize">
+                        {
+                          selectedAchievement.type ||
+                          "-"
+                        }
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                {/* IMAGE INFORMATION */}
+
+                <div className="mt-7 pt-6 border-t border-gray-200">
+
+                  <div className="flex items-center justify-between">
+
+                    <div>
+
+                      <p className="text-xs text-gray-400 uppercase font-semibold">
+                        Gallery
+                      </p>
+
+                      <p className="text-sm font-semibold text-gray-700 mt-1">
+
+                        {
+                          getImages(
+                            selectedAchievement
+                          ).length
+                        }{" "}
+
+                        {getImages(
+                          selectedAchievement
+                        ).length === 1
+                          ? "Image"
+                          : "Images"}
+
+                      </p>
+
+                    </div>
+
+                    <span className="text-[#E7A900]">
+                      {getCategoryIcon(
+                        selectedAchievement
+                      )}
+                    </span>
+
+                  </div>
+
+                </div>
+
+                {/* CLOSE BUTTON */}
+
+                <button
+                  type="button"
+                  onClick={
+                    closeDetailsModal
+                  }
+                  className="
+                    w-full
+                    mt-8
+                    py-3
+                    rounded-lg
+                    bg-[#2D2A70]
+                    hover:bg-[#221f59]
+                    text-white
+                    font-semibold
+                    transition
+                  "
+                >
+                  Close Details
+                </button>
+
+              </div>
 
             </div>
 
@@ -1231,7 +1627,8 @@ const Achievements = () => {
 
       )}
 
-       <Footer />
+      <Footer />
+
     </div>
   );
 };

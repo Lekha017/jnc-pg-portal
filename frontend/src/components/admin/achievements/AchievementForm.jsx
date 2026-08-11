@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Upload, X } from "lucide-react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const AchievementForm = ({
   type = "student",
@@ -93,6 +94,8 @@ const AchievementForm = ({
         "Error fetching departments:",
         error
       );
+
+      toast.error("Failed to load departments.");
     }
   };
 
@@ -194,30 +197,62 @@ const AchievementForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    /*
+    ============================
+    REQUIRED FIELD VALIDATION
+    ============================
+    */
+
     if (!formData.title.trim()) {
-      alert("Please enter achievement title.");
+      toast.error(
+        "Please enter achievement title."
+      );
       return;
     }
 
     if (!formData.description.trim()) {
-      alert(
+      toast.error(
         "Please enter achievement description."
       );
       return;
     }
 
     if (!formData.department) {
-      alert("Please select a department.");
+      toast.error(
+        "Please select a department."
+      );
       return;
     }
 
     if (!formData.category.trim()) {
-      alert("Please enter achievement category.");
+      toast.error(
+        "Please enter achievement category."
+      );
       return;
     }
 
-    if (!formData.date) {
-      alert("Please select achievement date.");
+    /*
+    ============================
+    IMAGE VALIDATION
+    ============================
+    
+    At least one image must exist.
+
+    For CREATE:
+    - images.length must be >= 1
+
+    For EDIT:
+    - either existing images or new images
+      must contain at least one image.
+    */
+
+    const totalImages =
+      existingImages.length + images.length;
+
+    if (totalImages === 0) {
+      toast.error(
+        "Please upload at least one achievement image."
+      );
       return;
     }
 
@@ -259,10 +294,16 @@ const AchievementForm = ({
         formData.category.trim()
       );
 
-      data.append(
-        "date",
-        formData.date
-      );
+      /*
+      DATE IS OPTIONAL
+      */
+
+      if (formData.date) {
+        data.append(
+          "date",
+          formData.date
+        );
+      }
 
       data.append(
         "isPublished",
@@ -306,6 +347,10 @@ const AchievementForm = ({
             withCredentials: true,
           }
         );
+
+        toast.success(
+          "Achievement created successfully!"
+        );
       }
 
       /*
@@ -321,6 +366,10 @@ const AchievementForm = ({
           {
             withCredentials: true,
           }
+        );
+
+        toast.success(
+          "Achievement updated successfully!"
         );
       }
 
@@ -346,7 +395,7 @@ const AchievementForm = ({
         error
       );
 
-      alert(
+      toast.error(
         error.response?.data?.message ||
           "Failed to save achievement."
       );
@@ -578,10 +627,7 @@ const AchievementForm = ({
         <div className="mb-6">
 
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Date{" "}
-            <span className="text-red-500">
-              *
-            </span>
+            Date
           </label>
 
           <input
@@ -589,7 +635,6 @@ const AchievementForm = ({
             name="date"
             value={formData.date}
             onChange={handleChange}
-            required
             className="w-full md:w-1/2 border border-gray-300 rounded-lg px-4 py-3 outline-none transition focus:ring-2 focus:ring-[#2F2F6F] focus:border-[#2F2F6F]"
           />
 

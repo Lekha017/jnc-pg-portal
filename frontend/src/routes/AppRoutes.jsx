@@ -63,6 +63,7 @@ import ManageDeans from "../pages/admin/ManageDeans";
 import AddDean from "../pages/admin/AddDean";
 import EditDean from "../pages/admin/EditDean";
 import ManageAchievements from "../pages/admin/ManageAchievements";
+import ManageClubAssociations from "../pages/Admin/ManageClubAssociations";
 
 import OrganizationStructure from "../pages/AboutUs/OrganizationStructure";
 import GoverningBody from "../pages/AboutUs/GoverningBody";
@@ -79,6 +80,8 @@ import HistoryMilestones from "../pages/AboutUs/HistoryMilestones";
 import InstitutionalDistinctiveness from "../pages/AboutUs/InstitutionalDistinctiveness";
 import BestPractices from "../pages/AboutUs/BestPractices";
 import CampusCulture from "../pages/AboutUs/CampusCulture";
+import ClubAssociations from "../pages/clubAssociation/ClubAssociations";
+import ClubAssociationDetails from "../pages/clubAssociation/ClubAssociationDetails";
 
 import Library from "../pages/Library";
 import PlacementGallery from "../pages/PlacementGallery";
@@ -301,10 +304,10 @@ const AppRoutes = () => {
         element={<ApplicationForm />}
       />
 
-<Route
-  path="/admissions/application/invoice"
-  element={<ApplicationInvoice />}
-/>
+      <Route
+        path="/admissions/application/invoice"
+        element={<ApplicationInvoice />}
+      />
       {/* ================= LIBRARY ================= */}
 
       <Route
@@ -320,6 +323,16 @@ const AppRoutes = () => {
         path="/achievements"
         element={<Achievements />}
       />
+
+      <Route
+  path="/clubs-associations"
+  element={<ClubAssociations />}
+/>
+
+<Route
+  path="/clubs-associations/:id"
+  element={<ClubAssociationDetails />}
+/>
 
       {/* ================= FACULTY PUBLIC ================= */}
 
@@ -474,6 +487,11 @@ const AppRoutes = () => {
             <ManageAchievements />
           </ProtectedRoute>
         }
+      />
+
+      <Route
+        path="/admin/club-associations"
+        element={<ManageClubAssociations />}
       />
 
 

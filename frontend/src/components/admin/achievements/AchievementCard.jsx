@@ -38,6 +38,7 @@ function AchievementCard({
           </h3>
 
           <button
+            type="button"
             onClick={() => onTogglePublish(achievement._id)}
             className={`shrink-0 px-3 py-1 rounded-full text-[11px] font-semibold ${
               achievement.isPublished
@@ -45,7 +46,9 @@ function AchievementCard({
                 : "bg-gray-100 text-gray-600"
             }`}
           >
-            {achievement.isPublished ? "Published" : "Unpublished"}
+            {achievement.isPublished
+              ? "Published"
+              : "Unpublished"}
           </button>
         </div>
 
@@ -89,8 +92,12 @@ function AchievementCard({
 
         {/* Actions */}
         <div className="flex items-center justify-end gap-2 mt-5 pt-4 border-t border-gray-100">
+          {/* Publish / Unpublish */}
           <button
-            onClick={() => onTogglePublish(achievement._id)}
+            type="button"
+            onClick={() =>
+              onTogglePublish(achievement._id)
+            }
             className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition"
             title={
               achievement.isPublished
@@ -105,7 +112,9 @@ function AchievementCard({
             )}
           </button>
 
+          {/* Edit */}
           <button
+            type="button"
             onClick={() => onEdit(achievement)}
             className="p-2 rounded-lg text-[#2F2F6F] hover:bg-[#F5F3FF] transition"
             title="Edit"
@@ -113,7 +122,9 @@ function AchievementCard({
             <Edit size={17} />
           </button>
 
+          {/* Delete */}
           <button
+            type="button"
             onClick={() => onDelete(achievement._id)}
             className="p-2 rounded-lg text-red-500 hover:bg-red-50 transition"
             title="Delete"

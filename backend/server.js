@@ -27,6 +27,7 @@ import managementRoutes from "./routes/managementRoutes.js";
 import deanRoutes from "./routes/deanRoutes.js";
 
 import achievementRoutes from "./routes/achievementRoutes.js";
+import clubAssociationRoutes from "./routes/clubAssociationRoutes.js";
 
 import paymentRoutes from "./routes/paymentRoutes.js";
 
@@ -78,6 +79,7 @@ app.use("/api/deans", deanRoutes);
 app.use("/api/program-details",programDetailsRoutes);
 
 app.use("/api/achievements", achievementRoutes);
+app.use("/api/club-associations", clubAssociationRoutes);
 
 app.use("/api/payment", paymentRoutes);
 

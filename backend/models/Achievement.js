@@ -32,24 +32,36 @@ const achievementSchema = new mongoose.Schema(
       trim: true,
     },
 
+    // Date is OPTIONAL
     date: {
       type: Date,
-      required: true,
+      required: false,
     },
 
-    images: [
-      {
-        url: {
-          type: String,
-          required: true,
-        },
+    // At least ONE image is mandatory
+    images: {
+      type: [
+        {
+          url: {
+            type: String,
+            required: true,
+            trim: true,
+          },
 
-        public_id: {
-          type: String,
-          default: "",
+          public_id: {
+            type: String,
+            default: "",
+          },
         },
+      ],
+      required: [true, "At least one achievement image is required."],
+      validate: {
+        validator: function (images) {
+          return Array.isArray(images) && images.length > 0;
+        },
+        message: "At least one achievement image is required.",
       },
-    ],
+    },
 
     isPublished: {
       type: Boolean,
