@@ -50,6 +50,7 @@ import FacultyDashboard from "../pages/Faculty/FacultyDashboard";
 import AdmissionsPage from "../pages/Admissions/AdmissionsPage";
 import AdmissionPortal from "../pages/Admissions/AdmissionPortal";
 import ApplicationForm from "../pages/Admissions/ApplicationForm";
+import ApplicationInvoice from "../pages/Admissions/ApplicationInvoice";
 
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import ManageFaculty from "../pages/admin/ManageFaculty";
@@ -300,6 +301,10 @@ const AppRoutes = () => {
         element={<ApplicationForm />}
       />
 
+<Route
+  path="/admissions/application/invoice"
+  element={<ApplicationInvoice />}
+/>
       {/* ================= LIBRARY ================= */}
 
       <Route

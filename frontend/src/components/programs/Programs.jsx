@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 import { getPrograms } from "../../services/programService";
 
@@ -8,6 +9,7 @@ import FeeModal from "./FeeModal";
 function Programs() {
 
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -128,10 +130,9 @@ function Programs() {
                         py-5
                         border-t
                         border-gray-300
-                        ${
-                          index % 2 === 0
-                            ? "bg-[#EDF4FF]"
-                            : "bg-[#F5FAEF]"
+                        ${index % 2 === 0
+                          ? "bg-[#EDF4FF]"
+                          : "bg-[#F5FAEF]"
                         }
                       `}
                     >
@@ -208,15 +209,26 @@ function Programs() {
                       {/* Apply */}
 
                       <button
+                        onClick={() => {
+                          if (user) {
+                            navigate("/admissions/application");
+                          } else {
+                            navigate("/login", {
+                              state: {
+                                from: "/admissions/application",
+                              },
+                            });
+                          }
+                        }}
                         className="
-                          bg-green-600
-                          hover:bg-green-700
-                          rounded-full
-                          py-2
-                          text-white
-                          font-medium
-                          transition
-                        "
+    bg-green-600
+    hover:bg-green-700
+    rounded-full
+    py-2
+    text-white
+    font-medium
+    transition
+  "
                       >
                         Apply
                       </button>

@@ -25,7 +25,11 @@ import feeRoutes from "./routes/feeRoutes.js";
 import programDetailsRoutes from "./routes/programDetailsRoutes.js";
 import managementRoutes from "./routes/managementRoutes.js";
 import deanRoutes from "./routes/deanRoutes.js";
+
 import achievementRoutes from "./routes/achievementRoutes.js";
+
+import paymentRoutes from "./routes/paymentRoutes.js";
+
 
 dotenv.config();
 
@@ -72,7 +76,11 @@ app.use("/api/fees", feeRoutes);
 app.use("/api/management", managementRoutes);
 app.use("/api/deans", deanRoutes);
 app.use("/api/program-details",programDetailsRoutes);
+
 app.use("/api/achievements", achievementRoutes);
+
+app.use("/api/payment", paymentRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("🚀 JNC PG Portal Backend Running...");

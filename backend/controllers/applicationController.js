@@ -1,12 +1,52 @@
 import Application from "../models/Application.js";
 
+const generateApplicationNumber = () => {
+  const year = new Date().getFullYear();
+
+  const random = Math.random()
+    .toString(36)
+    .substring(2, 8)
+    .toUpperCase();
+
+  return `JNC-PG-${year}-${random}`;
+};
+
 // Apply
 export const submitApplication = async (req, res) => {
   try {
-    const application = await Application.create({
-      ...req.body,
-      user: req.user._id,
-    });
+    const documents = {
+      photograph:
+        req.files?.photograph?.[0]?.path || "",
+
+      aadhaarDocument:
+        req.files?.aadhaarDocument?.[0]?.path || "",
+
+      tenthMarksheet:
+        req.files?.tenthMarksheet?.[0]?.path || "",
+
+      twelfthMarksheet:
+        req.files?.twelfthMarksheet?.[0]?.path || "",
+
+      degreeCertificate:
+        req.files?.degreeCertificate?.[0]?.path || "",
+
+      degreeMarksheets:
+        req.files?.degreeMarksheets?.[0]?.path || "",
+
+      transferCertificate:
+        req.files?.transferCertificate?.[0]?.path || "",
+
+      migrationCertificate:
+        req.files?.migrationCertificate?.[0]?.path || "",
+    };
+
+  const application = await Application.create({
+  ...req.body,
+  user: req.user._id,
+  documents,
+  applicationNumber:
+    generateApplicationNumber(),
+});
 
     res.status(201).json({
       success: true,
@@ -14,6 +54,11 @@ export const submitApplication = async (req, res) => {
       data: application,
     });
   } catch (error) {
+    console.error(
+      "Submit Application Error:",
+      error
+    );
+
     res.status(500).json({
       success: false,
       message: error.message,
@@ -24,15 +69,37 @@ export const submitApplication = async (req, res) => {
 // My Application
 export const getMyApplication = async (req, res) => {
   try {
-    const application = await Application.find({
+    const applications = await Application.find({
       user: req.user._id,
+    });
+
+    // Generate an application number for
+    // older applications that don't have one.
+    for (const application of applications) {
+      if (!application.applicationNumber) {
+        application.applicationNumber =
+          generateApplicationNumber();
+
+        await application.save();
+      }
+    }
+
+    // Populate programme details after saving.
+    await Application.populate(applications, {
+      path: "programId",
+      select: "programName shortCode category",
     });
 
     res.status(200).json({
       success: true,
-      data: application,
+      data: applications,
     });
   } catch (error) {
+    console.error(
+      "Get My Application Error:",
+      error
+    );
+
     res.status(500).json({
       success: false,
       message: error.message,
@@ -41,12 +108,16 @@ export const getMyApplication = async (req, res) => {
 };
 
 // Update Application
-export const updateApplication = async (req, res) => {
+export const updateApplication = async (
+  req,
+  res
+) => {
   try {
-    const application = await Application.findOne({
-      _id: req.params.id,
-      user: req.user._id,
-    });
+    const application =
+      await Application.findOne({
+        _id: req.params.id,
+        user: req.user._id,
+      });
 
     if (!application) {
       return res.status(404).json({
@@ -65,6 +136,11 @@ export const updateApplication = async (req, res) => {
       data: application,
     });
   } catch (error) {
+    console.error(
+      "Update Application Error:",
+      error
+    );
+
     res.status(500).json({
       success: false,
       message: error.message,

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import Header from "../../components/layout/Header";
 import Navbar from "../../components/layout/Navbar";
@@ -109,13 +109,6 @@ const handleApplyNow = () => {
 >
   Apply Now (PG)
 </button>
-
-            <Link
-              to="/login"
-              className="border-2 border-[#2F2F6F] text-[#2F2F6F] hover:bg-[#2F2F6F] hover:text-white text-lg font-semibold px-10 py-4 rounded-lg transition text-center"
-            >
-              Already Registered? Login
-            </Link>
 
           </div>
 
