@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -7,42 +7,20 @@ import Logo from "../../components/common/Logo";
 import InputField from "../../components/common/InputField";
 import Button from "../../components/common/Button";
 
-import { getDepartments } from "../../services/departmentService";
 import { registerUser } from "../../services/authService";
 
 const Register = () => {
   const navigate = useNavigate();
 
-  const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phone: "",
-    department: "",
     password: "",
     confirmPassword: "",
   });
-
-  // Fetch Departments
-  useEffect(() => {
-    const fetchDepartments = async () => {
-      try {
-       const response = await getDepartments({
-  page: 1,
-  limit: 1000,
-});
-
-setDepartments(response.data || []);
-      } catch (error) {
-        console.error(error);
-        toast.error("Failed to load departments");
-      }
-    };
-
-    fetchDepartments();
-  }, []);
 
   // Handle Input Change
   const handleChange = (e) => {
@@ -60,7 +38,6 @@ setDepartments(response.data || []);
       !formData.fullName ||
       !formData.email ||
       !formData.phone ||
-      !formData.department ||
       !formData.password ||
       !formData.confirmPassword
     ) {
@@ -86,7 +63,6 @@ setDepartments(response.data || []);
         fullName: "",
         email: "",
         phone: "",
-        department: "",
         password: "",
         confirmPassword: "",
       });
@@ -105,15 +81,15 @@ setDepartments(response.data || []);
 
   return (
     <AuthLayout>
-      <div className="flex justify-center mb-5">
-        <Logo />
-      </div>
+     <div className="flex justify-center mb-8 [&_img]:w-[900px] [&_img]:h-auto">
+  <Logo />
+</div>
 
-      <h2 className="text-4xl font-bold text-center text-[#4B4B7C]">
+      <h2 className="text-2xl font-bold text-center text-[#4B4B7C]">
         Create an Account
       </h2>
 
-      <p className="text-center text-gray-500 mt-2 mb-8">
+      <p className="text-center text-gray-500 mt-2 mb-6">
         Register to access the PG Portal
       </p>
 
@@ -142,27 +118,6 @@ setDepartments(response.data || []);
           onChange={handleChange}
           placeholder="10-digit phone number"
         />
-
-        <div className="mb-5">
-          <label className="block font-semibold mb-2">
-            Department
-          </label>
-
-          <select
-            name="department"
-            value={formData.department}
-            onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#4B4B7C] focus:ring-2 focus:ring-[#4B4B7C]/20 outline-none"
-          >
-            <option value="">Select Department</option>
-
-            {departments.map((dept) => (
-              <option key={dept._id} value={dept._id}>
-                {dept.name}
-              </option>
-            ))}
-          </select>
-        </div>
 
         <InputField
           label="Password"

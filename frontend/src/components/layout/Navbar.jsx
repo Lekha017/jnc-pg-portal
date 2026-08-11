@@ -101,8 +101,7 @@ function Navbar() {
                         path: "/campus-culture",
                       },
                       {
-                        label: "Annual Reports",
-                        path: "/annual-reports",
+                        label: "Annual Reports"
                       },
                       {
                         label: "Glimpse of College Achievements & Activities",

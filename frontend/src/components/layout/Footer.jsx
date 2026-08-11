@@ -1,15 +1,30 @@
 import {
-  FaFacebookF,
   FaInstagram,
   FaLinkedinIn,
   FaYoutube,
 } from "react-icons/fa";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import footerLogo from "../../assets/jnc-footer-logo.png";
 import cyber from "../../assets/cyber.png";
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const handleApplyNow = () => {
+    if (user) {
+      navigate("/admissions/application");
+    } else {
+      navigate("/login", {
+        state: {
+          from: "/admissions/application",
+        },
+      });
+    }
+  };
+
   return (
     <footer className="bg-[#3A356B] text-white mt-0">
 
@@ -61,35 +76,58 @@ const Footer = () => {
           <ul className="mt-5 space-y-3 text-[13px] text-gray-300">
 
             <li>
-              <Link to="/" className="hover:text-white">
-                Apply Now
+              <button
+                onClick={handleApplyNow}
+                className="hover:text-white"
+              >
+                <strong>Apply Now</strong>
+              </button>
+            </li>
+
+            <li>
+              <Link to="/login" className="hover:text-white">
+                <strong>Student Login</strong>
               </Link>
             </li>
 
             <li>
               <Link to="/login" className="hover:text-white">
-                Student Login
+                <strong>Faculty Login</strong>
               </Link>
             </li>
 
             <li>
-              <Link to="/login" className="hover:text-white">
-                Faculty Login
-              </Link>
+              <a
+                href="https://portal.office.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                <strong>Online Class</strong>
+              </a>
             </li>
 
-            <li className="hover:text-white cursor-pointer">
-              Online Class
+            <li>
+              <a
+                href="http://106.51.73.95:8585/KnowledgePro/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                <strong>MIS</strong>
+              </a>
             </li>
 
-            <li className="hover:text-white cursor-pointer">
-              MIS
+            <li>
+              <a
+                href="https://docs.google.com/forms/d/1Ea6YQT8LWIh3z8TAc6kxzq9C5zqzMsGatrXeclV5aeg/viewform?edit_requested=true"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                <strong>ECRF</strong>
+              </a>
             </li>
-
-            <li className="hover:text-white cursor-pointer">
-              ECRF
-            </li>
-
           </ul>
 
         </div>
@@ -105,33 +143,72 @@ const Footer = () => {
 
           <ul className="mt-5 space-y-3 text-[13px] text-gray-300">
 
-            <li className="hover:text-white cursor-pointer">
-              › Career
+            <li>
+  <Link
+    to="/careers"
+    className="hover:text-white"
+  >
+    <strong> › Career</strong>
+  </Link>
+</li>
+
+            <li>
+              <a
+                href="https://bcu.ac.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                <strong> › Bengaluru City University</strong>
+              </a>
             </li>
 
-            <li className="hover:text-white cursor-pointer">
-              › Bengaluru City University
+            <li>
+              <a
+                href="https://naac.gov.in/index.php/en/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                <strong> › NAAC</strong>
+              </a>
             </li>
 
-            <li className="hover:text-white cursor-pointer">
-              › NAAC
+            <li>
+              <a
+                href="https://www.ugc.gov.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                <strong> › UGC</strong>
+              </a>
             </li>
 
-            <li className="hover:text-white cursor-pointer">
-              › UGC
-            </li>
-
-            <li className="hover:text-white cursor-pointer">
-              › Online Academic Resources
+            <li>
+              <a
+                href="https://epgp.inflibnet.ac.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                <strong> › Online Academic Resources</strong>
+              </a>
             </li>
 
           </ul>
 
-         <img
-  src={cyber}
-  alt="Cyber Security"
-  className="w-[160px] mt-5"
-/>
+          <a
+            href="https://www.ncdrc.res.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={cyber}
+              alt="Cyber Security"
+              className="w-[160px] mt-5"
+            />
+          </a>
 
         </div>
 
@@ -147,28 +224,27 @@ const Footer = () => {
           <div className="flex gap-3 mt-6">
 
             <a
-              href="#"
-              className="bg-[#2F2A5A] p-2 rounded-sm hover:bg-[#FF2D55] transition"
-            >
-              <FaFacebookF size={15} />
-            </a>
-
-            <a
-              href="#"
+              href="https://www.instagram.com/jncbengaluru/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-[#2F2A5A] p-2 rounded-sm hover:bg-[#FF2D55] transition"
             >
               <FaInstagram size={15} />
             </a>
 
             <a
-              href="#"
+              href="https://www.linkedin.com/school/jyoti-nivas-college-autonomous-bangalore/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-[#2F2A5A] p-2 rounded-sm hover:bg-[#FF2D55] transition"
             >
               <FaLinkedinIn size={15} />
             </a>
 
             <a
-              href="#"
+              href="https://www.youtube.com/@jyotinivascollegeautonomou2954/videos"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-[#2F2A5A] p-2 rounded-sm hover:bg-[#FF2D55] transition"
             >
               <FaYoutube size={15} />
@@ -193,3 +269,4 @@ const Footer = () => {
 };
 
 export default Footer;
+

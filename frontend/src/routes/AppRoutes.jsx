@@ -80,6 +80,7 @@ import CampusCulture from "../pages/AboutUs/CampusCulture";
 
 import Library from "../pages/Library";
 import PlacementGallery from "../pages/PlacementGallery";
+import Careers from "../pages/Careers";
 
 
 import AddDepartment from "../pages/admin/AddDepartment";
@@ -302,6 +303,11 @@ const AppRoutes = () => {
 <Route
   path="/admissions/application/invoice"
   element={<ApplicationInvoice />}
+/>
+
+<Route
+  path="/careers"
+  element={<Careers />}
 />
       {/* ================= LIBRARY ================= */}
 
