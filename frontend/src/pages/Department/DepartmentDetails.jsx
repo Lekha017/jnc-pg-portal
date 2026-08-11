@@ -12,6 +12,7 @@ import { getDepartmentBySlug } from "../../services/departmentService";
 import { getEventsByDepartment } from "../../services/eventService";
 import { getPlacementsByDepartment } from "../../services/placementService";
 import { getAchievementsByDepartment } from "../../services/achievementService";
+import { getPrograms } from "../../services/programService";
 
 import DepartmentActivities from "../../components/department/DepartmentActivities";
 
@@ -41,6 +42,7 @@ const DepartmentDetails = () => {
   // =========================
 
   const [loading, setLoading] = useState(true);
+  const [programs, setPrograms] = useState([]);
   const [eventsLoading, setEventsLoading] = useState(false);
   const [placementsLoading, setPlacementsLoading] = useState(false);
   const [achievementsLoading, setAchievementsLoading] = useState(false);
@@ -59,29 +61,46 @@ const DepartmentDetails = () => {
   // FETCH DEPARTMENT
   // =====================================================
 
-  useEffect(() => {
-    const fetchDepartment = async () => {
-      try {
-        setLoading(true);
+   useEffect(() => {
+  const fetchDepartment = async () => {
+    try {
+      setLoading(true);
 
-        const response = await getDepartmentBySlug(slug);
+      const response = await getDepartmentBySlug(slug);
 
-        setDepartment(response);
-      } catch (error) {
-        console.error("Failed to load department:", error);
+      setDepartment(response);
+    } catch (error) {
+      console.error("Failed to load department:", error);
 
-        setToast({
-          show: true,
-          message: "Failed to load department.",
-          type: "error",
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
+      setToast({
+        show: true,
+        message: "Failed to load department.",
+        type: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+const fetchPrograms = async () => {
+  try {
+    const response = await getPrograms();
 
-    fetchDepartment();
-  }, [slug]);
+    const data = response?.data || response || [];
+
+    console.log("DEPARTMENT PROGRAMMES:", department?.programmes);
+    console.log("ALL PROGRAMS:", data);
+
+    setPrograms(data);
+  } catch (error) {
+    console.error("Failed to load programs:", error);
+    setPrograms([]);
+  }
+};
+
+  fetchDepartment();
+  fetchPrograms();
+}, [slug]);
+
 
   // =====================================================
   // FETCH EVENTS + PLACEMENTS + ACHIEVEMENTS
@@ -768,20 +787,52 @@ const DepartmentDetails = () => {
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
-                {department.programmes.map((programme) => (
+{department.programmes.map((programmeName) => {
+  const normalizeProgramName = (name) =>
+    name
+      ?.toLowerCase()
+      .replace(/[^a-z0-9]/g, "");
 
-                  <div
-                    key={programme}
-                    className="bg-white rounded-lg shadow-sm border border-gray-100 px-6 py-5"
-                  >
+  const normalizedProgrammeName =
+    normalizeProgramName(programmeName);
 
-                    <p className="font-medium text-gray-700">
-                      {programme}
-                    </p>
+  const program = programs.find((item) => {
+    const normalizedDatabaseName =
+      normalizeProgramName(item.programName);
 
-                  </div>
+    return (
+      normalizedDatabaseName === normalizedProgrammeName ||
+      normalizedDatabaseName.includes(normalizedProgrammeName) ||
+      normalizedProgrammeName.includes(normalizedDatabaseName)
+    );
+  });
 
-                ))}
+  return (
+    <div
+      key={programmeName}
+      onClick={() => {
+        if (program?._id) {
+          navigate(`/program-details/${program._id}`);
+        }
+      }}
+      className={`bg-white rounded-lg shadow-sm border border-gray-100 px-6 py-5 transition ${
+        program?._id
+          ? "cursor-pointer hover:shadow-md hover:border-[#2F2F6F]"
+          : ""
+      }`}
+    >
+      <p className="font-medium text-gray-700">
+        {programmeName}
+      </p>
+
+      {program?.shortCode && (
+        <p className="text-sm text-gray-500 mt-1">
+          {program.shortCode}
+        </p>
+      )}
+    </div>
+  );
+})}
 
               </div>
 

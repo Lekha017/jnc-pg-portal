@@ -47,6 +47,8 @@ import Faculty from "../pages/Faculty/Faculty";
 import FacultyDetails from "../pages/Faculty/FacultyDetails";
 import EditFaculty from "../pages/Faculty/EditFaculty";
 import FacultyDashboard from "../pages/Faculty/FacultyDashboard";
+import FacultyEvents from "../pages/Faculty/FacultyEvents";
+
 import AdmissionsPage from "../pages/Admissions/AdmissionsPage";
 import AdmissionPortal from "../pages/Admissions/AdmissionPortal";
 import ApplicationForm from "../pages/Admissions/ApplicationForm";
@@ -85,6 +87,7 @@ import ClubAssociationDetails from "../pages/clubAssociation/ClubAssociationDeta
 
 import Library from "../pages/Library";
 import PlacementGallery from "../pages/PlacementGallery";
+import Careers from "../pages/Careers";
 
 
 import AddDepartment from "../pages/admin/AddDepartment";
@@ -308,6 +311,13 @@ const AppRoutes = () => {
         path="/admissions/application/invoice"
         element={<ApplicationInvoice />}
       />
+
+
+      <Route
+        path="/careers"
+        element={<Careers />}
+      />
+
       {/* ================= LIBRARY ================= */}
 
       <Route
@@ -545,6 +555,14 @@ const AppRoutes = () => {
         }
       />
 
+      <Route
+        path="/faculty/events"
+        element={
+          <ProtectedRoute roles={["faculty"]}>
+            <FacultyEvents />
+          </ProtectedRoute>
+        }
+      />
       {/* ================= AUTH ================= */}
 
       <Route

@@ -22,9 +22,14 @@ function ProgramDetailsPage() {
   const [departmentSlug, setDepartmentSlug] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadPage();
-  }, [programId]);
+ useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    behavior: "instant",
+  });
+
+  loadPage();
+}, [programId]);
 
   const loadPage = async () => {
     try {

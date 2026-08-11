@@ -1,6 +1,6 @@
 import EventGallery from "../models/EventGallery.js";
 
-console.log(EventGallery.schema.obj);
+// console.log(EventGallery.schema.obj);
 
 // Create Gallery
 export const createGallery = async (req, res) => {

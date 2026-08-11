@@ -13,6 +13,7 @@ const Step2Address = () => {
         <h2 className="text-xl font-semibold text-[#2F2F6F]">
           Address Details
         </h2>
+
         <p className="mt-1 text-sm text-gray-500">
           Please provide your current residential and contact details.
         </p>
@@ -28,6 +29,9 @@ const Step2Address = () => {
           type="text"
           {...register("addressLine1", {
             required: "Address is required",
+            validate: (value) =>
+              value.trim().length > 0 ||
+              "Address is required",
           })}
           placeholder="Enter your house number, street, locality"
           className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-[#2F2F6F] focus:ring-1 focus:ring-[#2F2F6F]"
@@ -56,6 +60,7 @@ const Step2Address = () => {
 
       {/* City and State */}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        {/* City */}
         <div>
           <label className="mb-2 block text-sm font-medium text-gray-700">
             City <span className="text-red-500">*</span>
@@ -65,6 +70,14 @@ const Step2Address = () => {
             type="text"
             {...register("city", {
               required: "City is required",
+              validate: (value) =>
+                value.trim().length > 0 ||
+                "City is required",
+              pattern: {
+                value: /^[A-Za-z]+(?:[ .'-][A-Za-z]+)*$/,
+                message:
+                  "City can contain only letters and spaces",
+              },
             })}
             placeholder="Enter your city"
             className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-[#2F2F6F] focus:ring-1 focus:ring-[#2F2F6F]"
@@ -77,6 +90,7 @@ const Step2Address = () => {
           )}
         </div>
 
+        {/* State */}
         <div>
           <label className="mb-2 block text-sm font-medium text-gray-700">
             State <span className="text-red-500">*</span>
@@ -86,6 +100,14 @@ const Step2Address = () => {
             type="text"
             {...register("state", {
               required: "State is required",
+              validate: (value) =>
+                value.trim().length > 0 ||
+                "State is required",
+              pattern: {
+                value: /^[A-Za-z]+(?:[ .'-][A-Za-z]+)*$/,
+                message:
+                  "State can contain only letters and spaces",
+              },
             })}
             placeholder="Enter your state"
             className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-[#2F2F6F] focus:ring-1 focus:ring-[#2F2F6F]"
@@ -101,6 +123,7 @@ const Step2Address = () => {
 
       {/* Pincode and Country */}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        {/* Pincode */}
         <div>
           <label className="mb-2 block text-sm font-medium text-gray-700">
             Pincode <span className="text-red-500">*</span>
@@ -114,7 +137,7 @@ const Step2Address = () => {
               required: "Pincode is required",
               pattern: {
                 value: /^\d{6}$/,
-                message: "Pincode must contain 6 digits",
+                message: "Pincode must contain exactly 6 digits",
               },
             })}
             placeholder="Enter 6-digit pincode"
@@ -128,31 +151,25 @@ const Step2Address = () => {
           )}
         </div>
 
+        {/* Country */}
         <div>
           <label className="mb-2 block text-sm font-medium text-gray-700">
-            Country <span className="text-red-500">*</span>
+            Country
           </label>
 
           <input
             type="text"
-            {...register("country", {
-              required: "Country is required",
-            })}
-            defaultValue="India"
-            placeholder="Enter your country"
-            className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-[#2F2F6F] focus:ring-1 focus:ring-[#2F2F6F]"
+            value="India"
+            readOnly
+            {...register("country")}
+            className="w-full rounded-md border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none"
           />
-
-          {errors.country && (
-            <p className="mt-1 text-sm text-red-500">
-              {errors.country.message}
-            </p>
-          )}
         </div>
       </div>
 
       {/* Mobile and Email */}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        {/* Mobile */}
         <div>
           <label className="mb-2 block text-sm font-medium text-gray-700">
             Mobile Number <span className="text-red-500">*</span>
@@ -166,7 +183,8 @@ const Step2Address = () => {
               required: "Mobile number is required",
               pattern: {
                 value: /^[6-9]\d{9}$/,
-                message: "Enter a valid 10-digit mobile number",
+                message:
+                  "Enter a valid 10-digit mobile number",
               },
             })}
             placeholder="Enter mobile number"
@@ -180,6 +198,7 @@ const Step2Address = () => {
           )}
         </div>
 
+        {/* Email */}
         <div>
           <label className="mb-2 block text-sm font-medium text-gray-700">
             Email Address <span className="text-red-500">*</span>
@@ -189,6 +208,9 @@ const Step2Address = () => {
             type="email"
             {...register("email", {
               required: "Email address is required",
+              validate: (value) =>
+                value.trim().length > 0 ||
+                "Email address is required",
               pattern: {
                 value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                 message: "Enter a valid email address",
