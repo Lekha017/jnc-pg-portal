@@ -35,6 +35,14 @@ const modules = [
     title: "Deans",
     path: "/admin/deans",
   },
+  {
+  title: "Achievements",
+  path: "/admin/achievements",
+},
+{
+  title: "Clubs & Associations",
+  path: "/admin/club-associations",
+},
 ];
 
   return (

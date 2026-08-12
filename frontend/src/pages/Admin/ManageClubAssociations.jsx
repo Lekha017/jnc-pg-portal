@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import ClubAssociationForm from "../../components/clubAssociation/ClubAssociationForm";
 import ClubAssociationList from "../../components/clubAssociation/ClubAssociationList";
 
+import AdminLayout from "../../components/layout/AdminLayout";
+
 import api from "../../services/api";
 
 const ManageClubAssociations = () => {
@@ -103,6 +105,7 @@ const ManageClubAssociations = () => {
   // =========================================================
 
   return (
+      <AdminLayout>
     <div className="min-h-screen bg-[#F5F6FB] px-6 py-8 md:px-10">
       <div className="max-w-7xl mx-auto">
 
@@ -290,6 +293,7 @@ const ManageClubAssociations = () => {
         </div>
       )}
     </div>
+    </AdminLayout>
   );
 };
 
