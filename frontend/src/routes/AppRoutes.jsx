@@ -65,7 +65,7 @@ import ManageDeans from "../pages/admin/ManageDeans";
 import AddDean from "../pages/admin/AddDean";
 import EditDean from "../pages/admin/EditDean";
 import ManageAchievements from "../pages/admin/ManageAchievements";
-import ManageClubAssociations from "../pages/Admin/ManageClubAssociations";
+import ManageClubAssociations from "../pages/admin/ManageClubAssociations";
 
 import OrganizationStructure from "../pages/AboutUs/OrganizationStructure";
 import GoverningBody from "../pages/AboutUs/GoverningBody";
@@ -93,13 +93,13 @@ import Careers from "../pages/Careers";
 import AddDepartment from "../pages/admin/AddDepartment";
 import EditDepartment from "../pages/admin/EditDepartment";
 import ManageDepartments from "../pages/admin/ManageDepartments";
-import ManageAcademics from "../pages/Admin/programs/ManageAcademics";
+import ManageAcademics from "../pages/admin/programs/ManageAcademics";
 
-import ManageEvents from "../pages/Admin/ManageEvents";
+import ManageEvents from "../pages/admin/ManageEvents";
 
-import ManageAnnouncements from "../pages/Admin/ManageAnnouncements";
+import ManageAnnouncements from "../pages/admin/ManageAnnouncements";
 
-import ManagePlacements from "../pages/Admin/ManagePlacements";
+import ManagePlacements from "../pages/admin/ManagePlacements";
 
 import DepartmentDetails from "../pages/Department/DepartmentDetails";
 
