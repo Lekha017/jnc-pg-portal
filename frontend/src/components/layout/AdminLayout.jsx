@@ -6,8 +6,9 @@
     FiBook,
     FiCalendar,
     FiBell,
-    FiClipboard,
-    FiLogOut,
+   FiClipboard,
+FiAward,
+FiLogOut,
   } from "react-icons/fi";
 
   import { logoutUser } from "../../services/authService";
@@ -53,6 +54,16 @@
     icon: <FiClipboard size={20} />,
     path: "/admin/placements",
   },
+{
+  name: "Achievements",
+  icon: <FiAward size={20} />,
+  path: "/admin/achievements",
+},
+{
+  name: "Clubs & Associations",
+  icon: <FiUsers size={20} />,
+  path: "/admin/club-associations",
+},
   {
     name: "Management",
     icon: <FiUsers size={20} />,
