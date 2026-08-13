@@ -9,6 +9,8 @@ import {
   Loader2,
   Users,
   X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 import {
@@ -39,7 +41,8 @@ const ClubAssociationDetails = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const [selectedImage, setSelectedImage] =
+  // Selected image index for gallery popup
+  const [selectedImageIndex, setSelectedImageIndex] =
     useState(null);
 
   // =========================================================
@@ -127,6 +130,42 @@ const ClubAssociationDetails = () => {
   const departmentName =
     clubAssociation?.department?.name ||
     "Department";
+
+  // =========================================================
+  // GALLERY CAROUSEL CONTROLS
+  // =========================================================
+
+  const openGallery = (index) => {
+    setSelectedImageIndex(index);
+  };
+
+  const closeGallery = () => {
+    setSelectedImageIndex(null);
+  };
+
+  const nextGalleryImage = () => {
+    if (images.length <= 1) return;
+
+    setSelectedImageIndex((prev) => {
+      if (prev === null) return 0;
+
+      return prev >= images.length - 1
+        ? 0
+        : prev + 1;
+    });
+  };
+
+  const previousGalleryImage = () => {
+    if (images.length <= 1) return;
+
+    setSelectedImageIndex((prev) => {
+      if (prev === null) return 0;
+
+      return prev <= 0
+        ? images.length - 1
+        : prev - 1;
+    });
+  };
 
   // =========================================================
   // RENDER
@@ -418,7 +457,10 @@ const ClubAssociationDetails = () => {
 
                 </div>
 
-                {/* IMAGE GRID */}
+                {/* =================================================
+                    ORIGINAL IMAGE GRID
+                    KEEPING THIS EXACTLY AS BEFORE
+                ================================================== */}
 
                 <div
                   className="
@@ -438,9 +480,7 @@ const ClubAssociationDetails = () => {
                       }
                       type="button"
                       onClick={() =>
-                        setSelectedImage(
-                          image.url
-                        )
+                        openGallery(index)
                       }
                       className="
                         relative
@@ -675,16 +715,16 @@ const ClubAssociationDetails = () => {
       </main>
 
       {/* =====================================================
-          IMAGE LIGHTBOX
+          IMAGE LIGHTBOX + CAROUSEL
       ====================================================== */}
 
-      {selectedImage && (
+      {selectedImageIndex !== null && (
         <div
           className="
             fixed
             inset-0
             z-[9999]
-            bg-black/80
+            bg-black/85
             backdrop-blur-sm
             flex
             items-center
@@ -696,22 +736,23 @@ const ClubAssociationDetails = () => {
               event.target ===
               event.currentTarget
             ) {
-              setSelectedImage(null);
+              closeGallery();
             }
           }}
         >
 
-          {/* CLOSE */}
+          {/* =================================================
+              CLOSE BUTTON
+          ================================================== */}
 
           <button
             type="button"
-            onClick={() =>
-              setSelectedImage(null)
-            }
+            onClick={closeGallery}
             className="
               absolute
               top-5
               right-5
+              z-20
               w-11
               h-11
               rounded-full
@@ -724,24 +765,187 @@ const ClubAssociationDetails = () => {
               hover:bg-gray-100
               transition
             "
-            aria-label="Close image"
+            aria-label="Close gallery"
           >
             <X size={22} />
           </button>
 
-          {/* IMAGE */}
+          {/* =================================================
+              IMAGE COUNTER
+          ================================================== */}
 
-          <img
-            src={selectedImage}
-            alt={clubAssociation.title}
+          <div
             className="
-              max-w-full
-              max-h-[90vh]
-              object-contain
-              rounded-xl
-              shadow-2xl
+              absolute
+              top-6
+              left-1/2
+              -translate-x-1/2
+              z-20
+              px-4
+              py-2
+              rounded-full
+              bg-black/60
+              text-white
+              text-sm
+              font-medium
             "
-          />
+          >
+            {selectedImageIndex + 1} / {images.length}
+          </div>
+
+          {/* =================================================
+              PREVIOUS BUTTON
+          ================================================== */}
+
+          {images.length > 1 && (
+            <button
+              type="button"
+              onClick={previousGalleryImage}
+              className="
+                absolute
+                left-4
+                md:left-8
+                top-1/2
+                -translate-y-1/2
+                z-20
+                w-12
+                h-12
+                rounded-full
+                bg-white/95
+                text-[#2F2F6F]
+                flex
+                items-center
+                justify-center
+                shadow-xl
+                hover:bg-[#2F2F6F]
+                hover:text-white
+                transition
+              "
+              aria-label="Previous image"
+            >
+              <ChevronLeft size={28} />
+            </button>
+          )}
+
+          {/* =================================================
+              MAIN CAROUSEL IMAGE
+          ================================================== */}
+
+          <div
+            className="
+              relative
+              w-full
+              max-w-5xl
+              flex
+              items-center
+              justify-center
+            "
+          >
+
+            <img
+              src={
+                images[selectedImageIndex]?.url
+              }
+              alt={`${clubAssociation.title} gallery ${
+                selectedImageIndex + 1
+              }`}
+              className="
+                max-w-full
+                max-h-[80vh]
+                object-contain
+                rounded-xl
+                shadow-2xl
+                select-none
+              "
+              onError={(event) => {
+                event.currentTarget.src =
+                  "https://placehold.co/800x500?text=Club+Association";
+              }}
+            />
+
+          </div>
+
+          {/* =================================================
+              NEXT BUTTON
+          ================================================== */}
+
+          {images.length > 1 && (
+            <button
+              type="button"
+              onClick={nextGalleryImage}
+              className="
+                absolute
+                right-4
+                md:right-8
+                top-1/2
+                -translate-y-1/2
+                z-20
+                w-12
+                h-12
+                rounded-full
+                bg-white/95
+                text-[#2F2F6F]
+                flex
+                items-center
+                justify-center
+                shadow-xl
+                hover:bg-[#2F2F6F]
+                hover:text-white
+                transition
+              "
+              aria-label="Next image"
+            >
+              <ChevronRight size={28} />
+            </button>
+          )}
+
+          {/* =================================================
+              CAROUSEL DOTS
+          ================================================== */}
+
+          {images.length > 1 && (
+            <div
+              className="
+                absolute
+                bottom-6
+                left-1/2
+                -translate-x-1/2
+                flex
+                items-center
+                gap-2
+                z-20
+                bg-black/50
+                px-4
+                py-2
+                rounded-full
+              "
+            >
+
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() =>
+                    setSelectedImageIndex(index)
+                  }
+                  className={`
+                    h-2.5
+                    rounded-full
+                    transition-all
+                    ${
+                      selectedImageIndex === index
+                        ? "w-7 bg-white"
+                        : "w-2.5 bg-white/50 hover:bg-white/80"
+                    }
+                  `}
+                  aria-label={`Go to image ${
+                    index + 1
+                  }`}
+                />
+              ))}
+
+            </div>
+          )}
 
         </div>
       )}

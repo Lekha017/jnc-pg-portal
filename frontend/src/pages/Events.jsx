@@ -47,11 +47,6 @@ function Events() {
                 ongoingRes,
                 galleryRes,
             ] = await Promise.all([
-                // If departmentId exists:
-                // fetch only that department's events
-                //
-                // If departmentId is null:
-                // fetch all events
                 getUpcomingEvents(departmentId),
                 getOngoingEvents(departmentId),
 
