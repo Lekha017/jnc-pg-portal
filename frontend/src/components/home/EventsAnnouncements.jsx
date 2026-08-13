@@ -10,10 +10,13 @@ import { getAnnouncements } from "../../services/announcementService";
 
 import { getAchievements } from "../../services/achievementService";
 
+import { getClubAssociations } from "../../services/clubAssociationService";
+
 function EventsAnnouncements() {
   const [events, setEvents] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [achievements, setAchievements] = useState([]);
+  const [clubAssociations, setClubAssociations] = useState([]);
 
   const [activeTab, setActiveTab] = useState("events");
   const [loading, setLoading] = useState(true);
@@ -22,6 +25,7 @@ function EventsAnnouncements() {
     fetchEvents();
     fetchAnnouncements();
     fetchAchievements();
+    fetchClubAssociations();
   }, []);
 
   /* =========================
@@ -101,6 +105,29 @@ function EventsAnnouncements() {
   };
 
   /* =========================
+     FETCH CLUBS & ASSOCIATIONS
+  ========================= */
+
+  const fetchClubAssociations = async () => {
+    try {
+      const response = await getClubAssociations();
+
+      if (response?.success) {
+        setClubAssociations(
+          response.data?.slice(0, 2) || []
+        );
+      }
+    } catch (error) {
+      console.error(
+        "Error fetching clubs and associations:",
+        error
+      );
+
+      setClubAssociations([]);
+    }
+  };
+
+  /* =========================
      DATE FORMAT
   ========================= */
 
@@ -118,11 +145,12 @@ function EventsAnnouncements() {
           TABS
       ========================= */}
 
-      <div className="flex gap-2 mb-3">
+      <div className="flex flex-wrap gap-2 mb-3">
 
         {/* EVENTS */}
 
         <button
+          type="button"
           onClick={() => setActiveTab("events")}
           className={`w-32 py-2 rounded-md text-sm font-medium transition ${
             activeTab === "events"
@@ -136,6 +164,7 @@ function EventsAnnouncements() {
         {/* ANNOUNCEMENTS */}
 
         <button
+          type="button"
           onClick={() =>
             setActiveTab("announcements")
           }
@@ -151,6 +180,7 @@ function EventsAnnouncements() {
         {/* ACHIEVEMENTS */}
 
         <button
+          type="button"
           onClick={() =>
             setActiveTab("achievements")
           }
@@ -163,8 +193,23 @@ function EventsAnnouncements() {
           Achievements
         </button>
 
-      </div>
+        {/* CLUBS & ASSOCIATIONS */}
 
+        <button
+          type="button"
+          onClick={() =>
+            setActiveTab("clubs")
+          }
+          className={`w-40 py-2 rounded-md text-sm font-medium transition ${
+            activeTab === "clubs"
+              ? "bg-[#37347C] text-white"
+              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+          }`}
+        >
+          Clubs & Associations
+        </button>
+
+      </div>
 
       {/* =========================
           EVENTS
@@ -213,7 +258,6 @@ function EventsAnnouncements() {
           )}
         </>
       )}
-
 
       {/* =========================
           ANNOUNCEMENTS
@@ -265,7 +309,6 @@ function EventsAnnouncements() {
         </>
       )}
 
-
       {/* =========================
           ACHIEVEMENTS
       ========================= */}
@@ -305,10 +348,59 @@ function EventsAnnouncements() {
                 </div>
               )}
 
-              {/* GO TO PUBLIC ACHIEVEMENTS PAGE */}
-
               <Link
                 to="/achievements"
+                className="inline-flex items-center mt-2 bg-[#37347C] text-white px-6 py-2 rounded-full text-sm hover:bg-[#2d2968] transition"
+              >
+                View More →
+              </Link>
+            </>
+          )}
+        </>
+      )}
+
+      {/* =========================
+          CLUBS & ASSOCIATIONS
+      ========================= */}
+
+      {activeTab === "clubs" && (
+        <>
+          {loading ? (
+            <div className="bg-white rounded-xl border shadow-sm p-4">
+              Loading...
+            </div>
+          ) : (
+            <>
+              {clubAssociations.length > 0 ? (
+                clubAssociations.map(
+                  (clubAssociation) => (
+                    <div
+                      key={clubAssociation._id}
+                      className="bg-white rounded-xl px-4 py-3 mb-2 shadow-sm border border-gray-100"
+                    >
+                      <h3 className="text-lg font-semibold text-[#37347C] line-clamp-1">
+                        {clubAssociation.title}
+                      </h3>
+
+                      <p className="text-xs text-gray-500 mt-1">
+                        {clubAssociation?.department?.name ||
+                          "Department"}
+                      </p>
+
+                      <p className="text-sm text-gray-600 mt-1 line-clamp-1">
+                        {clubAssociation.description}
+                      </p>
+                    </div>
+                  )
+                )
+              ) : (
+                <div className="bg-white rounded-xl border border-gray-100 p-4 text-sm text-gray-500">
+                  No clubs or associations available.
+                </div>
+              )}
+
+              <Link
+                to="/clubs-associations"
                 className="inline-flex items-center mt-2 bg-[#37347C] text-white px-6 py-2 rounded-full text-sm hover:bg-[#2d2968] transition"
               >
                 View More →

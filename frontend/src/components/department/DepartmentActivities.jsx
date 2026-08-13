@@ -11,24 +11,16 @@ const DepartmentActivities = ({ departmentId }) => {
   const navigate = useNavigate();
 
   // =========================================================
-  // ACHIEVEMENTS STATE
+  // STATES
   // =========================================================
 
   const [achievements, setAchievements] = useState([]);
   const [achievementsLoading, setAchievementsLoading] =
     useState(false);
-
-  const [achievementIndex, setAchievementIndex] =
-    useState(0);
-
-  // =========================================================
-  // CLUBS & ASSOCIATIONS STATE
-  // =========================================================
+  const [achievementIndex, setAchievementIndex] = useState(0);
 
   const [clubs, setClubs] = useState([]);
-  const [clubsLoading, setClubsLoading] =
-    useState(false);
-
+  const [clubsLoading, setClubsLoading] = useState(false);
   const [clubIndex, setClubIndex] = useState(0);
 
   // =========================================================
@@ -47,18 +39,9 @@ const DepartmentActivities = ({ departmentId }) => {
         setAchievementIndex(0);
 
         const response =
-          await getAchievementsByDepartment(
-            departmentId
-          );
+          await getAchievementsByDepartment(departmentId);
 
-        console.log(
-          "Department achievements response:",
-          response
-        );
-
-        const achievementData = Array.isArray(
-          response?.data
-        )
+        const achievementData = Array.isArray(response?.data)
           ? response.data
           : [];
 
@@ -79,7 +62,7 @@ const DepartmentActivities = ({ departmentId }) => {
   }, [departmentId]);
 
   // =========================================================
-  // FETCH CLUBS & ASSOCIATIONS BY DEPARTMENT
+  // FETCH CLUBS & ASSOCIATIONS
   // =========================================================
 
   useEffect(() => {
@@ -94,18 +77,9 @@ const DepartmentActivities = ({ departmentId }) => {
         setClubIndex(0);
 
         const response =
-          await getClubAssociationsByDepartment(
-            departmentId
-          );
+          await getClubAssociationsByDepartment(departmentId);
 
-        console.log(
-          "Department clubs & associations response:",
-          response
-        );
-
-        const clubData = Array.isArray(
-          response?.data
-        )
+        const clubData = Array.isArray(response?.data)
           ? response.data
           : [];
 
@@ -134,12 +108,9 @@ const DepartmentActivities = ({ departmentId }) => {
 
     const interval = setInterval(() => {
       setAchievementIndex((prev) => {
-        const maxIndex =
-          achievements.length - 2;
+        const maxIndex = achievements.length - 2;
 
-        return prev >= maxIndex
-          ? 0
-          : prev + 1;
+        return prev >= maxIndex ? 0 : prev + 1;
       });
     }, 5000);
 
@@ -157,9 +128,7 @@ const DepartmentActivities = ({ departmentId }) => {
       setClubIndex((prev) => {
         const maxIndex = clubs.length - 2;
 
-        return prev >= maxIndex
-          ? 0
-          : prev + 1;
+        return prev >= maxIndex ? 0 : prev + 1;
       });
     }, 5000);
 
@@ -173,8 +142,7 @@ const DepartmentActivities = ({ departmentId }) => {
   const nextAchievement = () => {
     if (achievements.length <= 2) return;
 
-    const maxIndex =
-      achievements.length - 2;
+    const maxIndex = achievements.length - 2;
 
     setAchievementIndex((prev) =>
       prev >= maxIndex ? 0 : prev + 1
@@ -184,8 +152,7 @@ const DepartmentActivities = ({ departmentId }) => {
   const previousAchievement = () => {
     if (achievements.length <= 2) return;
 
-    const maxIndex =
-      achievements.length - 2;
+    const maxIndex = achievements.length - 2;
 
     setAchievementIndex((prev) =>
       prev <= 0 ? maxIndex : prev - 1
@@ -217,7 +184,7 @@ const DepartmentActivities = ({ departmentId }) => {
   };
 
   // =========================================================
-  // ACHIEVEMENT IMAGE
+  // IMAGES
   // =========================================================
 
   const getAchievementImage = (achievement) => {
@@ -227,10 +194,6 @@ const DepartmentActivities = ({ departmentId }) => {
     );
   };
 
-  // =========================================================
-  // CLUB IMAGE
-  // =========================================================
-
   const getClubImage = (club) => {
     return (
       club?.images?.[0]?.url ||
@@ -239,29 +202,24 @@ const DepartmentActivities = ({ departmentId }) => {
   };
 
   // =========================================================
-  // ACHIEVEMENT DATE
+  // DATE
   // =========================================================
 
   const formatAchievementDate = (date) => {
     if (!date) return "";
 
-    return new Date(date).toLocaleDateString(
-      "en-IN",
-      {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      }
-    );
+    return new Date(date).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
   };
 
   // =========================================================
-  // OPEN ACHIEVEMENT
+  // NAVIGATION
   // =========================================================
 
-  const handleAchievementClick = (
-    achievement
-  ) => {
+  const handleAchievementClick = (achievement) => {
     if (!achievement?._id) return;
 
     navigate(
@@ -269,16 +227,10 @@ const DepartmentActivities = ({ departmentId }) => {
     );
   };
 
-  // =========================================================
-  // OPEN CLUB / ASSOCIATION
-  // =========================================================
-
   const handleClubClick = (club) => {
     if (!club?._id) return;
 
-    navigate(
-      `/clubs-associations/${club._id}`
-    );
+    navigate(`/clubs-associations/${club._id}`);
   };
 
   // =========================================================
@@ -288,17 +240,13 @@ const DepartmentActivities = ({ departmentId }) => {
   return (
     <section className="py-12 border-b border-gray-200">
 
-      {/* =====================================================
-          ACHIEVEMENTS + CLUBS & ASSOCIATIONS
-      ====================================================== */}
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
         {/* ===================================================
             ACHIEVEMENTS
         ==================================================== */}
 
-        <div className="flex flex-col">
+        <div>
 
           {/* HEADER */}
 
@@ -318,12 +266,10 @@ const DepartmentActivities = ({ departmentId }) => {
           {/* LOADING */}
 
           {achievementsLoading && (
-            <div className="bg-white rounded-2xl border border-gray-200 h-[420px] flex items-center justify-center">
-
+            <div className="bg-white rounded-2xl border border-gray-200 h-[430px] flex items-center justify-center">
               <p className="text-gray-500">
                 Loading achievements...
               </p>
-
             </div>
           )}
 
@@ -331,13 +277,11 @@ const DepartmentActivities = ({ departmentId }) => {
 
           {!achievementsLoading &&
             achievements.length === 0 && (
-              <div className="bg-white rounded-2xl border border-gray-200 h-[420px] flex items-center justify-center">
-
+              <div className="bg-white rounded-2xl border border-gray-200 h-[430px] flex items-center justify-center">
                 <p className="text-gray-500 text-center px-6">
                   No achievements available for this
                   department.
                 </p>
-
               </div>
             )}
 
@@ -359,76 +303,75 @@ const DepartmentActivities = ({ departmentId }) => {
                     }}
                   >
 
-                    {achievements.map(
-                      (achievement) => (
+                    {achievements.map((achievement) => (
 
-                        <div
-                          key={achievement._id}
-                          onClick={() =>
-                            handleAchievementClick(
+                      <div
+                        key={achievement._id}
+                        onClick={() =>
+                          handleAchievementClick(
+                            achievement
+                          )
+                        }
+                        className="min-w-[calc(50%-10px)] h-[430px] bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col"
+                      >
+
+                        {/* IMAGE */}
+
+                        <div className="h-[180px] flex-shrink-0 overflow-hidden bg-gray-100">
+
+                          <img
+                            src={getAchievementImage(
                               achievement
-                            )
-                          }
-                          className="min-w-[calc(50%-10px)] bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
-                        >
-
-                          {/* IMAGE */}
-
-                          <div className="h-[190px] overflow-hidden bg-gray-100">
-
-                            <img
-                              src={getAchievementImage(
-                                achievement
-                              )}
-                              alt={
-                                achievement?.title ||
-                                "Achievement"
-                              }
-                              className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                              onError={(event) => {
-                                event.currentTarget.src =
-                                  "https://placehold.co/800x500?text=Achievement";
-                              }}
-                            />
-
-                          </div>
-
-                          {/* CONTENT */}
-
-                          <div className="p-5">
-
-                            <h3 className="text-lg font-bold text-[#2F2F6F] line-clamp-2">
-                              {achievement?.title}
-                            </h3>
-
-                            <p className="text-sm text-gray-600 mt-2 leading-6 line-clamp-3">
-                              {achievement?.description ||
-                                "Department achievement"}
-                            </p>
-
-                            {achievement?.category && (
-                              <p className="text-xs font-semibold text-[#E91E63] mt-4 uppercase">
-                                {achievement.category}
-                              </p>
                             )}
-
-                            {achievement?.date && (
-                              <p className="text-xs text-gray-500 mt-2">
-                                {formatAchievementDate(
-                                  achievement.date
-                                )}
-                              </p>
-                            )}
-
-                            <p className="text-xs font-semibold text-[#2F2F6F] mt-4">
-                              View More Details →
-                            </p>
-
-                          </div>
+                            alt={
+                              achievement?.title ||
+                              "Achievement"
+                            }
+                            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                            onError={(event) => {
+                              event.currentTarget.src =
+                                "https://placehold.co/800x500?text=Achievement";
+                            }}
+                          />
 
                         </div>
-                      )
-                    )}
+
+                        {/* CONTENT */}
+
+                        <div className="p-5 flex flex-col flex-1">
+
+                          <h3 className="text-lg font-bold text-[#2F2F6F] line-clamp-2">
+                            {achievement?.title}
+                          </h3>
+
+                          <p className="text-sm text-gray-600 mt-2 leading-6 line-clamp-3">
+                            {achievement?.description ||
+                              "Department achievement"}
+                          </p>
+
+                          {achievement?.category && (
+                            <p className="text-xs font-semibold text-[#E91E63] mt-4 uppercase">
+                              {achievement.category}
+                            </p>
+                          )}
+
+                          {achievement?.date && (
+                            <p className="text-xs text-gray-500 mt-2">
+                              {formatAchievementDate(
+                                achievement.date
+                              )}
+                            </p>
+                          )}
+
+                          <p className="text-xs font-semibold text-[#2F2F6F] mt-auto pt-4">
+                            View More Details →
+                          </p>
+
+                        </div>
+
+                      </div>
+
+                    ))}
 
                   </div>
 
@@ -441,7 +384,6 @@ const DepartmentActivities = ({ departmentId }) => {
                     type="button"
                     onClick={previousAchievement}
                     className="absolute left-2 top-[42%] -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 shadow-md text-[#2F2F6F] text-xl hover:bg-[#2F2F6F] hover:text-white transition z-10"
-                    aria-label="Previous achievement"
                   >
                     ←
                   </button>
@@ -454,7 +396,6 @@ const DepartmentActivities = ({ departmentId }) => {
                     type="button"
                     onClick={nextAchievement}
                     className="absolute right-2 top-[42%] -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 shadow-md text-[#2F2F6F] text-xl hover:bg-[#2F2F6F] hover:text-white transition z-10"
-                    aria-label="Next achievement"
                   >
                     →
                   </button>
@@ -466,25 +407,19 @@ const DepartmentActivities = ({ departmentId }) => {
                   <div className="flex justify-center gap-2 mt-5">
 
                     {Array.from({
-                      length:
-                        achievements.length - 1,
+                      length: achievements.length - 1,
                     }).map((_, index) => (
 
                       <button
                         type="button"
                         key={index}
                         onClick={() =>
-                          setAchievementIndex(
-                            index
-                          )
+                          setAchievementIndex(index)
                         }
                         className={`h-2.5 rounded-full transition-all ${
                           achievementIndex === index
                             ? "w-7 bg-[#2F2F6F]"
                             : "w-2.5 bg-gray-300"
-                        }`}
-                        aria-label={`Go to achievement ${
-                          index + 1
                         }`}
                       />
 
@@ -502,7 +437,7 @@ const DepartmentActivities = ({ departmentId }) => {
             CLUBS & ASSOCIATIONS
         ==================================================== */}
 
-        <div className="flex flex-col">
+        <div>
 
           {/* HEADER */}
 
@@ -519,27 +454,21 @@ const DepartmentActivities = ({ departmentId }) => {
 
           </div>
 
-          {/* =================================================
-              CLUB LOADING
-          ================================================== */}
+          {/* LOADING */}
 
           {clubsLoading && (
-            <div className="bg-white rounded-2xl border border-gray-200 h-[420px] flex items-center justify-center">
-
+            <div className="bg-white rounded-2xl border border-gray-200 h-[430px] flex items-center justify-center">
               <p className="text-gray-500">
                 Loading clubs and associations...
               </p>
-
             </div>
           )}
 
-          {/* =================================================
-              CLUB EMPTY
-          ================================================== */}
+          {/* EMPTY */}
 
           {!clubsLoading &&
             clubs.length === 0 && (
-              <div className="bg-white rounded-2xl border border-gray-200 h-[420px] flex items-center justify-center">
+              <div className="bg-white rounded-2xl border border-gray-200 h-[430px] flex items-center justify-center">
 
                 <div className="text-center px-6">
 
@@ -557,20 +486,14 @@ const DepartmentActivities = ({ departmentId }) => {
               </div>
             )}
 
-          {/* =================================================
-              CLUB CAROUSEL
-          ================================================== */}
+          {/* CLUB CAROUSEL */}
 
           {!clubsLoading &&
             clubs.length > 0 && (
 
               <div className="relative overflow-hidden">
 
-                {/* VIEWPORT */}
-
                 <div className="overflow-hidden">
-
-                  {/* SLIDING TRACK */}
 
                   <div
                     className="flex gap-5 transition-transform duration-700 ease-in-out"
@@ -588,12 +511,12 @@ const DepartmentActivities = ({ departmentId }) => {
                         onClick={() =>
                           handleClubClick(club)
                         }
-                        className="min-w-[calc(50%-10px)] bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
+                        className="min-w-[calc(50%-10px)] h-[430px] bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col"
                       >
 
                         {/* IMAGE */}
 
-                        <div className="h-[190px] overflow-hidden bg-gray-100">
+                        <div className="h-[180px] flex-shrink-0 overflow-hidden bg-gray-100">
 
                           <img
                             src={getClubImage(club)}
@@ -612,23 +535,17 @@ const DepartmentActivities = ({ departmentId }) => {
 
                         {/* CONTENT */}
 
-                        <div className="p-5">
-
-                          {/* TITLE */}
+                        <div className="p-5 flex flex-col flex-1">
 
                           <h3 className="text-lg font-bold text-[#2F2F6F] line-clamp-2">
                             {club?.title}
                           </h3>
 
-                          {/* DESCRIPTION */}
-
                           <p className="text-sm text-gray-600 mt-2 leading-6 line-clamp-3">
                             {club?.description}
                           </p>
 
-                          {/* VIEW DETAILS */}
-
-                          <p className="text-xs font-semibold text-[#2F2F6F] mt-4">
+                          <p className="text-xs font-semibold text-[#2F2F6F] mt-auto pt-4">
                             View More Details →
                           </p>
 
@@ -642,39 +559,31 @@ const DepartmentActivities = ({ departmentId }) => {
 
                 </div>
 
-                {/* =================================================
-                    PREVIOUS
-                ================================================== */}
+                {/* PREVIOUS */}
 
                 {clubs.length > 2 && (
                   <button
                     type="button"
                     onClick={previousClub}
                     className="absolute left-2 top-[42%] -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 shadow-md text-[#2F2F6F] text-xl hover:bg-[#2F2F6F] hover:text-white transition z-10"
-                    aria-label="Previous club"
                   >
                     ←
                   </button>
                 )}
 
-                {/* =================================================
-                    NEXT
-                ================================================== */}
+                {/* NEXT */}
 
                 {clubs.length > 2 && (
                   <button
                     type="button"
                     onClick={nextClub}
                     className="absolute right-2 top-[42%] -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 shadow-md text-[#2F2F6F] text-xl hover:bg-[#2F2F6F] hover:text-white transition z-10"
-                    aria-label="Next club"
                   >
                     →
                   </button>
                 )}
 
-                {/* =================================================
-                    DOTS
-                ================================================== */}
+                {/* DOTS */}
 
                 {clubs.length > 2 && (
                   <div className="flex justify-center gap-2 mt-5">
@@ -693,9 +602,6 @@ const DepartmentActivities = ({ departmentId }) => {
                           clubIndex === index
                             ? "w-7 bg-[#2F2F6F]"
                             : "w-2.5 bg-gray-300"
-                        }`}
-                        aria-label={`Go to club ${
-                          index + 1
                         }`}
                       />
 
