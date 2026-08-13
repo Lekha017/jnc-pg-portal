@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import AdminLayout from "../../components/Layout/AdminLayout";
+import AdminLayout from "../../components/layout/AdminLayout";
 import Loader from "../../components/common/Loader";
 import Toast from "../../components/common/Toast";
 

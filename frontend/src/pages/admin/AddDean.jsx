@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import AdminLayout from "../../components/Layout/AdminLayout";
+import AdminLayout from "../../components/layout/AdminLayout";
 import Toast from "../../components/common/Toast";
 
 import { addDean } from "../../services/deanService";
