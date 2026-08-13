@@ -93,7 +93,7 @@ import Careers from "../pages/Careers";
 import AddDepartment from "../pages/admin/AddDepartment";
 import EditDepartment from "../pages/admin/EditDepartment";
 import ManageDepartments from "../pages/admin/ManageDepartments";
-import ManageAcademics from "../pages/admin/programs/ManageAcademics";
+import ManageAcademics from "../pages/admin/Programs/ManageAcademics";
 
 import ManageEvents from "../pages/admin/ManageEvents";
 
