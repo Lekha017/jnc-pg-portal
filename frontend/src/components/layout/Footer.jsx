@@ -143,9 +143,12 @@ const Footer = () => {
 
           <ul className="mt-5 space-y-3 text-[13px] text-gray-300">
 
-            <li className="hover:text-white cursor-pointer">
-              <strong> › Career</strong>
-            </li>
+           <li
+  onClick={() => navigate("/careers")}
+  className="hover:text-white cursor-pointer"
+>
+  <strong> › Career</strong>
+</li>
 
             <li>
               <a
