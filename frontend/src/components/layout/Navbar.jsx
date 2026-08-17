@@ -437,10 +437,11 @@ function Navbar() {
 
             {userOpen && (
               <UserMenu
-                user={user}
-                navigate={navigate}
-                closeUserMenu={() => setUserOpen(false)}
-              />
+  user={user}
+  navigate={navigate}
+  closeUserMenu={() => setUserOpen(false)}
+  className="absolute right-0 top-full mt-2 w-60"
+/>
             )}
           </div>
         </div>
@@ -909,8 +910,11 @@ const UserMenu = ({
   user,
   navigate,
   closeUserMenu,
+  className = "",
 }) => (
-  <div className="w-full sm:w-60 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden">
+  <div
+    className={`${className} w-full sm:w-60 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden`}
+  >
     {user ? (
       <>
         <p className="px-4 py-3 text-sm text-gray-500 border-b">

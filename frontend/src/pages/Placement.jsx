@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
 import Navbar from "../components/layout/Navbar";
-
+import Footer from "../components/layout/Footer";
+import Header from "../components/layout/Header";
 import PlacementHero from "../components/placements/PlacementHero";
 import PlacementStats from "../components/placements/PlacementStats";
 import PlacementFilters from "../components/placements/PlacementFilters";
@@ -78,8 +79,8 @@ function Placement() {
 
   return (
     <>
+    <Header />
       <Navbar />
-
       <div className="bg-gray-50 min-h-screen">
 
         <PlacementHero />
@@ -118,7 +119,7 @@ function Placement() {
           </div>
 
         </div>
-
+<Footer />
       </div>
     </>
   );
