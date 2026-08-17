@@ -40,7 +40,7 @@ const FacultyDetails = () => {
 
       const response = await getFacultyById(id);
 
-setFaculty(response.data || response.faculty);
+      setFaculty(response.data || response.faculty);
     } catch (error) {
       console.error(error);
     } finally {
@@ -59,31 +59,31 @@ setFaculty(response.data || response.faculty);
 
   if (loading) {
     return (
-     <>
-  <Header />
-  <Navbar />
+      <>
+        <Header />
+        <Navbar />
 
-  <div className="max-w-7xl mx-auto py-20 text-center">
-    Loading Faculty...
-  </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center">
+          Loading Faculty...
+        </div>
 
-  <Footer />
-</>
+        <Footer />
+      </>
     );
   }
 
   if (!faculty) {
     return (
-     <>
-  <Header />
-  <Navbar />
+      <>
+        <Header />
+        <Navbar />
 
-  <div className="max-w-7xl mx-auto py-20 text-center">
-    Faculty not found.
-  </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center">
+          Faculty not found.
+        </div>
 
-  <Footer />
-</>
+        <Footer />
+      </>
     );
   }
 
@@ -96,16 +96,18 @@ setFaculty(response.data || response.faculty);
       <Header />
       <Navbar />
 
-      <section className="bg-[#f3f6fd] py-10">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="bg-[#f3f6fd] py-6 sm:py-8 lg:py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          <div className="grid lg:grid-cols-[260px_1fr] gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6 sm:gap-8">
 
             {/* LEFT */}
-            <FacultySidebar faculty={faculty} />
+            <div className="w-full min-w-0">
+              <FacultySidebar faculty={faculty} />
+            </div>
 
             {/* RIGHT */}
-            <div>
+            <div className="min-w-0">
 
               <FacultyHeader
                 faculty={faculty}
@@ -115,65 +117,79 @@ setFaculty(response.data || response.faculty);
                 }
               />
 
-              <div className="mt-8 space-y-5">
+              <div className="mt-6 sm:mt-8 space-y-4 sm:space-y-5">
 
                 {faculty.bio?.trim() && (
                   <FacultyAccordion title="About">
-                    <AboutSection bio={faculty.bio} />
+                    <div className="w-full min-w-0">
+                      <AboutSection bio={faculty.bio} />
+                    </div>
                   </FacultyAccordion>
                 )}
 
                 {faculty.researchInterests?.length > 0 && (
                   <FacultyAccordion title="Research Interests">
-                    <ResearchInterestSection
-                      researchInterests={faculty.researchInterests}
-                    />
+                    <div className="w-full min-w-0">
+                      <ResearchInterestSection
+                        researchInterests={faculty.researchInterests}
+                      />
+                    </div>
                   </FacultyAccordion>
                 )}
 
                 {faculty.structuredPublications?.length > 0 && (
                   <FacultyAccordion title="Publications">
-                    <PublicationTable
-                      publications={faculty.structuredPublications}
-                    />
+                    <div className="w-full min-w-0 overflow-x-auto">
+                      <PublicationTable
+                        publications={faculty.structuredPublications}
+                      />
+                    </div>
                   </FacultyAccordion>
                 )}
 
                 {faculty.structuredConferencePublications?.length > 0 && (
                   <FacultyAccordion title="Conference Publications">
-                    <ConferencePublicationTable
-                      conferencePublications={
-                        faculty.structuredConferencePublications
-                      }
-                    />
+                    <div className="w-full min-w-0 overflow-x-auto">
+                      <ConferencePublicationTable
+                        conferencePublications={
+                          faculty.structuredConferencePublications
+                        }
+                      />
+                    </div>
                   </FacultyAccordion>
                 )}
 
                 {faculty.structuredPapersPresented?.length > 0 && (
                   <FacultyAccordion title="Paper Presentations">
-                    <PaperPresentationTable
-                      paperPresentations={
-                        faculty.structuredPapersPresented
-                      }
-                    />
+                    <div className="w-full min-w-0 overflow-x-auto">
+                      <PaperPresentationTable
+                        paperPresentations={
+                          faculty.structuredPapersPresented
+                        }
+                      />
+                    </div>
                   </FacultyAccordion>
                 )}
 
                 {faculty.structuredAwards?.length > 0 && (
                   <FacultyAccordion title="Awards">
-                    <AwardTable
-                      awards={faculty.structuredAwards}
-                    />
+                    <div className="w-full min-w-0 overflow-x-auto">
+                      <AwardTable
+                        awards={faculty.structuredAwards}
+                      />
+                    </div>
                   </FacultyAccordion>
                 )}
 
                 {faculty.structuredMemberships?.length > 0 && (
                   <FacultyAccordion title="Professional Memberships">
-                    <MembershipTable
-                      memberships={
-                        faculty.structuredMemberships
-                      }
-                    />
+                    <div className="w-full min-w-0 overflow-x-auto">
+                      <MembershipTable
+                        memberships={
+                          faculty.structuredMemberships
+                        }
+                      />
+                    </div>
                   </FacultyAccordion>
                 )}
 
@@ -185,7 +201,8 @@ setFaculty(response.data || response.faculty);
 
         </div>
       </section>
-       <Footer />
+
+      <Footer />
     </>
   );
 };

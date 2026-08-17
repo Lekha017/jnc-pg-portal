@@ -224,16 +224,14 @@ const Footer = () => {
           >
 
 
-            <li className="hover:text-white cursor-pointer transition">
-              <strong>› Career</strong>
-            </li>
 
-           <li
-  onClick={() => navigate("/careers")}
-  className="hover:text-white cursor-pointer"
->
-  <strong> › Career</strong>
-</li>
+
+            <li
+              onClick={() => navigate("/careers")}
+              className="hover:text-white cursor-pointer"
+            >
+              <strong> › Career</strong>
+            </li>
 
 
             <li>
