@@ -9,18 +9,18 @@ export default function OnlinePayment() {
       <Navbar />
 
       {/* Hero */}
-      <section className="bg-[#2F2F6F] py-16">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-5xl font-bold text-white">
+      <section className="bg-[#2F2F6F] py-10 sm:py-12 md:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">
             ONLINE PAYMENT PORTAL
           </h1>
         </div>
       </section>
 
       {/* Content */}
-      <section className="bg-white py-16">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="space-y-10 text-[18px] leading-9 text-justify text-gray-600">
+      <section className="bg-white py-10 sm:py-12 md:py-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="space-y-8 sm:space-y-10 text-base sm:text-[17px] md:text-[18px] leading-7 sm:leading-8 md:leading-9 text-justify text-gray-600">
 
             <p>
               Detailed instructions are given on the login page of the web
@@ -64,7 +64,7 @@ export default function OnlinePayment() {
             </p>
 
             <div>
-              <h2 className="text-3xl font-bold text-[#2F2F6F] mb-6">
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#2F2F6F] mb-4 sm:mb-6">
                 Privacy Policy
               </h2>
 
@@ -78,7 +78,7 @@ export default function OnlinePayment() {
             </div>
 
             <div>
-              <h2 className="text-3xl font-bold text-[#2F2F6F] mb-6">
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#2F2F6F] mb-4 sm:mb-6">
                 Cancellation / Refund Policy
               </h2>
 
@@ -108,7 +108,7 @@ export default function OnlinePayment() {
             </div>
 
             <div>
-              <h2 className="text-3xl font-bold text-[#2F2F6F] mb-6">
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#2F2F6F] mb-4 sm:mb-6">
                 Disclaimer
               </h2>
 

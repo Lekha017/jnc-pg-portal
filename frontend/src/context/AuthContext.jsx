@@ -5,7 +5,10 @@ import {
   useState,
 } from "react";
 
-import { getProfile } from "../services/authService";
+import {
+  getProfile,
+  logoutUser,
+} from "../services/authService";
 
 const AuthContext = createContext();
 
@@ -13,7 +16,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Check logged-in user
   const checkAuth = async () => {
     try {
       setLoading(true);
@@ -32,14 +34,23 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  // Refresh user after login
   const login = async () => {
     await checkAuth();
   };
 
-  // Clear user after logout
-  const logout = () => {
-    setUser(null);
+  const logout = async () => {
+    try {
+      // Tell backend to clear JWT cookie
+      await logoutUser();
+
+      // Clear frontend authentication state
+      setUser(null);
+    } catch (error) {
+      console.error("Logout failed:", error);
+
+      // Still clear frontend state
+      setUser(null);
+    }
   };
 
   return (

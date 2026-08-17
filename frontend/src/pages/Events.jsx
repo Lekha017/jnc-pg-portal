@@ -49,8 +49,6 @@ function Events() {
             ] = await Promise.all([
                 getUpcomingEvents(departmentId),
                 getOngoingEvents(departmentId),
-
-                // Gallery remains unchanged for now
                 getPublishedGalleries(),
             ]);
 
@@ -74,7 +72,6 @@ function Events() {
 
             setUpcomingEvents([]);
             setOngoingEvents([]);
-
         } finally {
             setLoading(false);
         }
@@ -100,16 +97,16 @@ function Events() {
         <>
             <Navbar />
 
-            <section className="bg-gray-50 min-h-screen pb-20">
+            <section className="w-full min-h-screen bg-gray-50 pb-12 sm:pb-16 lg:pb-20 overflow-x-hidden">
 
                 {/* =========================
                     HERO
                 ========================= */}
-                <div className="bg-[#1F1A52] text-white py-16">
-                    <div className="max-w-7xl mx-auto px-6">
+                <div className="w-full bg-[#1F1A52] text-white py-10 sm:py-12 lg:py-16">
+                    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
                         <h1
-                            className="text-5xl font-bold"
+                            className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight"
                             style={{
                                 fontFamily:
                                     "Georgia, serif",
@@ -118,7 +115,7 @@ function Events() {
                             Events
                         </h1>
 
-                        <p className="mt-4 text-lg text-gray-200 max-w-2xl">
+                        <p className="mt-3 sm:mt-4 text-sm sm:text-base lg:text-lg text-gray-200 max-w-2xl leading-relaxed">
                             Stay updated with upcoming
                             events, seminars, conferences,
                             workshops and explore memorable
@@ -130,257 +127,265 @@ function Events() {
 
 
                 {/* =========================
-                    TABS
+                    MAIN CONTENT
                 ========================= */}
-                <div className="max-w-7xl mx-auto px-6 mt-10">
-
-                    <div className="flex flex-wrap gap-4 border-b pb-4">
-
-                        {/* Upcoming */}
-                        <button
-                            type="button"
-                            onClick={() =>
-                                setActiveTab(
-                                    "upcoming"
-                                )
-                            }
-                            className={`px-6 py-3 rounded-full font-medium transition ${
-                                activeTab === "upcoming"
-                                    ? "bg-[#1F1A52] text-white"
-                                    : "bg-white border hover:bg-gray-100"
-                            }`}
-                        >
-                            Upcoming Events
-                        </button>
-
-
-                        {/* Ongoing */}
-                        <button
-                            type="button"
-                            onClick={() =>
-                                setActiveTab(
-                                    "ongoing"
-                                )
-                            }
-                            className={`px-6 py-3 rounded-full font-medium transition ${
-                                activeTab === "ongoing"
-                                    ? "bg-[#1F1A52] text-white"
-                                    : "bg-white border hover:bg-gray-100"
-                            }`}
-                        >
-                            Ongoing Events
-                        </button>
-
-
-                        {/* Gallery */}
-                        <button
-                            type="button"
-                            onClick={() =>
-                                setActiveTab(
-                                    "gallery"
-                                )
-                            }
-                            className={`px-6 py-3 rounded-full font-medium transition ${
-                                activeTab === "gallery"
-                                    ? "bg-[#1F1A52] text-white"
-                                    : "bg-white border hover:bg-gray-100"
-                            }`}
-                        >
-                            Event Gallery
-                        </button>
-
-                    </div>
-
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
                     {/* =========================
-                        CONTENT
+                        TABS
                     ========================= */}
-                    <div className="mt-10">
+                    <div className="mt-6 sm:mt-8 lg:mt-10">
 
-                        {/* Loading */}
-                        {loading && (
-                            <div className="bg-white rounded-xl shadow p-12 text-center">
+                        <div className="flex flex-wrap gap-2 sm:gap-3 lg:gap-4 border-b pb-3 sm:pb-4">
 
-                                <h2 className="text-2xl font-semibold">
-                                    Loading...
-                                </h2>
+                            {/* Upcoming */}
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    setActiveTab(
+                                        "upcoming"
+                                    )
+                                }
+                                className={`px-4 sm:px-5 lg:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-medium transition whitespace-nowrap ${
+                                    activeTab === "upcoming"
+                                        ? "bg-[#1F1A52] text-white"
+                                        : "bg-white border hover:bg-gray-100"
+                                }`}
+                            >
+                                Upcoming Events
+                            </button>
 
-                            </div>
-                        )}
+
+                            {/* Ongoing */}
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    setActiveTab(
+                                        "ongoing"
+                                    )
+                                }
+                                className={`px-4 sm:px-5 lg:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-medium transition whitespace-nowrap ${
+                                    activeTab === "ongoing"
+                                        ? "bg-[#1F1A52] text-white"
+                                        : "bg-white border hover:bg-gray-100"
+                                }`}
+                            >
+                                Ongoing Events
+                            </button>
+
+
+                            {/* Gallery */}
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    setActiveTab(
+                                        "gallery"
+                                    )
+                                }
+                                className={`px-4 sm:px-5 lg:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-medium transition whitespace-nowrap ${
+                                    activeTab === "gallery"
+                                        ? "bg-[#1F1A52] text-white"
+                                        : "bg-white border hover:bg-gray-100"
+                                }`}
+                            >
+                                Event Gallery
+                            </button>
+
+                        </div>
 
 
                         {/* =========================
-                            UPCOMING EVENTS
+                            CONTENT
                         ========================= */}
-                        {!loading &&
-                            activeTab ===
-                                "upcoming" && (
-                                <>
-                                    {upcomingEvents.length ===
-                                    0 ? (
-                                        <div className="bg-white rounded-xl shadow p-12 text-center">
+                        <div className="mt-6 sm:mt-8 lg:mt-10">
 
-                                            <h2 className="text-2xl font-semibold text-[#1F1A52]">
-                                                No Upcoming
-                                                Events
-                                            </h2>
+                            {/* =========================
+                                LOADING
+                            ========================= */}
+                            {loading && (
+                                <div className="w-full bg-white rounded-xl shadow p-8 sm:p-10 lg:p-12 text-center">
 
-                                            {departmentId && (
-                                                <p className="mt-3 text-gray-500">
-                                                    No upcoming
-                                                    events are
-                                                    available
-                                                    for this
-                                                    department.
+                                    <h2 className="text-xl sm:text-2xl font-semibold">
+                                        Loading...
+                                    </h2>
+
+                                </div>
+                            )}
+
+
+                            {/* =========================
+                                UPCOMING EVENTS
+                            ========================= */}
+                            {!loading &&
+                                activeTab ===
+                                    "upcoming" && (
+                                    <>
+                                        {upcomingEvents.length ===
+                                        0 ? (
+                                            <div className="w-full bg-white rounded-xl shadow p-6 sm:p-8 lg:p-12 text-center">
+
+                                                <h2 className="text-xl sm:text-2xl font-semibold text-[#1F1A52]">
+                                                    No Upcoming
+                                                    Events
+                                                </h2>
+
+                                                {departmentId && (
+                                                    <p className="mt-2 sm:mt-3 text-sm sm:text-base text-gray-500 leading-relaxed">
+                                                        No upcoming
+                                                        events are
+                                                        available
+                                                        for this
+                                                        department.
+                                                    </p>
+                                                )}
+
+                                            </div>
+                                        ) : (
+                                            <div className="w-full space-y-6 sm:space-y-8">
+
+                                                {upcomingEvents.map(
+                                                    (event) => (
+                                                        <EventCard
+                                                            key={
+                                                                event._id
+                                                            }
+                                                            event={
+                                                                event
+                                                            }
+                                                            onImageClick={(
+                                                                images,
+                                                                index
+                                                            ) =>
+                                                                openModal(
+                                                                    images,
+                                                                    index,
+                                                                    event.title
+                                                                )
+                                                            }
+                                                        />
+                                                    )
+                                                )}
+
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+
+
+                            {/* =========================
+                                ONGOING EVENTS
+                            ========================= */}
+                            {!loading &&
+                                activeTab ===
+                                    "ongoing" && (
+                                    <>
+                                        {ongoingEvents.length ===
+                                        0 ? (
+                                            <div className="w-full bg-white rounded-xl shadow p-6 sm:p-8 lg:p-12 text-center">
+
+                                                <h2 className="text-xl sm:text-2xl font-semibold text-[#1F1A52]">
+                                                    No Ongoing
+                                                    Events
+                                                </h2>
+
+                                                {departmentId && (
+                                                    <p className="mt-2 sm:mt-3 text-sm sm:text-base text-gray-500 leading-relaxed">
+                                                        No ongoing
+                                                        events are
+                                                        available
+                                                        for this
+                                                        department.
+                                                    </p>
+                                                )}
+
+                                            </div>
+                                        ) : (
+                                            <div className="w-full space-y-6 sm:space-y-8">
+
+                                                {ongoingEvents.map(
+                                                    (event) => (
+                                                        <EventCard
+                                                            key={
+                                                                event._id
+                                                            }
+                                                            event={
+                                                                event
+                                                            }
+                                                            onImageClick={(
+                                                                images,
+                                                                index
+                                                            ) =>
+                                                                openModal(
+                                                                    images,
+                                                                    index,
+                                                                    event.title
+                                                                )
+                                                            }
+                                                        />
+                                                    )
+                                                )}
+
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+
+
+                            {/* =========================
+                                EVENT GALLERY
+                            ========================= */}
+                            {!loading &&
+                                activeTab ===
+                                    "gallery" && (
+                                    <>
+                                        {galleries.length ===
+                                        0 ? (
+                                            <div className="w-full bg-white rounded-xl shadow p-6 sm:p-8 lg:p-12 text-center">
+
+                                                <h2 className="text-xl sm:text-2xl font-semibold text-[#1F1A52]">
+                                                    No Galleries
+                                                    Available
+                                                </h2>
+
+                                                <p className="mt-2 sm:mt-3 text-sm sm:text-base text-gray-600 leading-relaxed">
+                                                    Event galleries
+                                                    will appear
+                                                    here.
                                                 </p>
-                                            )}
 
-                                        </div>
-                                    ) : (
-                                        <div className="space-y-8">
+                                            </div>
+                                        ) : (
+                                            <div className="w-full space-y-6 sm:space-y-8">
 
-                                            {upcomingEvents.map(
-                                                (event) => (
-                                                    <EventCard
-                                                        key={
-                                                            event._id
-                                                        }
-                                                        event={
-                                                            event
-                                                        }
-                                                        onImageClick={(
-                                                            images,
-                                                            index
-                                                        ) =>
-                                                            openModal(
+                                                {galleries.map(
+                                                    (gallery) => (
+                                                        <GalleryCard
+                                                            key={
+                                                                gallery._id
+                                                            }
+                                                            gallery={
+                                                                gallery
+                                                            }
+                                                            onImageClick={(
                                                                 images,
-                                                                index,
-                                                                event.title
-                                                            )
-                                                        }
-                                                    />
-                                                )
-                                            )}
+                                                                index
+                                                            ) =>
+                                                                openModal(
+                                                                    images,
+                                                                    index,
+                                                                    gallery.title
+                                                                )
+                                                            }
+                                                        />
+                                                    )
+                                                )}
 
-                                        </div>
-                                    )}
-                                </>
-                            )}
+                                            </div>
+                                        )}
+                                    </>
+                                )}
 
-
-                        {/* =========================
-                            ONGOING EVENTS
-                        ========================= */}
-                        {!loading &&
-                            activeTab ===
-                                "ongoing" && (
-                                <>
-                                    {ongoingEvents.length ===
-                                    0 ? (
-                                        <div className="bg-white rounded-xl shadow p-12 text-center">
-
-                                            <h2 className="text-2xl font-semibold text-[#1F1A52]">
-                                                No Ongoing
-                                                Events
-                                            </h2>
-
-                                            {departmentId && (
-                                                <p className="mt-3 text-gray-500">
-                                                    No ongoing
-                                                    events are
-                                                    available
-                                                    for this
-                                                    department.
-                                                </p>
-                                            )}
-
-                                        </div>
-                                    ) : (
-                                        <div className="space-y-8">
-
-                                            {ongoingEvents.map(
-                                                (event) => (
-                                                    <EventCard
-                                                        key={
-                                                            event._id
-                                                        }
-                                                        event={
-                                                            event
-                                                        }
-                                                        onImageClick={(
-                                                            images,
-                                                            index
-                                                        ) =>
-                                                            openModal(
-                                                                images,
-                                                                index,
-                                                                event.title
-                                                            )
-                                                        }
-                                                    />
-                                                )
-                                            )}
-
-                                        </div>
-                                    )}
-                                </>
-                            )}
-
-
-                        {/* =========================
-                            EVENT GALLERY
-                        ========================= */}
-                        {!loading &&
-                            activeTab ===
-                                "gallery" && (
-                                <>
-                                    {galleries.length ===
-                                    0 ? (
-                                        <div className="bg-white rounded-xl shadow p-12 text-center">
-
-                                            <h2 className="text-2xl font-semibold text-[#1F1A52]">
-                                                No Galleries
-                                                Available
-                                            </h2>
-
-                                            <p className="mt-3 text-gray-600">
-                                                Event galleries
-                                                will appear
-                                                here.
-                                            </p>
-
-                                        </div>
-                                    ) : (
-                                        <div className="space-y-8">
-
-                                            {galleries.map(
-                                                (gallery) => (
-                                                    <GalleryCard
-                                                        key={
-                                                            gallery._id
-                                                        }
-                                                        gallery={
-                                                            gallery
-                                                        }
-                                                        onImageClick={(
-                                                            images,
-                                                            index
-                                                        ) =>
-                                                            openModal(
-                                                                images,
-                                                                index,
-                                                                gallery.title
-                                                            )
-                                                        }
-                                                    />
-                                                )
-                                            )}
-
-                                        </div>
-                                    )}
-                                </>
-                            )}
-
+                        </div>
                     </div>
                 </div>
 

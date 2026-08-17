@@ -11,39 +11,63 @@ import DepartmentSlider from "../components/home/DepartmentSlider";
 
 function Home() {
   return (
-    <>
+    <div className="w-full min-h-screen overflow-x-hidden">
       <Header />
       <Navbar />
 
+      {/* =========================
+          HERO
+      ========================= */}
       <HeroSlider />
 
+      {/* =========================
+          ABOUT PG CENTRE
+      ========================= */}
       <AboutPGCentre />
 
-      {/* Principal Message + Events + Placements */}
-      <section className="bg-white py-12">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col lg:flex-row items-start gap-10">
+      {/* =========================
+          PRINCIPAL + EVENTS + PLACEMENTS
+      ========================= */}
+      <section className="w-full bg-white py-8 sm:py-10 lg:py-12">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Left Side */}
-          <div className="w-full lg:w-[500px] flex-shrink-0">
-            <PrincipalMessage />
-          </div>
+          <div className="flex flex-col lg:flex-row items-start gap-6 sm:gap-8 lg:gap-10">
 
-          {/* Right Side */}
-          <div className="flex-1 flex flex-col gap-6">
-            <EventsAnnouncements />
-            <PlacementPreview />
+            {/* =========================
+                LEFT - PRINCIPAL MESSAGE
+            ========================= */}
+            <div className="w-full lg:w-[500px] lg:flex-shrink-0">
+              <PrincipalMessage />
+            </div>
+
+            {/* =========================
+                RIGHT - EVENTS + PLACEMENTS
+            ========================= */}
+            <div className="w-full lg:flex-1 flex flex-col gap-5 sm:gap-6">
+              <EventsAnnouncements />
+              <PlacementPreview />
+            </div>
+
           </div>
 
         </div>
       </section>
 
+      {/* =========================
+          DEPARTMENTS
+      ========================= */}
       <DepartmentSlider />
 
-      {/* Location */}
+      {/* =========================
+          LOCATION
+      ========================= */}
       <LocationMap />
 
+      {/* =========================
+          FOOTER
+      ========================= */}
       <Footer />
-    </>
+    </div>
   );
 }
 

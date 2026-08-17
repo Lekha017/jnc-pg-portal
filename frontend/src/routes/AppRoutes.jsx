@@ -323,9 +323,7 @@ const AppRoutes = () => {
       <Route
         path="/library"
         element={
-          <ProtectedRoute>
             <Library />
-          </ProtectedRoute>
         }
       />
 

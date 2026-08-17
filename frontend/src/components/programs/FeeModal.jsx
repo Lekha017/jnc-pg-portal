@@ -40,70 +40,268 @@ function FeeModal({
   if (!isOpen || !program) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+    <div
+      className="
+        fixed
+        inset-0
+        z-50
 
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden">
+        bg-black/50
 
-        {/* Header */}
+        flex
+        items-center
+        justify-center
 
-        <div className="bg-[#2D2A70] text-white px-6 py-4 flex items-center justify-between">
+        p-3
+        sm:p-4
+      "
+    >
 
-          <div>
+      {/* =========================
+          MODAL
+      ========================= */}
 
-            <h2 className="text-2xl font-bold">
+      <div
+        className="
+          bg-white
+          rounded-xl
+          sm:rounded-2xl
+          shadow-2xl
+
+          w-full
+
+          max-w-[95vw]
+          sm:max-w-xl
+          md:max-w-2xl
+          lg:max-w-3xl
+
+          max-h-[90vh]
+
+          overflow-hidden
+
+          flex
+          flex-col
+        "
+      >
+
+        {/* =========================
+            HEADER
+        ========================= */}
+
+        <div
+          className="
+            bg-[#2D2A70]
+            text-white
+
+            px-4
+            sm:px-6
+
+            py-3
+            sm:py-4
+
+            flex
+            items-center
+            justify-between
+
+            gap-3
+          "
+        >
+
+          {/* Title */}
+
+          <div className="min-w-0">
+
+            <h2
+              className="
+                text-lg
+                sm:text-xl
+                md:text-2xl
+
+                font-bold
+
+                leading-tight
+              "
+            >
               Fee Structure
             </h2>
 
-            <p className="text-sm text-gray-200 mt-1">
+            <p
+              className="
+                text-xs
+                sm:text-sm
+
+                text-gray-200
+
+                mt-1
+
+                truncate
+                max-w-[220px]
+                sm:max-w-[400px]
+                md:max-w-[500px]
+              "
+            >
               {program.programName}
             </p>
 
           </div>
 
+          {/* Close Icon */}
+
           <button
+            type="button"
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-white/20 transition"
+            aria-label="Close"
+            className="
+              flex-shrink-0
+
+              p-1.5
+              sm:p-2
+
+              rounded-full
+
+              hover:bg-white/20
+
+              transition
+            "
           >
-            <X size={22} />
+            <X
+              size={20}
+              className="sm:w-[22px] sm:h-[22px]"
+            />
           </button>
 
         </div>
 
-        {/* Body */}
+        {/* =========================
+            BODY
+        ========================= */}
 
-        <div className="p-6">
+        <div
+          className="
+            p-4
+            sm:p-6
+
+            overflow-y-auto
+          "
+        >
+
+          {/* =========================
+              LOADING
+          ========================= */}
 
           {loading ? (
 
-            <div className="py-10 text-center text-gray-600">
+            <div
+              className="
+                py-8
+                sm:py-10
+
+                text-center
+
+                text-sm
+                sm:text-base
+
+                text-gray-600
+              "
+            >
               Loading Fee Structure...
             </div>
 
           ) : fees.length === 0 ? (
 
-            <div className="py-10 text-center text-gray-500">
+            /* =========================
+                NO FEES
+            ========================= */
+
+            <div
+              className="
+                py-8
+                sm:py-10
+
+                text-center
+
+                text-sm
+                sm:text-base
+
+                text-gray-500
+              "
+            >
               No Fee Structure Available
             </div>
 
           ) : (
 
-            <div className="overflow-x-auto">
+            /* =========================
+                TABLE
+            ========================= */
 
-              <table className="w-full border-collapse">
+            <div className="w-full overflow-x-auto">
+
+              <table
+                className="
+                  w-full
+                  min-w-[500px]
+                  border-collapse
+                  text-sm
+                  sm:text-base
+                "
+              >
 
                 <thead>
 
                   <tr className="bg-gray-100">
 
-                    <th className="border px-4 py-3 text-left">
+                    <th
+                      className="
+                        border
+
+                        px-3
+                        sm:px-4
+
+                        py-2.5
+                        sm:py-3
+
+                        text-left
+
+                        whitespace-nowrap
+                      "
+                    >
                       Academic Year
                     </th>
 
-                    <th className="border px-4 py-3 text-center">
+                    <th
+                      className="
+                        border
+
+                        px-3
+                        sm:px-4
+
+                        py-2.5
+                        sm:py-3
+
+                        text-center
+
+                        whitespace-nowrap
+                      "
+                    >
                       Karnataka
                     </th>
 
-                    <th className="border px-4 py-3 text-center">
+                    <th
+                      className="
+                        border
+
+                        px-3
+                        sm:px-4
+
+                        py-2.5
+                        sm:py-3
+
+                        text-center
+
+                        whitespace-nowrap
+                      "
+                    >
                       Other States
                     </th>
 
@@ -117,20 +315,71 @@ function FeeModal({
 
                     <tr
                       key={fee._id}
-                      className="hover:bg-gray-50"
+                      className="
+                        hover:bg-gray-50
+                        transition
+                      "
                     >
 
-                      <td className="border px-4 py-3 font-medium">
+                      {/* Academic Year */}
+
+                      <td
+                        className="
+                          border
+
+                          px-3
+                          sm:px-4
+
+                          py-2.5
+                          sm:py-3
+
+                          font-medium
+
+                          whitespace-nowrap
+                        "
+                      >
                         {fee.year}
                       </td>
 
-                      <td className="border px-4 py-3 text-center">
+                      {/* Karnataka */}
+
+                      <td
+                        className="
+                          border
+
+                          px-3
+                          sm:px-4
+
+                          py-2.5
+                          sm:py-3
+
+                          text-center
+
+                          whitespace-nowrap
+                        "
+                      >
                         ₹
                         {fee.insideKarnatakaFee?.toLocaleString() ||
                           "0"}
                       </td>
 
-                      <td className="border px-4 py-3 text-center">
+                      {/* Other States */}
+
+                      <td
+                        className="
+                          border
+
+                          px-3
+                          sm:px-4
+
+                          py-2.5
+                          sm:py-3
+
+                          text-center
+
+                          whitespace-nowrap
+                        "
+                      >
                         ₹
                         {fee.outsideKarnatakaFee?.toLocaleString() ||
                           "0"}
@@ -148,11 +397,44 @@ function FeeModal({
 
           )}
 
-          <div className="mt-6 flex justify-end">
+          {/* =========================
+              CLOSE BUTTON
+          ========================= */}
+
+          <div
+            className="
+              mt-5
+              sm:mt-6
+
+              flex
+              justify-end
+            "
+          >
 
             <button
+              type="button"
               onClick={onClose}
-              className="bg-[#2D2A70] hover:bg-[#221f59] text-white px-6 py-2 rounded-xl transition"
+              className="
+                bg-[#2D2A70]
+                hover:bg-[#221f59]
+
+                text-white
+
+                px-5
+                sm:px-6
+
+                py-2
+
+                rounded-xl
+
+                text-sm
+                sm:text-base
+
+                transition
+
+                w-full
+                sm:w-auto
+              "
             >
               Close
             </button>

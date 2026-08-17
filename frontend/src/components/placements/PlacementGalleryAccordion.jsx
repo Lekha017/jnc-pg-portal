@@ -7,14 +7,14 @@ const PlacementGalleryAccordion = ({ galleries = [] }) => {
 
   if (!galleries.length) {
     return (
-      <div className="text-center py-16 text-gray-500">
+      <div className="text-center py-12 sm:py-16 text-gray-500">
         No Gallery Available
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-5 sm:space-y-8">
       {galleries.map((gallery, index) => (
         <div
           key={gallery._id}
@@ -30,38 +30,44 @@ const PlacementGalleryAccordion = ({ galleries = [] }) => {
               bg-gray-200
               hover:bg-gray-300
               text-[#2D2A70]
-              px-6
+              px-4
+              sm:px-6
               py-3
+              sm:py-4
               flex
               items-center
               justify-between
+              gap-3
+              text-left
               transition
             "
           >
-            <span className="text-xl font-semibold">
+            <span className="text-base sm:text-xl font-semibold leading-6 sm:leading-7">
               {gallery.title}
             </span>
 
             {openIndex === index ? (
-              <ChevronUp size={22} />
+              <ChevronUp size={22} className="shrink-0" />
             ) : (
-              <ChevronDown size={22} />
+              <ChevronDown size={22} className="shrink-0" />
             )}
           </button>
 
           {/* Body */}
           {openIndex === index && (
-            <div className="bg-[#F4F6FB] px-8 py-8">
+            <div className="bg-[#F4F6FB] px-4 sm:px-6 md:px-8 py-5 sm:py-6 md:py-8">
 
               {gallery.description && (
-                <p className="text-gray-700 leading-7 mb-3">
+                <p className="text-sm sm:text-base text-gray-700 leading-6 sm:leading-7 mb-3">
                   {gallery.description}
                 </p>
               )}
 
               {gallery.eventDate && (
-                <p className="text-sm text-gray-500 mb-8">
-                  {new Date(gallery.eventDate).toLocaleDateString()}
+                <p className="text-xs sm:text-sm text-gray-500 mb-5 sm:mb-8">
+                  {new Date(
+                    gallery.eventDate
+                  ).toLocaleDateString()}
                 </p>
               )}
 

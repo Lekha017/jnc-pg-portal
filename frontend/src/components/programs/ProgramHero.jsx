@@ -18,47 +18,137 @@ function ProgramHero({ details }) {
     };
 
     return (
-        <section className="relative w-full h-[450px] overflow-hidden">
+        <section
+            className="
+                relative
+                w-full
+                h-[320px]
+                sm:h-[380px]
+                md:h-[420px]
+                lg:h-[450px]
+                overflow-hidden
+            "
+        >
 
-            {/* Background Image */}
+            {/* =========================
+                BACKGROUND IMAGE
+            ========================= */}
+
             <img
                 src={
                     details?.heroImage ||
                     "https://images.unsplash.com/photo-1523050854058-8df90110c9f1"
                 }
-                alt={details?.degreeTitle}
-                className="w-full h-full object-cover"
+                alt={details?.degreeTitle || "Programme"}
+                className="
+                    w-full
+                    h-full
+                    object-cover
+                "
             />
 
-            {/* Overlay */}
+            {/* =========================
+                OVERLAY
+            ========================= */}
+
             <div className="absolute inset-0 bg-black/45" />
 
-            {/* Content */}
+            {/* =========================
+                CONTENT
+            ========================= */}
+
             <div className="absolute inset-0 flex items-center">
 
-                <div className="max-w-6xl mx-auto w-full px-8">
+                <div
+                    className="
+                        w-full
+                        max-w-6xl
+                        mx-auto
 
-                    <h1 className="text-white text-5xl lg:text-6xl font-bold">
+                        px-5
+                        sm:px-6
+                        md:px-8
+                        lg:px-8
+                    "
+                >
+
+                    {/* Programme Name */}
+
+                    <h1
+                        className="
+                            text-white
+                            font-bold
+
+                            text-3xl
+                            sm:text-4xl
+                            md:text-5xl
+                            lg:text-6xl
+
+                            leading-tight
+
+                            max-w-4xl
+
+                            break-words
+                        "
+                    >
                         {details?.degreeTitle}
                     </h1>
 
-                    <p className="text-white/90 text-xl mt-4">
+                    {/* Department */}
+
+                    <p
+                        className="
+                            text-white/90
+
+                            text-base
+                            sm:text-lg
+                            md:text-xl
+
+                            mt-3
+                            sm:mt-4
+
+                            max-w-2xl
+
+                            break-words
+                        "
+                    >
                         {details?.departmentName}
                     </p>
+
+                    {/* Apply Button */}
 
                     <button
                         type="button"
                         onClick={handleApplyNow}
                         className="
-                            mt-8
+                            mt-5
+                            sm:mt-6
+                            md:mt-8
+
                             bg-[#2D2A70]
-                            text-white
-                            px-8
-                            py-3
-                            rounded-xl
                             hover:bg-[#23205b]
+
+                            text-white
+
+                            px-6
+                            sm:px-7
+                            md:px-8
+
+                            py-2.5
+                            sm:py-3
+
+                            text-sm
+                            sm:text-base
+
+                            rounded-xl
+
                             transition
+                            duration-200
+
                             cursor-pointer
+
+                            w-auto
+                            min-w-[120px]
                         "
                     >
                         Apply Now

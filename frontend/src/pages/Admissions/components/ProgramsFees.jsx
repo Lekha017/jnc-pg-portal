@@ -48,6 +48,7 @@ function ProgramsFees() {
     location.key,
     location.pathname,
     location.search,
+    navigate,
   ]);
 
   // =========================================================
@@ -80,15 +81,47 @@ function ProgramsFees() {
   // =========================================================
 
   return (
-    <div className="bg-white rounded-2xl shadow-md p-8">
+    <div
+      className="
+        bg-white
+        rounded-xl
+        sm:rounded-2xl
+        shadow-md
+        p-4
+        sm:p-6
+        lg:p-8
+        w-full
+        overflow-hidden
+      "
+    >
+      {/* =========================
+          HEADING
+      ========================= */}
 
-      <div className="mb-8">
+      <div className="mb-6 sm:mb-8">
 
-        <h2 className="text-3xl font-bold text-[#2D2A70]">
+        <h2
+          className="
+            text-2xl
+            sm:text-3xl
+            font-bold
+            text-[#2D2A70]
+            leading-tight
+          "
+        >
           Postgraduate Programmes
         </h2>
 
-        <p className="text-gray-500 mt-2">
+        <p
+          className="
+            text-gray-500
+            mt-2
+            text-sm
+            sm:text-base
+            leading-6
+            sm:leading-7
+          "
+        >
           Explore the postgraduate programmes offered by
           Jyoti Nivas College. Click on{" "}
           <strong>Fees</strong> to view the fee structure,
@@ -99,7 +132,13 @@ function ProgramsFees() {
 
       </div>
 
-      <Programs />
+      {/* =========================
+          PROGRAMS
+      ========================= */}
+
+      <div className="w-full overflow-x-auto">
+        <Programs />
+      </div>
 
     </div>
   );

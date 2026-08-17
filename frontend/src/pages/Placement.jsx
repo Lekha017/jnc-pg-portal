@@ -8,7 +8,6 @@ import PlacementFilters from "../components/placements/PlacementFilters";
 import PlacementGrid from "../components/placements/PlacementGrid";
 import PlacementSidebar from "../components/placements/PlacementSidebar";
 
-
 import { getPlacements } from "../services/placementService";
 
 function Placement() {
@@ -85,12 +84,12 @@ function Placement() {
 
         <PlacementHero />
 
-        <div className="max-w-7xl mx-auto px-4 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10">
 
-          <div className="grid lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 sm:gap-8">
 
             {/* Main Content */}
-            <div className="lg:col-span-3 space-y-8">
+            <div className="lg:col-span-3 space-y-6 sm:space-y-8 min-w-0">
 
               <PlacementStats placements={placements} />
 
@@ -109,11 +108,10 @@ function Placement() {
                 loading={loading}
               />
 
-
             </div>
 
             {/* Sidebar */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 min-w-0">
               <PlacementSidebar />
             </div>
 

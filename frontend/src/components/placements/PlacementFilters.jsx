@@ -7,9 +7,9 @@ function PlacementFilters({
   setDepartment,
 }) {
   return (
-    <div className="bg-white border border-gray-300 rounded-2xl shadow-sm p-6 mb-10">
+    <div className="bg-white border border-gray-300 rounded-2xl shadow-sm p-4 sm:p-5 md:p-6 mb-6 sm:mb-8 md:mb-10">
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
 
         {/* Search */}
         <input
@@ -21,7 +21,9 @@ function PlacementFilters({
             w-full
             border border-gray-300
             rounded-xl
-            px-4 py-3
+            px-3 sm:px-4
+            py-3
+            text-sm sm:text-base
             text-gray-700
             outline-none
             focus:border-[#2D2A70]
@@ -37,7 +39,9 @@ function PlacementFilters({
             w-full
             border border-gray-300
             rounded-xl
-            px-4 py-3
+            px-3 sm:px-4
+            py-3
+            text-sm sm:text-base
             text-gray-700
             outline-none
             focus:border-[#2D2A70]
@@ -58,7 +62,9 @@ function PlacementFilters({
             w-full
             border border-gray-300
             rounded-xl
-            px-4 py-3
+            px-3 sm:px-4
+            py-3
+            text-sm sm:text-base
             text-gray-700
             outline-none
             focus:border-[#2D2A70]

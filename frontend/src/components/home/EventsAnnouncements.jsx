@@ -47,9 +47,7 @@ function EventsAnnouncements() {
         ? ongoingRes.data
         : [];
 
-      setEvents(
-        [...ongoing, ...upcoming].slice(0, 2)
-      );
+      setEvents([...ongoing, ...upcoming].slice(0, 2));
     } catch (error) {
       console.error("Error fetching events:", error);
       setEvents([]);
@@ -139,24 +137,46 @@ function EventsAnnouncements() {
     });
 
   return (
-    <div>
+    <div className="w-full min-w-0">
 
       {/* =========================
           TABS
       ========================= */}
 
-      <div className="flex flex-wrap gap-2 mb-3">
+      <div
+        className="
+          flex
+          gap-2
+          mb-4
+          overflow-x-auto
+          pb-1
+          scrollbar-hide
+        "
+      >
 
         {/* EVENTS */}
 
         <button
           type="button"
           onClick={() => setActiveTab("events")}
-          className={`w-32 py-2 rounded-md text-sm font-medium transition ${
-            activeTab === "events"
-              ? "bg-[#37347C] text-white"
-              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-          }`}
+          className={`
+            flex-shrink-0
+            w-[110px]
+            sm:w-[125px]
+            lg:w-32
+            py-2
+            px-2
+            rounded-md
+            text-xs
+            sm:text-sm
+            font-medium
+            transition
+            ${
+              activeTab === "events"
+                ? "bg-[#37347C] text-white"
+                : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+            }
+          `}
         >
           Events
         </button>
@@ -168,11 +188,24 @@ function EventsAnnouncements() {
           onClick={() =>
             setActiveTab("announcements")
           }
-          className={`w-32 py-2 rounded-md text-sm font-medium transition ${
-            activeTab === "announcements"
-              ? "bg-[#37347C] text-white"
-              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-          }`}
+          className={`
+            flex-shrink-0
+            w-[125px]
+            sm:w-[140px]
+            lg:w-32
+            py-2
+            px-2
+            rounded-md
+            text-xs
+            sm:text-sm
+            font-medium
+            transition
+            ${
+              activeTab === "announcements"
+                ? "bg-[#37347C] text-white"
+                : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+            }
+          `}
         >
           Announcements
         </button>
@@ -184,11 +217,24 @@ function EventsAnnouncements() {
           onClick={() =>
             setActiveTab("achievements")
           }
-          className={`w-32 py-2 rounded-md text-sm font-medium transition ${
-            activeTab === "achievements"
-              ? "bg-[#37347C] text-white"
-              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-          }`}
+          className={`
+            flex-shrink-0
+            w-[120px]
+            sm:w-[135px]
+            lg:w-32
+            py-2
+            px-2
+            rounded-md
+            text-xs
+            sm:text-sm
+            font-medium
+            transition
+            ${
+              activeTab === "achievements"
+                ? "bg-[#37347C] text-white"
+                : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+            }
+          `}
         >
           Achievements
         </button>
@@ -200,11 +246,24 @@ function EventsAnnouncements() {
           onClick={() =>
             setActiveTab("clubs")
           }
-          className={`w-40 py-2 rounded-md text-sm font-medium transition ${
-            activeTab === "clubs"
-              ? "bg-[#37347C] text-white"
-              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-          }`}
+          className={`
+            flex-shrink-0
+            w-[160px]
+            sm:w-[175px]
+            lg:w-40
+            py-2
+            px-2
+            rounded-md
+            text-xs
+            sm:text-sm
+            font-medium
+            transition
+            ${
+              activeTab === "clubs"
+                ? "bg-[#37347C] text-white"
+                : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+            }
+          `}
         >
           Clubs & Associations
         </button>
@@ -218,39 +277,106 @@ function EventsAnnouncements() {
       {activeTab === "events" && (
         <>
           {loading ? (
-            <div className="bg-white rounded-xl border shadow-sm p-4">
-              Loading...
+            <div className="bg-white rounded-xl border shadow-sm p-4 sm:p-5">
+              <p className="text-sm sm:text-base text-gray-500">
+                Loading...
+              </p>
             </div>
           ) : (
             <>
               {events.length > 0 ? (
-                events.map((event) => (
-                  <div
-                    key={event._id}
-                    className="bg-white rounded-xl px-4 py-3 mb-2 shadow-sm border border-gray-100"
-                  >
-                    <h3 className="text-lg font-semibold text-[#37347C] line-clamp-1">
-                      {event.title}
-                    </h3>
+                <div className="space-y-2">
 
-                    <p className="text-xs text-gray-500 mt-1">
-                      {formatDate(event.startDate)}
-                    </p>
+                  {events.map((event) => (
+                    <div
+                      key={event._id}
+                      className="
+                        bg-white
+                        rounded-xl
+                        px-3
+                        py-3
+                        sm:px-4
+                        sm:py-3
+                        shadow-sm
+                        border
+                        border-gray-100
+                        w-full
+                        min-w-0
+                      "
+                    >
+                      <h3
+                        className="
+                          text-base
+                          sm:text-lg
+                          font-semibold
+                          text-[#37347C]
+                          line-clamp-1
+                        "
+                      >
+                        {event.title}
+                      </h3>
 
-                    <p className="text-sm text-gray-600 mt-1 line-clamp-1">
-                      {event.description}
-                    </p>
-                  </div>
-                ))
+                      <p
+                        className="
+                          text-[11px]
+                          sm:text-xs
+                          text-gray-500
+                          mt-1
+                        "
+                      >
+                        {formatDate(event.startDate)}
+                      </p>
+
+                      <p
+                        className="
+                          text-xs
+                          sm:text-sm
+                          text-gray-600
+                          mt-1
+                          line-clamp-2
+                        "
+                      >
+                        {event.description}
+                      </p>
+                    </div>
+                  ))}
+
+                </div>
               ) : (
-                <div className="bg-white rounded-xl border border-gray-100 p-4 text-sm text-gray-500">
+                <div
+                  className="
+                    bg-white
+                    rounded-xl
+                    border
+                    border-gray-100
+                    p-4
+                    sm:p-5
+                    text-xs
+                    sm:text-sm
+                    text-gray-500
+                  "
+                >
                   No events available.
                 </div>
               )}
 
               <Link
                 to="/events"
-                className="inline-flex items-center mt-2 bg-[#37347C] text-white px-6 py-2 rounded-full text-sm hover:bg-[#2d2968] transition"
+                className="
+                  inline-flex
+                  items-center
+                  mt-3
+                  bg-[#37347C]
+                  text-white
+                  px-5
+                  sm:px-6
+                  py-2
+                  rounded-full
+                  text-xs
+                  sm:text-sm
+                  hover:bg-[#2d2968]
+                  transition
+                "
               >
                 View More →
               </Link>
@@ -266,41 +392,108 @@ function EventsAnnouncements() {
       {activeTab === "announcements" && (
         <>
           {loading ? (
-            <div className="bg-white rounded-xl border shadow-sm p-4">
-              Loading...
+            <div className="bg-white rounded-xl border shadow-sm p-4 sm:p-5">
+              <p className="text-sm sm:text-base text-gray-500">
+                Loading...
+              </p>
             </div>
           ) : (
             <>
               {announcements.length > 0 ? (
-                announcements.map((announcement) => (
-                  <div
-                    key={announcement._id}
-                    className="bg-white rounded-xl px-4 py-3 mb-2 shadow-sm border border-gray-100"
-                  >
-                    <h3 className="text-lg font-semibold text-[#37347C] line-clamp-1">
-                      {announcement.title}
-                    </h3>
+                <div className="space-y-2">
 
-                    <p className="text-xs text-gray-500 mt-1">
-                      {formatDate(
-                        announcement.publishDate
-                      )}
-                    </p>
+                  {announcements.map((announcement) => (
+                    <div
+                      key={announcement._id}
+                      className="
+                        bg-white
+                        rounded-xl
+                        px-3
+                        py-3
+                        sm:px-4
+                        sm:py-3
+                        shadow-sm
+                        border
+                        border-gray-100
+                        w-full
+                        min-w-0
+                      "
+                    >
+                      <h3
+                        className="
+                          text-base
+                          sm:text-lg
+                          font-semibold
+                          text-[#37347C]
+                          line-clamp-1
+                        "
+                      >
+                        {announcement.title}
+                      </h3>
 
-                    <p className="text-sm text-gray-600 mt-1 line-clamp-1">
-                      {announcement.description}
-                    </p>
-                  </div>
-                ))
+                      <p
+                        className="
+                          text-[11px]
+                          sm:text-xs
+                          text-gray-500
+                          mt-1
+                        "
+                      >
+                        {formatDate(
+                          announcement.publishDate
+                        )}
+                      </p>
+
+                      <p
+                        className="
+                          text-xs
+                          sm:text-sm
+                          text-gray-600
+                          mt-1
+                          line-clamp-2
+                        "
+                      >
+                        {announcement.description}
+                      </p>
+                    </div>
+                  ))}
+
+                </div>
               ) : (
-                <div className="bg-white rounded-xl border border-gray-100 p-4 text-sm text-gray-500">
+                <div
+                  className="
+                    bg-white
+                    rounded-xl
+                    border
+                    border-gray-100
+                    p-4
+                    sm:p-5
+                    text-xs
+                    sm:text-sm
+                    text-gray-500
+                  "
+                >
                   No announcements available.
                 </div>
               )}
 
               <Link
                 to="/announcements"
-                className="inline-flex items-center mt-2 bg-[#37347C] text-white px-6 py-2 rounded-full text-sm hover:bg-[#2d2968] transition"
+                className="
+                  inline-flex
+                  items-center
+                  mt-3
+                  bg-[#37347C]
+                  text-white
+                  px-5
+                  sm:px-6
+                  py-2
+                  rounded-full
+                  text-xs
+                  sm:text-sm
+                  hover:bg-[#2d2968]
+                  transition
+                "
               >
                 View More →
               </Link>
@@ -316,41 +509,108 @@ function EventsAnnouncements() {
       {activeTab === "achievements" && (
         <>
           {loading ? (
-            <div className="bg-white rounded-xl border shadow-sm p-4">
-              Loading...
+            <div className="bg-white rounded-xl border shadow-sm p-4 sm:p-5">
+              <p className="text-sm sm:text-base text-gray-500">
+                Loading...
+              </p>
             </div>
           ) : (
             <>
               {achievements.length > 0 ? (
-                achievements.map((achievement) => (
-                  <div
-                    key={achievement._id}
-                    className="bg-white rounded-xl px-4 py-3 mb-2 shadow-sm border border-gray-100"
-                  >
-                    <h3 className="text-lg font-semibold text-[#37347C] line-clamp-1">
-                      {achievement.title}
-                    </h3>
+                <div className="space-y-2">
 
-                    <p className="text-xs text-gray-500 mt-1">
-                      {formatDate(
-                        achievement.date
-                      )}
-                    </p>
+                  {achievements.map((achievement) => (
+                    <div
+                      key={achievement._id}
+                      className="
+                        bg-white
+                        rounded-xl
+                        px-3
+                        py-3
+                        sm:px-4
+                        sm:py-3
+                        shadow-sm
+                        border
+                        border-gray-100
+                        w-full
+                        min-w-0
+                      "
+                    >
+                      <h3
+                        className="
+                          text-base
+                          sm:text-lg
+                          font-semibold
+                          text-[#37347C]
+                          line-clamp-1
+                        "
+                      >
+                        {achievement.title}
+                      </h3>
 
-                    <p className="text-sm text-gray-600 mt-1 line-clamp-1">
-                      {achievement.description}
-                    </p>
-                  </div>
-                ))
+                      <p
+                        className="
+                          text-[11px]
+                          sm:text-xs
+                          text-gray-500
+                          mt-1
+                        "
+                      >
+                        {formatDate(
+                          achievement.date
+                        )}
+                      </p>
+
+                      <p
+                        className="
+                          text-xs
+                          sm:text-sm
+                          text-gray-600
+                          mt-1
+                          line-clamp-2
+                        "
+                      >
+                        {achievement.description}
+                      </p>
+                    </div>
+                  ))}
+
+                </div>
               ) : (
-                <div className="bg-white rounded-xl border border-gray-100 p-4 text-sm text-gray-500">
+                <div
+                  className="
+                    bg-white
+                    rounded-xl
+                    border
+                    border-gray-100
+                    p-4
+                    sm:p-5
+                    text-xs
+                    sm:text-sm
+                    text-gray-500
+                  "
+                >
                   No achievements available.
                 </div>
               )}
 
               <Link
                 to="/achievements"
-                className="inline-flex items-center mt-2 bg-[#37347C] text-white px-6 py-2 rounded-full text-sm hover:bg-[#2d2968] transition"
+                className="
+                  inline-flex
+                  items-center
+                  mt-3
+                  bg-[#37347C]
+                  text-white
+                  px-5
+                  sm:px-6
+                  py-2
+                  rounded-full
+                  text-xs
+                  sm:text-sm
+                  hover:bg-[#2d2968]
+                  transition
+                "
               >
                 View More →
               </Link>
@@ -366,42 +626,109 @@ function EventsAnnouncements() {
       {activeTab === "clubs" && (
         <>
           {loading ? (
-            <div className="bg-white rounded-xl border shadow-sm p-4">
-              Loading...
+            <div className="bg-white rounded-xl border shadow-sm p-4 sm:p-5">
+              <p className="text-sm sm:text-base text-gray-500">
+                Loading...
+              </p>
             </div>
           ) : (
             <>
               {clubAssociations.length > 0 ? (
-                clubAssociations.map(
-                  (clubAssociation) => (
-                    <div
-                      key={clubAssociation._id}
-                      className="bg-white rounded-xl px-4 py-3 mb-2 shadow-sm border border-gray-100"
-                    >
-                      <h3 className="text-lg font-semibold text-[#37347C] line-clamp-1">
-                        {clubAssociation.title}
-                      </h3>
+                <div className="space-y-2">
 
-                      <p className="text-xs text-gray-500 mt-1">
-                        {clubAssociation?.department?.name ||
-                          "Department"}
-                      </p>
+                  {clubAssociations.map(
+                    (clubAssociation) => (
+                      <div
+                        key={clubAssociation._id}
+                        className="
+                          bg-white
+                          rounded-xl
+                          px-3
+                          py-3
+                          sm:px-4
+                          sm:py-3
+                          shadow-sm
+                          border
+                          border-gray-100
+                          w-full
+                          min-w-0
+                        "
+                      >
+                        <h3
+                          className="
+                            text-base
+                            sm:text-lg
+                            font-semibold
+                            text-[#37347C]
+                            line-clamp-1
+                          "
+                        >
+                          {clubAssociation.title}
+                        </h3>
 
-                      <p className="text-sm text-gray-600 mt-1 line-clamp-1">
-                        {clubAssociation.description}
-                      </p>
-                    </div>
-                  )
-                )
+                        <p
+                          className="
+                            text-[11px]
+                            sm:text-xs
+                            text-gray-500
+                            mt-1
+                          "
+                        >
+                          {clubAssociation?.department?.name ||
+                            "Department"}
+                        </p>
+
+                        <p
+                          className="
+                            text-xs
+                            sm:text-sm
+                            text-gray-600
+                            mt-1
+                            line-clamp-2
+                          "
+                        >
+                          {clubAssociation.description}
+                        </p>
+                      </div>
+                    )
+                  )}
+
+                </div>
               ) : (
-                <div className="bg-white rounded-xl border border-gray-100 p-4 text-sm text-gray-500">
+                <div
+                  className="
+                    bg-white
+                    rounded-xl
+                    border
+                    border-gray-100
+                    p-4
+                    sm:p-5
+                    text-xs
+                    sm:text-sm
+                    text-gray-500
+                  "
+                >
                   No clubs or associations available.
                 </div>
               )}
 
               <Link
                 to="/clubs-associations"
-                className="inline-flex items-center mt-2 bg-[#37347C] text-white px-6 py-2 rounded-full text-sm hover:bg-[#2d2968] transition"
+                className="
+                  inline-flex
+                  items-center
+                  mt-3
+                  bg-[#37347C]
+                  text-white
+                  px-5
+                  sm:px-6
+                  py-2
+                  rounded-full
+                  text-xs
+                  sm:text-sm
+                  hover:bg-[#2d2968]
+                  transition
+                "
               >
                 View More →
               </Link>

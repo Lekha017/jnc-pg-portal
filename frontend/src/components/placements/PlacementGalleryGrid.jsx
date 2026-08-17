@@ -24,7 +24,7 @@ const PlacementGalleryGrid = ({ images = [] }) => {
 
   if (!images.length) {
     return (
-      <div className="text-center py-10 text-gray-500">
+      <div className="text-center py-8 sm:py-10 text-gray-500">
         No images available.
       </div>
     );
@@ -37,15 +37,15 @@ const PlacementGalleryGrid = ({ images = [] }) => {
         {/* Left Arrow */}
         <button
           onClick={scrollLeft}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow rounded-full p-2 hover:bg-gray-100"
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow rounded-full p-1.5 sm:p-2 hover:bg-gray-100"
         >
-          <ChevronLeft size={22} />
+          <ChevronLeft size={20} className="sm:w-[22px] sm:h-[22px]" />
         </button>
 
         {/* Images */}
         <div
           ref={sliderRef}
-          className="flex gap-5 overflow-x-auto scroll-smooth px-10 scrollbar-hide"
+          className="flex gap-3 sm:gap-5 overflow-x-auto scroll-smooth px-8 sm:px-10 scrollbar-hide"
         >
           {images.map((image, index) => (
             <div
@@ -54,12 +54,12 @@ const PlacementGalleryGrid = ({ images = [] }) => {
                 setCurrentIndex(index);
                 setShowLightbox(true);
               }}
-              className="flex-shrink-0 w-64 cursor-pointer rounded-xl overflow-hidden bg-white shadow-md"
+              className="flex-shrink-0 w-52 sm:w-60 md:w-64 cursor-pointer rounded-xl overflow-hidden bg-white shadow-md"
             >
               <img
                 src={image.url}
                 alt={image.title || "Gallery"}
-                className="w-full h-44 object-cover hover:scale-105 transition duration-300"
+                className="w-full h-36 sm:h-40 md:h-44 object-cover hover:scale-105 transition duration-300"
               />
             </div>
           ))}
@@ -68,9 +68,9 @@ const PlacementGalleryGrid = ({ images = [] }) => {
         {/* Right Arrow */}
         <button
           onClick={scrollRight}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow rounded-full p-2 hover:bg-gray-100"
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow rounded-full p-1.5 sm:p-2 hover:bg-gray-100"
         >
-          <ChevronRight size={22} />
+          <ChevronRight size={20} className="sm:w-[22px] sm:h-[22px]" />
         </button>
 
       </div>

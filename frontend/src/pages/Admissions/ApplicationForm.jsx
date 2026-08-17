@@ -23,6 +23,7 @@ import Step7Review from "./application/Step7Review";
 
 export default function AdmissionForm() {
   const navigate = useNavigate();
+
   const methods = useForm({
     mode: "onTouched",
 
@@ -85,18 +86,16 @@ export default function AdmissionForm() {
   const [currentStep, setCurrentStep] = useState(1);
   const [submitting, setSubmitting] = useState(false);
 
-  // Store the created application so retrying payment
-  // does not create another application.
   const [applicationId, setApplicationId] =
     useState(null);
 
-  // Track successful payment.
   const [paymentCompleted, setPaymentCompleted] =
     useState(false);
 
   const totalSteps = 7;
 
-  const progress = (currentStep / totalSteps) * 100;
+  const progress =
+    (currentStep / totalSteps) * 100;
 
   const nextStep = async () => {
     const valid = await methods.trigger();
@@ -125,7 +124,6 @@ export default function AdmissionForm() {
   };
 
   const onSubmit = async (data) => {
-    // Prevent another payment after successful payment.
     if (paymentCompleted) {
       return;
     }
@@ -142,7 +140,6 @@ export default function AdmissionForm() {
       if (!currentApplicationId) {
         const formData = new FormData();
 
-        // Add normal form fields
         Object.entries(data).forEach(
           ([key, value]) => {
             if (
@@ -160,7 +157,6 @@ export default function AdmissionForm() {
           }
         );
 
-        // Add documents
         const documentFields = [
           "photograph",
           "aadhaarDocument",
@@ -296,20 +292,22 @@ export default function AdmissionForm() {
                   response.razorpay_signature,
               });
 
-          if (verificationResponse.success) {
-  setPaymentCompleted(true);
+            if (verificationResponse.success) {
+              setPaymentCompleted(true);
 
-  toast.success(
-    "Payment successful! Your application has been submitted."
-  );
+              toast.success(
+                "Payment successful! Your application has been submitted."
+              );
 
-  console.log(
-    "Submitted Application:",
-    verificationResponse.data
-  );
+              console.log(
+                "Submitted Application:",
+                verificationResponse.data
+              );
 
-  navigate("/admissions/application/invoice");
-}
+              navigate(
+                "/admissions/application/invoice"
+              );
+            }
           } catch (error) {
             console.error(
               "Payment Verification Error:",
@@ -404,54 +402,183 @@ export default function AdmissionForm() {
   return (
     <>
       <Header />
+
       <Navbar />
 
-      <section className="bg-[#2F2F6F] py-14">
-        <div className="max-w-7xl mx-auto px-6">
-          <h1 className="text-5xl text-center font-bold text-white">
+      {/* =================================================
+          HERO
+      ================================================= */}
+
+      <section className="bg-[#2F2F6F] py-10 sm:py-12 md:py-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+
+          <h1
+            className="
+              text-3xl
+              sm:text-4xl
+              md:text-5xl
+              text-center
+              font-bold
+              text-white
+            "
+          >
             PG Admission Application
           </h1>
 
-          <p className="text-center text-white/90 mt-5 text-lg">
+          <p
+            className="
+              text-center
+              text-white/90
+              mt-4
+              sm:mt-5
+              text-base
+              sm:text-lg
+            "
+          >
             Academic Year 2026-2027
           </p>
+
         </div>
       </section>
 
-      <section className="bg-[#F8F9FC] py-14 min-h-screen">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-10">
-            <div className="mb-10">
-              <div className="flex justify-between items-center mb-3">
-                <h2 className="text-3xl font-bold text-[#2F2F6F]">
+      {/* =================================================
+          APPLICATION
+      ================================================= */}
+
+      <section
+        className="
+          bg-[#F8F9FC]
+          py-8
+          sm:py-10
+          md:py-14
+          min-h-screen
+        "
+      >
+        <div
+          className="
+            max-w-6xl
+            mx-auto
+            px-3
+            sm:px-5
+            md:px-6
+          "
+        >
+
+          <div
+            className="
+              bg-white
+              rounded-xl
+              sm:rounded-2xl
+              shadow-sm
+              border
+              border-gray-200
+              p-4
+              sm:p-6
+              md:p-8
+              lg:p-10
+            "
+          >
+
+            {/* =================================================
+                PROGRESS HEADER
+            ================================================= */}
+
+            <div className="mb-8 sm:mb-10">
+
+              <div
+                className="
+                  flex
+                  flex-col
+                  sm:flex-row
+                  sm:justify-between
+                  sm:items-center
+                  gap-2
+                  mb-3
+                "
+              >
+
+                <h2
+                  className="
+                    text-2xl
+                    sm:text-3xl
+                    font-bold
+                    text-[#2F2F6F]
+                  "
+                >
                   Admission Application
                 </h2>
 
-                <span className="text-gray-600 font-medium">
+                <span
+                  className="
+                    text-sm
+                    sm:text-base
+                    text-gray-600
+                    font-medium
+                  "
+                >
                   Step {currentStep} of{" "}
                   {totalSteps}
                 </span>
+
               </div>
 
-              <div className="w-full bg-gray-200 rounded-full h-3">
+              <div
+                className="
+                  w-full
+                  bg-gray-200
+                  rounded-full
+                  h-2.5
+                  sm:h-3
+                "
+              >
                 <div
-                  className="bg-[#2F2F6F] h-3 rounded-full transition-all duration-500"
+                  className="
+                    bg-[#2F2F6F]
+                    h-2.5
+                    sm:h-3
+                    rounded-full
+                    transition-all
+                    duration-500
+                  "
                   style={{
                     width: `${progress}%`,
                   }}
                 />
               </div>
+
             </div>
 
             <FormProvider {...methods}>
+
               <form
                 onSubmit={methods.handleSubmit(
                   onSubmit
                 )}
               >
+
                 {renderStep()}
 
-                <div className="flex justify-between items-center mt-12 border-t border-gray-200 pt-8">
+                {/* =================================================
+                    NAVIGATION BUTTONS
+                ================================================= */}
+
+                <div
+                  className="
+                    flex
+                    flex-col-reverse
+                    sm:flex-row
+                    sm:justify-between
+                    sm:items-center
+                    gap-4
+                    mt-10
+                    sm:mt-12
+                    border-t
+                    border-gray-200
+                    pt-6
+                    sm:pt-8
+                  "
+                >
+
                   <button
                     type="button"
                     onClick={previousStep}
@@ -460,19 +587,30 @@ export default function AdmissionForm() {
                       submitting ||
                       paymentCompleted
                     }
-                    className={`px-8 py-3 rounded-lg font-semibold transition ${
-                      currentStep === 1 ||
-                      submitting ||
-                      paymentCompleted
-                        ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                        : "border border-gray-300 text-gray-700 hover:bg-gray-100"
-                    }`}
+                    className={`
+                      w-full
+                      sm:w-auto
+                      px-6
+                      sm:px-8
+                      py-3
+                      rounded-lg
+                      font-semibold
+                      transition
+                      ${
+                        currentStep === 1 ||
+                        submitting ||
+                        paymentCompleted
+                          ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                          : "border border-gray-300 text-gray-700 hover:bg-gray-100"
+                      }
+                    `}
                   >
                     Previous
                   </button>
 
                   {currentStep <
                   totalSteps ? (
+
                     <button
                       type="button"
                       onClick={nextStep}
@@ -480,22 +618,48 @@ export default function AdmissionForm() {
                         submitting ||
                         paymentCompleted
                       }
-                      className="bg-[#2F2F6F] hover:bg-[#23235a] text-white font-semibold px-8 py-3 rounded-lg transition disabled:opacity-60"
+                      className="
+                        w-full
+                        sm:w-auto
+                        bg-[#2F2F6F]
+                        hover:bg-[#23235a]
+                        text-white
+                        font-semibold
+                        px-6
+                        sm:px-8
+                        py-3
+                        rounded-lg
+                        transition
+                        disabled:opacity-60
+                      "
                     >
                       Next
                     </button>
+
                   ) : (
+
                     <button
                       type="submit"
                       disabled={
                         submitting ||
                         paymentCompleted
                       }
-                      className={`font-semibold px-8 py-3 rounded-lg transition ${
-                        paymentCompleted
-                          ? "bg-green-600 text-white cursor-not-allowed"
-                          : "bg-green-600 hover:bg-green-700 text-white"
-                      } disabled:opacity-60`}
+                      className={`
+                        w-full
+                        sm:w-auto
+                        font-semibold
+                        px-6
+                        sm:px-8
+                        py-3
+                        rounded-lg
+                        transition
+                        ${
+                          paymentCompleted
+                            ? "bg-green-600 text-white cursor-not-allowed"
+                            : "bg-green-600 hover:bg-green-700 text-white"
+                        }
+                        disabled:opacity-60
+                      `}
                     >
                       {paymentCompleted
                         ? "Payment Completed"
@@ -503,11 +667,17 @@ export default function AdmissionForm() {
                         ? "Processing..."
                         : "Proceed to Payment"}
                     </button>
+
                   )}
+
                 </div>
+
               </form>
+
             </FormProvider>
+
           </div>
+
         </div>
       </section>
 

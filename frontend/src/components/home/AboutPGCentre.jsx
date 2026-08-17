@@ -18,11 +18,29 @@ const admissionContacts = [
 
 function AboutPGCentre() {
     return (
-        <section className="bg-slate-100 py-14 lg:py-16">
-            <div className="max-w-6xl mx-auto px-6 lg:px-10">
+        <section className="bg-slate-100 py-10 sm:py-12 lg:py-16">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
 
-                {/* Content */}
-                <div className="space-y-8 text-justify text-gray-800 font-serif leading-9 text-[18px]">
+                {/* =========================
+                    CONTENT
+                ========================= */}
+
+                <div
+                    className="
+                        space-y-6
+                        sm:space-y-7
+                        lg:space-y-8
+                        text-justify
+                        text-gray-800
+                        font-serif
+                        leading-7
+                        sm:leading-8
+                        lg:leading-9
+                        text-[16px]
+                        sm:text-[17px]
+                        lg:text-[18px]
+                    "
+                >
                     <p>
                         The Postgraduate Centre of Jyoti Nivas College, Autonomous,
                         Bangalore, is dedicated to the pursuit of academic excellence,
@@ -46,19 +64,79 @@ function AboutPGCentre() {
                     </p>
                 </div>
 
-                {/* Admission Enquiry */}
+                {/* =========================
+                    ADMISSION ENQUIRY
+                ========================= */}
+
                 <div
-                    className="mt-12 max-w-6xl mx-auto border border-gray-300 rounded-2xl bg-transparent px-6 py-6"
-                    style={{ fontFamily: "Cambria, 'Times New Roman', serif" }}
+                    className="
+                        mt-8
+                        sm:mt-10
+                        lg:mt-12
+                        w-full
+                        border
+                        border-gray-300
+                        rounded-xl
+                        sm:rounded-2xl
+                        bg-transparent
+                        px-4
+                        sm:px-6
+                        py-5
+                        sm:py-6
+                    "
+                    style={{
+                        fontFamily: "Cambria, 'Times New Roman', serif",
+                    }}
                 >
-                    <h3 className="text-center text-[20px] md:text-[22px] font-bold text-black mb-8">
+                    {/* Heading */}
+
+                    <h3
+                        className="
+                            text-center
+                            text-[18px]
+                            sm:text-[20px]
+                            md:text-[22px]
+                            font-bold
+                            text-black
+                            mb-6
+                            sm:mb-8
+                        "
+                    >
                         For Admission Enquiries
                     </h3>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    {/* Contacts */}
+
+                    <div
+                        className="
+                            grid
+                            grid-cols-1
+                            sm:grid-cols-2
+                            md:grid-cols-3
+                            gap-4
+                            sm:gap-5
+                            md:gap-6
+                            text-center
+                        "
+                    >
                         {admissionContacts.map((contact) => (
-                            <div key={contact.id}>
-                                <p className="text-[15px] md:text-[16px] font-bold text-black whitespace-nowrap">
+                            <div
+                                key={contact.id}
+                                className="
+                                    w-full
+                                    px-2
+                                "
+                            >
+                                <p
+                                    className="
+                                        text-[14px]
+                                        sm:text-[15px]
+                                        md:text-[16px]
+                                        font-bold
+                                        text-black
+                                        break-words
+                                    "
+                                >
                                     {contact.name} - {contact.phone}
                                 </p>
                             </div>

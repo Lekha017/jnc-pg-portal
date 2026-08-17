@@ -45,14 +45,17 @@ const Login = () => {
     try {
       setLoading(true);
 
+      // Backend sets JWT HTTP-only cookie
       const response = await loginUser(formData);
+
+      // Refresh AuthContext user
+      await login();
 
       toast.success(
         response.message || "Login Successful"
       );
 
-      await login();
-
+      // Redirect to originally requested page
       const redirectTo =
         location.state?.from || "/";
 
@@ -60,6 +63,8 @@ const Login = () => {
         replace: true,
       });
     } catch (error) {
+      console.error("Login Error:", error);
+
       toast.error(
         error.response?.data?.message ||
           "Invalid email or password"
@@ -71,12 +76,10 @@ const Login = () => {
 
   return (
     <AuthLayout>
-      {/* Logo */}
       <div className="flex justify-center mb-6 scale-110">
         <Logo />
       </div>
 
-      {/* Heading */}
       <h2 className="text-3xl font-bold text-center text-[#4B4B7C]">
         Welcome Back
       </h2>
@@ -115,11 +118,7 @@ const Login = () => {
 
         <Button
           type="submit"
-          text={
-            loading
-              ? "Logging In..."
-              : "Login"
-          }
+          text={loading ? "Logging In..." : "Login"}
           disabled={loading}
         />
       </form>

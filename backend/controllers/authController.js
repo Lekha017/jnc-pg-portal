@@ -3,14 +3,16 @@ import User from "../models/User.js";
 import generateToken from "../utils/generateToken.js";
 import PasswordResetOTP from "../models/PasswordResetOTP.js";
 import sendEmail from "../utils/sendEmail.js";
+
 /* ===========================
-   Cookie Options
+   COOKIE OPTIONS
 =========================== */
 
 const cookieOptions = {
   httpOnly: true,
   secure: true,
   sameSite: "none",
+  path: "/",
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 
@@ -54,9 +56,16 @@ export const registerUser = async (req, res) => {
       role: role || "student",
     });
 
-    const token = generateToken(user._id, user.role);
+    const token = generateToken(
+      user._id,
+      user.role
+    );
 
-    res.cookie("token", token, cookieOptions);
+    res.cookie(
+      "token",
+      token,
+      cookieOptions
+    );
 
     return res.status(201).json({
       success: true,
@@ -70,7 +79,7 @@ export const registerUser = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("Register Error:", error);
 
     return res.status(500).json({
       success: false,
@@ -85,7 +94,10 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const {
+      email,
+      password,
+    } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({
@@ -94,7 +106,9 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({
+      email,
+    });
 
     if (!user) {
       return res.status(401).json({
@@ -103,7 +117,11 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch =
+      await bcrypt.compare(
+        password,
+        user.password
+      );
 
     if (!isMatch) {
       return res.status(401).json({
@@ -112,14 +130,24 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    const token = generateToken(user._id, user.role);
+    const token = generateToken(
+      user._id,
+      user.role
+    );
 
-    res.cookie("token", token, cookieOptions);
+    res.cookie(
+      "token",
+      token,
+      cookieOptions
+    );
 
     return res.status(200).json({
       success: true,
       message: "Login successful.",
-      token,
+
+      // You don't actually need to send
+      // the token here because it is stored
+      // in the HttpOnly cookie.
       user: {
         id: user._id,
         fullName: user.fullName,
@@ -131,7 +159,7 @@ export const loginUser = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("Login Error:", error);
 
     return res.status(500).json({
       success: false,
@@ -144,29 +172,40 @@ export const loginUser = async (req, res) => {
    SEND FORGOT PASSWORD OTP
 =========================== */
 
-export const sendForgotPasswordOTP = async (req, res) => {
+export const sendForgotPasswordOTP = async (
+  req,
+  res
+) => {
   try {
     const { email } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({
+      email,
+    });
 
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "No account found with this email.",
+        message:
+          "No account found with this email.",
       });
     }
 
     const otp = Math.floor(
-      100000 + Math.random() * 900000
+      100000 +
+        Math.random() * 900000
     ).toString();
 
-    await PasswordResetOTP.deleteMany({ email });
+    await PasswordResetOTP.deleteMany({
+      email,
+    });
 
     await PasswordResetOTP.create({
       email,
       otp,
-      expiresAt: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
+      expiresAt: new Date(
+        Date.now() + 10 * 60 * 1000
+      ),
     });
 
     await sendEmail(
@@ -174,9 +213,14 @@ export const sendForgotPasswordOTP = async (req, res) => {
       "JNC PG Portal - Password Reset OTP",
       `
         <h2>Password Reset</h2>
+
         <p>Your OTP is:</p>
+
         <h1>${otp}</h1>
-        <p>This OTP is valid for 10 minutes.</p>
+
+        <p>
+          This OTP is valid for 10 minutes.
+        </p>
       `
     );
 
@@ -184,8 +228,12 @@ export const sendForgotPasswordOTP = async (req, res) => {
       success: true,
       message: "OTP sent successfully.",
     });
+
   } catch (error) {
-    console.error(error);
+    console.error(
+      "Forgot Password OTP Error:",
+      error
+    );
 
     return res.status(500).json({
       success: false,
@@ -198,14 +246,21 @@ export const sendForgotPasswordOTP = async (req, res) => {
    VERIFY OTP
 =========================== */
 
-export const verifyForgotPasswordOTP = async (req, res) => {
+export const verifyForgotPasswordOTP = async (
+  req,
+  res
+) => {
   try {
-    const { email, otp } = req.body;
-
-    const record = await PasswordResetOTP.findOne({
+    const {
       email,
       otp,
-    });
+    } = req.body;
+
+    const record =
+      await PasswordResetOTP.findOne({
+        email,
+        otp,
+      });
 
     if (!record) {
       return res.status(400).json({
@@ -214,7 +269,9 @@ export const verifyForgotPasswordOTP = async (req, res) => {
       });
     }
 
-    if (record.expiresAt < new Date()) {
+    if (
+      record.expiresAt < new Date()
+    ) {
       await record.deleteOne();
 
       return res.status(400).json({
@@ -225,10 +282,15 @@ export const verifyForgotPasswordOTP = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "OTP verified successfully.",
+      message:
+        "OTP verified successfully.",
     });
+
   } catch (error) {
-    console.error(error);
+    console.error(
+      "Verify OTP Error:",
+      error
+    );
 
     return res.status(500).json({
       success: false,
@@ -241,14 +303,22 @@ export const verifyForgotPasswordOTP = async (req, res) => {
    RESET PASSWORD
 =========================== */
 
-export const resetPassword = async (req, res) => {
+export const resetPassword = async (
+  req,
+  res
+) => {
   try {
-    const { email, otp, password } = req.body;
-
-    const record = await PasswordResetOTP.findOne({
+    const {
       email,
       otp,
-    });
+      password,
+    } = req.body;
+
+    const record =
+      await PasswordResetOTP.findOne({
+        email,
+        otp,
+      });
 
     if (!record) {
       return res.status(400).json({
@@ -257,7 +327,9 @@ export const resetPassword = async (req, res) => {
       });
     }
 
-    if (record.expiresAt < new Date()) {
+    if (
+      record.expiresAt < new Date()
+    ) {
       await record.deleteOne();
 
       return res.status(400).json({
@@ -266,10 +338,11 @@ export const resetPassword = async (req, res) => {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(
-      password,
-      10
-    );
+    const hashedPassword =
+      await bcrypt.hash(
+        password,
+        10
+      );
 
     await User.findOneAndUpdate(
       { email },
@@ -282,10 +355,15 @@ export const resetPassword = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Password reset successfully.",
+      message:
+        "Password reset successfully.",
     });
+
   } catch (error) {
-    console.error(error);
+    console.error(
+      "Reset Password Error:",
+      error
+    );
 
     return res.status(500).json({
       success: false,
@@ -298,7 +376,10 @@ export const resetPassword = async (req, res) => {
    GET PROFILE
 =========================== */
 
-export const getProfile = async (req, res) => {
+export const getProfile = async (
+  req,
+  res
+) => {
   return res.status(200).json({
     success: true,
     user: req.user,
@@ -306,15 +387,31 @@ export const getProfile = async (req, res) => {
 };
 
 /* ===========================
-   LOGOUT
+   LOGOUT USER
 =========================== */
 
-export const logoutUser = (req, res) => {
-  res.clearCookie("token");
+export const logoutUser = (
+  req,
+  res
+) => {
+  /*
+    IMPORTANT:
+    The cookie must be cleared using
+    the same important options that were
+    used when creating it.
+  */
+
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    path: "/",
+  });
 
   return res.status(200).json({
     success: true,
-    message: "Logged out successfully.",
+    message:
+      "Logged out successfully.",
   });
 };
 
@@ -322,7 +419,10 @@ export const logoutUser = (req, res) => {
    CHECK AUTH
 =========================== */
 
-export const checkAuth = (req, res) => {
+export const checkAuth = (
+  req,
+  res
+) => {
   return res.status(200).json({
     success: true,
     user: req.user,

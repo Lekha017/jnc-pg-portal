@@ -26,30 +26,37 @@ const PlacementSidebar = () => {
   ];
 
   return (
-    <div className="bg-white border border-gray-300 rounded-xl overflow-hidden shadow-sm sticky top-24">
+    <div className="w-full bg-white border border-gray-300 rounded-xl overflow-hidden shadow-sm lg:sticky lg:top-24">
       {/* Header */}
-      <div className="bg-[#EAF4FF] border-b border-gray-200 px-6 py-4">
-        <h2 className="text-xl font-bold text-[#2D2A70]">
+      <div className="bg-[#EAF4FF] border-b border-gray-200 px-4 sm:px-5 md:px-6 py-4">
+        <h2 className="text-lg sm:text-xl font-bold text-[#2D2A70]">
           PLACEMENTS
         </h2>
       </div>
 
       {/* Menu */}
-      <div className="p-4 space-y-2">
+      <div className="p-3 sm:p-4 space-y-2">
         {links.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
             end
             className={({ isActive }) =>
-              `flex items-center justify-between px-4 py-4 rounded-lg transition-all duration-200 ${isActive
-                ? "bg-[#EAF4FF] text-[#2D2A70] font-semibold"
-                : "text-gray-700 hover:bg-[#EAF4FF] hover:text-[#2D2A70]"
+              `flex items-center justify-between gap-3 px-3 sm:px-4 py-3 sm:py-4 rounded-lg transition-all duration-200 ${
+                isActive
+                  ? "bg-[#EAF4FF] text-[#2D2A70] font-semibold"
+                  : "text-gray-700 hover:bg-[#EAF4FF] hover:text-[#2D2A70]"
               }`
             }
           >
-            <span>{item.title}</span>
-            <ChevronRight size={18} />
+            <span className="text-sm sm:text-base">
+              {item.title}
+            </span>
+
+            <ChevronRight
+              size={18}
+              className="shrink-0"
+            />
           </NavLink>
         ))}
       </div>

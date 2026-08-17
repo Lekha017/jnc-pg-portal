@@ -4,12 +4,12 @@ import Logo from "../common/Logo";
 
 const Header = () => {
   return (
-    <header className="w-full bg-white">
+    <header className="w-full bg-white overflow-x-hidden">
 
       {/* ================= TOP BAR ================= */}
 
       <div className="bg-[#4B4B7C] text-white">
-        <div className="max-w-[1300px] mx-auto px-4 h-[50px] flex items-center justify-between">
+        <div className="max-w-[1300px] mx-auto px-4 sm:px-5 lg:px-6 min-h-[50px] flex flex-col sm:flex-row items-center justify-between gap-2 py-2 sm:py-0">
 
           {/* Left */}
           <div className="hidden lg:flex items-center gap-4 text-[14px]">
@@ -79,40 +79,43 @@ const Header = () => {
           </div>
 
           {/* Right */}
-          <div className="flex items-center gap-3 ml-auto">
+          <div className="flex items-center justify-center sm:justify-end gap-2 sm:gap-3 w-full lg:w-auto ml-auto">
 
-           <Link to="/admissionsnavbar/online-payment">
-  <button
-    className="
-      bg-[#FF2D55]
-      hover:bg-[#e6264c]
-      text-white
-      text-[13px]
-      font-medium
-      px-7
-      py-[11px]
-      rounded
-      transition-all
-      duration-200
-    "
-  >
-    ONLINE PAYMENT
-  </button>
-</Link>
+            <Link to="/admissionsnavbar/online-payment">
+              <button
+                className="
+                  bg-[#FF2D55]
+                  hover:bg-[#e6264c]
+                  text-white
+                  text-[11px] sm:text-[12px] lg:text-[13px]
+                  font-medium
+                  px-4 sm:px-5 lg:px-7
+                  py-[9px] sm:py-[10px] lg:py-[11px]
+                  rounded
+                  transition-all
+                  duration-200
+                  whitespace-nowrap
+                "
+              >
+                ONLINE PAYMENT
+              </button>
+            </Link>
+
             <Link to="/admissions">
               <button
                 className="
-        bg-[#FF2D55]
-        hover:bg-[#e6264c]
-        text-white
-        text-[13px]
-        font-medium
-        px-7
-        py-[11px]
-        rounded
-        transition-all
-        duration-200
-      "
+                  bg-[#FF2D55]
+                  hover:bg-[#e6264c]
+                  text-white
+                  text-[11px] sm:text-[12px] lg:text-[13px]
+                  font-medium
+                  px-4 sm:px-5 lg:px-7
+                  py-[9px] sm:py-[10px] lg:py-[11px]
+                  rounded
+                  transition-all
+                  duration-200
+                  whitespace-nowrap
+                "
               >
                 ADMISSIONS 2026-2027
               </button>
@@ -127,17 +130,20 @@ const Header = () => {
 
       <div className="border-b border-gray-200">
 
-        <div className="max-w-[1300px] mx-auto px-6 py-3 flex items-center justify-between">
+        <div className="max-w-[1300px] mx-auto px-4 sm:px-5 lg:px-6 py-3 sm:py-4 lg:py-3 flex flex-col lg:flex-row items-center justify-between gap-4 lg:gap-6">
 
           {/* Logo */}
 
-          <Link to="/" className="flex-1 flex items-center">
-            <Logo className="w-[650px] h-auto" />
+          <Link
+            to="/"
+            className="w-full lg:flex-1 flex items-center justify-center lg:justify-start min-w-0"
+          >
+            <Logo className="w-full max-w-[650px] h-auto" />
           </Link>
 
           {/* Statistics */}
 
-          <div className="hidden lg:flex items-center gap-[58px] text-center">
+          <div className="hidden lg:flex items-center gap-[35px] xl:gap-[58px] text-center shrink-0">
 
             <div>
               <h2

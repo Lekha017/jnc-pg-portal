@@ -13,11 +13,8 @@ function Programs() {
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [showFeeModal, setShowFeeModal] =
-    useState(false);
-
-  const [selectedProgram, setSelectedProgram] =
-    useState(null);
+  const [showFeeModal, setShowFeeModal] = useState(false);
+  const [selectedProgram, setSelectedProgram] = useState(null);
 
   // =========================================================
   // FETCH PROGRAMS
@@ -45,18 +42,15 @@ function Programs() {
   // GROUP PROGRAMS BY CATEGORY
   // =========================================================
 
-  const groupedPrograms = programs.reduce(
-    (acc, program) => {
-      if (!acc[program.category]) {
-        acc[program.category] = [];
-      }
+  const groupedPrograms = programs.reduce((acc, program) => {
+    if (!acc[program.category]) {
+      acc[program.category] = [];
+    }
 
-      acc[program.category].push(program);
+    acc[program.category].push(program);
 
-      return acc;
-    },
-    {}
-  );
+    return acc;
+  }, {});
 
   // =========================================================
   // SAVE CURRENT SCROLL POSITION
@@ -73,20 +67,15 @@ function Programs() {
   const handleDetailsClick = (program) => {
     if (!program?._id) return;
 
-    const scrollPosition =
-      getCurrentScrollPosition();
+    const scrollPosition = getCurrentScrollPosition();
 
-    navigate(
-      `/program-details/${program._id}`,
-      {
-        state: {
-          from: "/admissions?tab=programs",
-          admissionsScrollPosition:
-            scrollPosition,
-          restoreAdmissionsScroll: true,
-        },
-      }
-    );
+    navigate(`/program-details/${program._id}`, {
+      state: {
+        from: "/admissions?tab=programs",
+        admissionsScrollPosition: scrollPosition,
+        restoreAdmissionsScroll: true,
+      },
+    });
   };
 
   // =========================================================
@@ -94,15 +83,13 @@ function Programs() {
   // =========================================================
 
   const handleApplyClick = () => {
-    const scrollPosition =
-      getCurrentScrollPosition();
+    const scrollPosition = getCurrentScrollPosition();
 
     if (user) {
       navigate("/admissions/application", {
         state: {
           from: "/admissions?tab=programs",
-          admissionsScrollPosition:
-            scrollPosition,
+          admissionsScrollPosition: scrollPosition,
           restoreAdmissionsScroll: true,
         },
       });
@@ -110,8 +97,7 @@ function Programs() {
       navigate("/login", {
         state: {
           from: "/admissions/application",
-          admissionsScrollPosition:
-            scrollPosition,
+          admissionsScrollPosition: scrollPosition,
           restoreAdmissionsScroll: true,
         },
       });
@@ -124,7 +110,7 @@ function Programs() {
 
   if (loading) {
     return (
-      <div className="py-24 text-center text-xl">
+      <div className="py-16 sm:py-20 md:py-24 px-4 text-center text-lg sm:text-xl">
         Loading Programmes...
       </div>
     );
@@ -136,135 +122,238 @@ function Programs() {
 
   return (
     <>
-      <section className="max-w-7xl mx-auto py-8">
+      <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
 
         {Object.entries(groupedPrograms).map(
           ([category, items]) => (
-
             <div
               key={category}
               className="
-                mb-10
-                border
-                border-gray-300
+                mb-8 sm:mb-10
+                border border-gray-300
                 overflow-hidden
                 rounded-md
+                w-full
               "
             >
 
-              {/* Category */}
+              {/* =========================
+                  CATEGORY HEADER
+              ========================= */}
 
-              <div className="bg-[#403777] px-6 py-4">
-
+              <div className="bg-[#403777] px-4 sm:px-6 py-3 sm:py-4">
                 <h2
                   className="
-                    text-2xl
+                    text-xl
+                    sm:text-2xl
                     font-semibold
                     text-white
+                    break-words
                   "
                 >
                   {category}
                 </h2>
-
               </div>
 
-              {/* Programs */}
+              {/* =========================
+                  PROGRAMS
+              ========================= */}
 
               {items
                 .sort(
                   (a, b) =>
-                    a.displayOrder -
-                    b.displayOrder
+                    a.displayOrder - b.displayOrder
                 )
-                .map(
-                  (program, index) => (
+                .map((program, index) => (
 
-                    <div
-                      key={program._id}
-                      className={`
-                        grid
-                        grid-cols-[1fr_120px_120px_120px]
-                        items-center
-                        gap-6
-                        px-8
-                        py-5
-                        border-t
-                        border-gray-300
-                        ${
-                          index % 2 === 0
-                            ? "bg-[#EDF4FF]"
-                            : "bg-[#F5FAEF]"
-                        }
-                      `}
-                    >
+                  <div
+                    key={program._id}
+                    className={`
+                      border-t
+                      border-gray-300
 
-                      {/* Program */}
+                      px-4
+                      sm:px-6
+                      lg:px-8
+
+                      py-4
+                      sm:py-5
+
+                      ${
+                        index % 2 === 0
+                          ? "bg-[#EDF4FF]"
+                          : "bg-[#F5FAEF]"
+                      }
+
+                      flex
+                      flex-col
+                      sm:flex-row
+
+                      sm:items-center
+
+                      gap-4
+                      sm:gap-5
+                      lg:gap-6
+                    `}
+                  >
+
+                    {/* =========================
+                        PROGRAM NAME
+                    ========================= */}
+
+                    <div className="flex-1 min-w-0">
 
                       <h3
                         className="
-                          text-[20px]
-                          leading-8
+                          text-base
+                          sm:text-lg
+                          lg:text-[20px]
+
+                          leading-6
+                          sm:leading-7
+                          lg:leading-8
+
                           text-gray-800
+                          break-words
                         "
                       >
                         {program.programName}
                       </h3>
 
-                      {/* Fee */}
+                    </div>
+
+                    {/* =========================
+                        BUTTONS
+                    ========================= */}
+
+                    <div
+                      className="
+                        grid
+                        grid-cols-3
+
+                        sm:flex
+
+                        gap-2
+                        sm:gap-3
+
+                        w-full
+                        sm:w-auto
+
+                        sm:flex-shrink-0
+                      "
+                    >
+
+                      {/* FEE */}
 
                       <button
+                        type="button"
                         onClick={() => {
                           setSelectedProgram(program);
                           setShowFeeModal(true);
                         }}
                         className="
+                          w-full
+                          sm:w-[90px]
+                          lg:w-[100px]
+
                           border
                           border-[#2D2A70]
+
                           rounded-full
+
                           py-2
+
+                          px-2
+
+                          text-sm
+                          sm:text-base
+
                           text-[#2D2A70]
+
                           font-medium
+
                           hover:bg-[#2D2A70]
                           hover:text-white
+
                           transition
+                          duration-200
+
+                          whitespace-nowrap
                         "
                       >
                         Fee
                       </button>
 
-                      {/* Details */}
+                      {/* DETAILS */}
 
                       <button
+                        type="button"
                         onClick={() =>
                           handleDetailsClick(program)
                         }
                         className="
+                          w-full
+                          sm:w-[90px]
+                          lg:w-[100px]
+
                           border
                           border-[#2D2A70]
+
                           rounded-full
+
                           py-2
+
+                          px-2
+
+                          text-sm
+                          sm:text-base
+
                           text-[#2D2A70]
+
                           font-medium
+
                           hover:bg-[#2D2A70]
                           hover:text-white
+
                           transition
+                          duration-200
+
+                          whitespace-nowrap
                         "
                       >
                         Details
                       </button>
 
-                      {/* Apply */}
+                      {/* APPLY */}
 
                       <button
+                        type="button"
                         onClick={handleApplyClick}
                         className="
+                          w-full
+                          sm:w-[90px]
+                          lg:w-[100px]
+
                           bg-green-600
                           hover:bg-green-700
+
                           rounded-full
+
                           py-2
+
+                          px-2
+
+                          text-sm
+                          sm:text-base
+
                           text-white
+
                           font-medium
+
                           transition
+                          duration-200
+
+                          whitespace-nowrap
                         "
                       >
                         Apply
@@ -272,23 +361,21 @@ function Programs() {
 
                     </div>
 
-                  )
-                )}
-
+                  </div>
+                ))}
             </div>
-
           )
         )}
 
       </section>
 
-      {/* Fee Modal */}
+      {/* =========================
+          FEE MODAL
+      ========================= */}
 
       <FeeModal
         isOpen={showFeeModal}
-        onClose={() =>
-          setShowFeeModal(false)
-        }
+        onClose={() => setShowFeeModal(false)}
         program={selectedProgram}
       />
     </>
