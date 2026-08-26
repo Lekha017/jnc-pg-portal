@@ -55,9 +55,8 @@ const Login = () => {
         response.message || "Login Successful"
       );
 
-      // Redirect to originally requested page
-      const redirectTo =
-        location.state?.from || "/";
+      // Go back to the page the user originally wanted
+      const redirectTo = location.state?.from || "/";
 
       navigate(redirectTo, {
         replace: true,
