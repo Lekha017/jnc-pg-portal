@@ -10,7 +10,6 @@ export const getPlacementGalleries = async (req, res) => {
     const galleries = await PlacementGallery.find().sort({
       eventDate: -1,
     });
-
     res.status(200).json(galleries);
   } catch (error) {
     res.status(500).json({

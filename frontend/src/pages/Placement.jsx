@@ -17,8 +17,8 @@ function Placement() {
   const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState("");
-  const [department, setDepartment] = useState("All");
-  const [year, setYear] = useState("All");
+  const [department, setDepartment] = useState("");
+  const [year, setYear] = useState("");
 
   useEffect(() => {
     fetchPlacements();
@@ -62,13 +62,15 @@ function Placement() {
       );
     }
 
-    if (department !== "All") {
+    if (department) {
       data = data.filter(
-        (item) => item.department?.name === department
+        (item) =>
+          item.department?.name === department ||
+          item.department?.name === `Department of ${department}`
       );
     }
 
-    if (year !== "All") {
+    if (year) {
       data = data.filter(
         (item) => item.year === Number(year)
       );
@@ -79,7 +81,7 @@ function Placement() {
 
   return (
     <>
-    <Header />
+      <Header />
       <Navbar />
       <div className="bg-gray-50 min-h-screen">
 
@@ -119,7 +121,7 @@ function Placement() {
           </div>
 
         </div>
-<Footer />
+        <Footer />
       </div>
     </>
   );

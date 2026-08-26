@@ -10,8 +10,8 @@ const FacultyHeader = ({
   const departmentName =
     faculty.departments?.length > 0
       ? faculty.departments
-          .map((d) => d.name)
-          .join(", ")
+        .map((d) => d.name)
+        .join(", ")
       : "Not Assigned";
 
   return (
@@ -19,13 +19,15 @@ const FacultyHeader = ({
 
       {/* Small Edit Button */}
 
-    <Button
-  onClick={onEdit}
-  fullWidth={false}
-  className="absolute top-6 right-6 bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-md"
->
+      {isOwner && (
+        <Button
+          onClick={onEdit}
+          fullWidth={false}
+          className="absolute top-6 right-6 bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-md"
+        >
           Edit Profile
         </Button>
+      )}
 
       <h1 className="text-[22px] font-semibold text-black">
         {faculty.fullName}

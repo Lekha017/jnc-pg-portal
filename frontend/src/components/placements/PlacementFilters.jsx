@@ -5,7 +5,16 @@ function PlacementFilters({
   setYear,
   department,
   setDepartment,
+  placements,
 }) {
+  const departments = [
+    ...new Set(
+      placements
+        ?.map((item) => item.department?.name)
+        .filter(Boolean)
+    ),
+  ];
+
   return (
     <div className="bg-white border border-gray-300 rounded-2xl shadow-sm p-4 sm:p-5 md:p-6 mb-6 sm:mb-8 md:mb-10">
 
@@ -72,13 +81,15 @@ function PlacementFilters({
           "
         >
           <option value="">All Departments</option>
-          <option value="Computer Science">Computer Science</option>
-          <option value="MCA">MCA</option>
-          <option value="MBA">MBA</option>
+
+          {departments.map((dept) => (
+            <option key={dept} value={dept}>
+              {dept}
+            </option>
+          ))}
         </select>
 
       </div>
-
     </div>
   );
 }
