@@ -60,15 +60,16 @@ export const submitApplication = async (req, res) => {
       message: "Application submitted successfully.",
       data: application,
     });
-  } catch (error) {
+   } catch (error) {
     console.error(
       "Submit Application Error:",
-      error
+      JSON.stringify(error, Object.getOwnPropertyNames(error), 2)
     );
 
     res.status(500).json({
       success: false,
-      message: error.message,
+      message:
+        error?.message || "Failed to submit application.",
     });
   }
 };
