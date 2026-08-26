@@ -16,9 +16,10 @@ const storage = new CloudinaryStorage({
         ? "raw"
         : "image",
 
-      public_id: `${Date.now()}-${
-        file.originalname.split(".")[0]
-      }`,
+      public_id: `${Date.now()}-${file.originalname
+  .replace(/\.[^/.]+$/, "")
+  .trim()
+  .replace(/\s+/g, "-")}`,
     };
   },
 });
