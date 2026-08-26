@@ -1,10 +1,19 @@
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 const Step1Personal = () => {
   const {
     register,
+    setValue,
     formState: { errors },
   } = useFormContext();
+
+  // Gender is fixed as Female for JNC
+  useEffect(() => {
+    setValue("gender", "Female", {
+      shouldValidate: true,
+    });
+  }, [setValue]);
 
   return (
     <div className="space-y-6">
@@ -115,27 +124,26 @@ const Step1Personal = () => {
       {/* Gender and Date of Birth */}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         {/* Gender */}
-      <div>
-  <label className="mb-2 block text-sm font-medium text-gray-700">
-    Gender <span className="text-red-500">*</span>
-  </label>
+        <div>
+          <label className="mb-2 block text-sm font-medium text-gray-700">
+            Gender <span className="text-red-500">*</span>
+          </label>
 
-  <input
-    type="text"
-    defaultValue="Female"
-    readOnly
-    {...register("gender", {
-      required: "Gender is required",
-    })}
-    className="w-full rounded-md border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none"
-  />
+          <input
+            type="text"
+            readOnly
+            {...register("gender", {
+              required: "Gender is required",
+            })}
+            className="w-full rounded-md border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none"
+          />
 
-  {errors.gender && (
-    <p className="mt-1 text-sm text-red-500">
-      {errors.gender.message}
-    </p>
-  )}
-</div>
+          {errors.gender && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.gender.message}
+            </p>
+          )}
+        </div>
 
         {/* Date of Birth */}
         <div>
@@ -145,6 +153,17 @@ const Step1Personal = () => {
 
           <input
             type="date"
+            max={(() => {
+              const today = new Date();
+
+              const maxDate = new Date(
+                today.getFullYear() - 20,
+                today.getMonth(),
+                today.getDate()
+              );
+
+              return maxDate.toISOString().split("T")[0];
+            })()}
             {...register("dob", {
               required: "Date of birth is required",
               validate: (value) => {
@@ -157,10 +176,21 @@ const Step1Personal = () => {
 
                 today.setHours(0, 0, 0, 0);
 
-                return (
-                  selectedDate <= today ||
-                  "Date of birth cannot be in the future"
+                const minimumDate = new Date(
+                  today.getFullYear() - 20,
+                  today.getMonth(),
+                  today.getDate()
                 );
+
+                if (selectedDate > today) {
+                  return "Date of birth cannot be in the future";
+                }
+
+                if (selectedDate > minimumDate) {
+                  return "Applicant must be at least 20 years old";
+                }
+
+                return true;
               },
             })}
             className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-[#2F2F6F] focus:ring-1 focus:ring-[#2F2F6F]"
