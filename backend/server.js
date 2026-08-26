@@ -99,6 +99,24 @@ app.get("/", (req, res) => {
   res.send("🚀 JNC PG Portal Backend Running...");
 });
 
+/* ===========================
+   Global Error Handler
+=========================== */
+
+app.use((err, req, res, next) => {
+  console.error("GLOBAL ERROR:", {
+    name: err?.name,
+    message: err?.message,
+    code: err?.code,
+    stack: err?.stack,
+  });
+
+  res.status(err?.status || 500).json({
+    success: false,
+    message: err?.message || "Internal server error",
+  });
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
