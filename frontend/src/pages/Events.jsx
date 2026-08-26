@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
+import Header from "../components/layout/Header";
 import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 import EventCard from "../components/events/EventCard";
 import GalleryCard from "../components/events/EventGalleryCard";
 import EventModal from "../components/events/EventModal";
+
 
 import { getPublishedGalleries } from "../services/galleryService";
 
@@ -95,6 +98,7 @@ function Events() {
 
     return (
         <>
+        <Header/>
             <Navbar />
 
             <section className="w-full min-h-screen bg-gray-50 pb-12 sm:pb-16 lg:pb-20 overflow-x-hidden">
@@ -136,7 +140,7 @@ function Events() {
                     ========================= */}
                     <div className="mt-6 sm:mt-8 lg:mt-10">
 
-                        <div className="flex flex-wrap gap-2 sm:gap-3 lg:gap-4 border-b pb-3 sm:pb-4">
+                        <div className="flex flex-wrap gap-2 sm:gap-3 lg:gap-4 border-b border-gray-200 pb-3 sm:pb-4">
 
                             {/* Upcoming */}
                             <button
@@ -149,7 +153,7 @@ function Events() {
                                 className={`px-4 sm:px-5 lg:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-medium transition whitespace-nowrap ${
                                     activeTab === "upcoming"
                                         ? "bg-[#1F1A52] text-white"
-                                        : "bg-white border hover:bg-gray-100"
+                                        : "bg-white border border-gray-200 hover:bg-gray-100"
                                 }`}
                             >
                                 Upcoming Events
@@ -167,7 +171,7 @@ function Events() {
                                 className={`px-4 sm:px-5 lg:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-medium transition whitespace-nowrap ${
                                     activeTab === "ongoing"
                                         ? "bg-[#1F1A52] text-white"
-                                        : "bg-white border hover:bg-gray-100"
+                                        : "bg-white border border-gray-200 hover:bg-gray-100"
                                 }`}
                             >
                                 Ongoing Events
@@ -185,7 +189,7 @@ function Events() {
                                 className={`px-4 sm:px-5 lg:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-medium transition whitespace-nowrap ${
                                     activeTab === "gallery"
                                         ? "bg-[#1F1A52] text-white"
-                                        : "bg-white border hover:bg-gray-100"
+                                        : "bg-white border border-gray-200 hover:bg-gray-100"
                                 }`}
                             >
                                 Event Gallery
@@ -403,6 +407,7 @@ function Events() {
                 />
 
             </section>
+            <Footer/>
         </>
     );
 }

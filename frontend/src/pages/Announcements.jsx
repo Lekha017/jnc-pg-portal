@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import Header from "../components/layout/Header";
 import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 import AnnouncementCard from "../components/announcements/AnnouncementCard";
 import { getAnnouncements } from "../services/announcementService";
 
@@ -27,6 +29,7 @@ function Announcements() {
 
   return (
     <>
+    <Header/>
       <Navbar />
 
       <section className="w-full min-h-screen bg-gray-50 pb-12 sm:pb-16 lg:pb-20 overflow-x-hidden">
@@ -94,6 +97,7 @@ function Announcements() {
         </div>
 
       </section>
+      <Footer/>
     </>
   );
 }
