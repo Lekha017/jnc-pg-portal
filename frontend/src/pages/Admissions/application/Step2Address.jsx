@@ -154,16 +154,24 @@ const Step2Address = () => {
         {/* Country */}
         <div>
           <label className="mb-2 block text-sm font-medium text-gray-700">
-            Country
+            Country <span className="text-red-500">*</span>
           </label>
 
           <input
             type="text"
             value="India"
             readOnly
-            {...register("country")}
+            {...register("country", {
+              required: "Country is required",
+            })}
             className="w-full rounded-md border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none"
           />
+
+          {errors.country && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.country.message}
+            </p>
+          )}
         </div>
       </div>
 
